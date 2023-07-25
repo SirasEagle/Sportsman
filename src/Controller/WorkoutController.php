@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Workout;
 use App\Form\WorkoutNewType;
+use App\Repository\UnitRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class WorkoutController extends AbstractController
@@ -19,11 +20,14 @@ class WorkoutController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/workout', name: 'app_workout')]
+    #[Route('/workout', name: 'index_workout')]
     public function index(): Response
     {
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $workouts = $workoutRepository->findAll();
+
         return $this->render('workout/index.html.twig', [
-            'controller_name' => 'WorkoutController',
+            'workouts' => $workouts,
         ]);
     }
 
@@ -45,11 +49,28 @@ class WorkoutController extends AbstractController
             $this->entityManager->flush();
 
             // Umleiten zu einer anderen Route, z. B. zur Detailansicht des neuen workout
-            return $this->redirectToRoute('show_exercise', ['id' => 1]);
+            return $this->redirectToRoute('show_workout', ['id' => $workout->getId()]);
         }
 
         return $this->render('workout/new.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/workout/{id}", name="show_workout")
+     */
+    public function show(int $id): Response
+    {
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $workout = $workoutRepository->find($id);
+
+        if (!$workout) {
+            throw $this->createNotFoundException('Workout not found');
+        }
+
+        return $this->render('workout/show.html.twig', [
+            'workout' => $workout,
         ]);
     }
 }

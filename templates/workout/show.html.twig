@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+   <h2>{{ workout.date|date('Y-m-d') }}:</h2>
+   <div>{{ workout.info }}</div>
+   <table class="workoutTable">
+      <tr>
+         <th>Exercise</th>
+         <th>Set1</th>
+         <th>Set3</th>
+         <th>Set3</th>
+         <th>Info</th>
+      </tr>
+      {% for unit in workout.units %}
+         <tr>
+            <td>{{ unit.exercise.name }}</td>
+            <td>{{ unit.set1 }}</td>
+            <td>{{ unit.set2 }}</td>
+            <td>{{ unit.set3 }}</td>
+            <td>{{ unit.info }}</td>
+         </tr>
+      {% endfor %}
+   </table>
+
+</div>
+{% endblock %}
