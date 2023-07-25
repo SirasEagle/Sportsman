@@ -17,12 +17,15 @@ class ExerciseEditType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Name:',
+                'attr' => ['class' => 'abc'],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description:',
+                'attr' => ['class' => 'abc'],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Submit',
+                'attr' => ['class' => 'abc'],
             ])
         ;
     }

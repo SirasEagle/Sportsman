@@ -1,0 +1,11 @@
+/* Allgemeine Stildefinitionen für Elemente der Klasse "abc" */
+.abc {
+   padding: 5px;
+   color: blue;
+ }
+ 
+ /* Stildefinition für den Hover-Effekt */
+ .abc:hover {
+   color: red;
+ }
+ 
