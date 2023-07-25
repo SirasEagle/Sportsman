@@ -14,6 +14,24 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div style="background-color: gray; width: 300px; height: 100vh; position: fixed; top: 0; left: 0; display: flex; flex-direction: column;">
+            <div style="flex: 1;">
+                <a href="{{ path('app_calendar') }}">Calendar</a>
+            </div>
+            <div style="flex: 1;">
+                <a href="{{ path('index_exercise') }}">Exercises</a>
+            </div>
+            <div style="flex: 1;">
+                <a href="{{ path('app_calendar') }}">Calendar</a>
+            </div>
+        </div>
+
+        <div style="float: right;">
+            <a href="{{ path('app_calendar') }}"><img src="path_to_user_icon"></a>
+        </div>
+
+        <div style="margin-left: 320px;">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>
