@@ -13,20 +13,14 @@ class Unit
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Exercise")
-     * @ORM\JoinColumn(name="exercise_id", referencedColumnName="id")
-     */
-    private ?Exercise $exercise;
+    #[ORM\ManyToOne(targetEntity: Exercise::class, inversedBy: 'units')]
+    private ?Exercise $exercise = null;
 
     #[ORM\Column]
     private ?int $exerciseId = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Workout")
-     * @ORM\JoinColumn(name="workout_id", referencedColumnName="id")
-     */
-    private ?Exercise $workout;
+    #[ORM\ManyToOne(targetEntity: Workout::class, inversedBy: 'units')]
+    private ?Workout $workout;
 
     #[ORM\Column]
     private ?int $workoutId = null;

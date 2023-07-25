@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\WorkoutRepository;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WorkoutRepository::class)]
@@ -19,6 +21,14 @@ class Workout
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $info = null;
+
+    #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'workout')]
+    private ?Collection $units;
+
+    public function __construct()
+    {
+        $this->units = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -48,4 +58,37 @@ class Workout
 
         return $this;
     }
+
+    /**
+     * @return Collection|Unit[]
+     */
+    public function getUnits(): ?Collection
+    {
+        return $this->units ?? new ArrayCollection();
+    }
+
+    /**
+     * Add a unit to the workout.
+     *
+     * @param Unit $unit
+     */
+    public function addUnit(Unit $unit): void
+    {
+        if (!$this->units->contains($unit)) {
+            $this->units->add($unit);
+            $unit->setWorkout($this);
+        }
+    }
+
+    /**
+     * Remove a unit from the workout.
+     *
+     * @param Unit $unit
+     */
+    public function removeUnit(Unit $unit): void
+    {
+        $this->units->removeElement($unit);
+        $unit->setWorkout(null);
+    }
+
 }
