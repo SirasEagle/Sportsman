@@ -6,6 +6,10 @@ use App\Entity\Workout;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Exercise;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class WorkoutNewType extends AbstractType
 {
@@ -14,6 +18,10 @@ class WorkoutNewType extends AbstractType
         $builder
             ->add('date')
             ->add('info')
+            ->add('submit', SubmitType::class, [
+                'label' => 'Submit',
+                'attr' => ['class' => 'abc'],
+            ])
         ;
     }
 
