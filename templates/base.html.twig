@@ -8,9 +8,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/base.css') }}">
         {% endblock %}
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        <script src="{{ asset('js/base.js') }}"></script>
     </head>
     <body>
         <div class="sidebar">
