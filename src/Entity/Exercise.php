@@ -71,7 +71,6 @@ class Exercise
         if (!$this->units->contains($unit)) {
             $this->units->add($unit);
             $unit->setExercise($this);
-            $unit->setExerciseId($this->getId());
         }
     }
 

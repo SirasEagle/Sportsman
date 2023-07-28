@@ -50,18 +50,9 @@ class Unit
     public function setExercise(?Exercise $exercise): void
     {
         $this->exercise = $exercise;
-    }
-
-    public function getExerciseId(): ?int
-    {
-        return $this->exerciseId;
-    }
-
-    public function setExerciseId(int $exerciseId): self
-    {
-        $this->exerciseId = $exerciseId;
-
-        return $this;
+        if ($exercise) {
+            $this->exerciseId = $exercise->getId();
+        }
     }
 
     public function getWorkout(): ?Workout
@@ -72,18 +63,9 @@ class Unit
     public function setWorkout(?Workout $workout): void
     {
         $this->workout = $workout;
-    }
-
-    public function getWorkoutId(): ?int
-    {
-        return $this->workoutId;
-    }
-
-    public function setWorkoutId(int $workoutId): self
-    {
-        $this->workoutId = $workoutId;
-
-        return $this;
+        if ($workout) {
+            $this->workoutId = $workout->getId();
+        }
     }
 
     public function getSet1(): ?int
