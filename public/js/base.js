@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
    const set3Input = document.getElementById('set3Input');
    const exerciseId = document.getElementById('exerciseOption');
    const workoutId = document.getElementById('workoutId');
+   const unitInfo = document.getElementById('unitInfo');
 
    showTableButton.addEventListener('click', function() {
        if (hiddenArea.style.display === 'none') {
@@ -32,7 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     set2: set2Input.value,
                     set3: set3Input.value,
                     exId: exerciseId.value,
-                    wId: workoutId.value
+                    wId: workoutId.value,
+                    unitInfo: unitInfo.value
                 },
                 success: function(response) {
                     // Erfolgreiche Antwort vom Server, hier kannst du entsprechende Aktionen ausführen
