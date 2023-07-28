@@ -20,6 +20,10 @@ Controller__________________
 
 symfony console make:controller ConferenceController
 
+TIPS_________________________________________________________________
+
+Twig-ausgabe:   {{ dump(unit) }}
+
 STRUCTURE____________________________________________________________
 
 database: http://localhost/phpmyadmin/
