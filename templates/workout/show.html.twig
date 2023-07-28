@@ -26,16 +26,25 @@
       {% endfor %}
    </table>
    <button id="showTableButton">+</button>
-   <table class="workoutTable" id="myTable" style="display: none;">
-      <tr>
-         <td>Exercise</td>
-         <td>Set1</td>
-         <td>Set3</td>
-         <td>Set3</td>
-         <td>Info</td>
-      </tr>
-   </table>
-   <button id="reloadButton">Reload</button>
+   <div id="hiddenArea" style="display: none;">
+      <table class="workoutTable">
+         <tr>
+            <td ALIGN="center">
+               <select>   
+                  {% for exercise in exercises %}
+                     <option id="exerciseOption" value={{ exercise.id }}>{{ exercise.name }}</option>
+                  {% endfor %}
+               </select>
+            </td>
+            <td><div><input id="set1Input" type="number" value="0">Set1</div></td>
+            <td><div><input id="set2Input" type="number" value="0">Set2</div></td>
+            <td><div><input id="set3Input" type="number" value="0">Set3</div></td>
+            <td><div><textarea></textarea></td>
+            <input id="workoutId" type="number" value={{ workout.id }} style="display: none;"></input>
+         </tr>
+      </table>
+      <button id="saveUnitToExercise">Speichern</button>
+   </div>
 </div>
 
 {% endblock %}
