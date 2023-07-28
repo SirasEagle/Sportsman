@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Workout;
+use App\Entity\Exercise;
 use App\Form\WorkoutNewType;
-use App\Repository\UnitRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class WorkoutController extends AbstractController
@@ -64,6 +64,8 @@ class WorkoutController extends AbstractController
     {
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $workout = $workoutRepository->find($id);
+        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+        $exercises = $exerciseRepository->findAll();
 
         if (!$workout) {
             throw $this->createNotFoundException('Workout not found');
@@ -71,6 +73,7 @@ class WorkoutController extends AbstractController
 
         return $this->render('workout/show.html.twig', [
             'workout' => $workout,
+            'exercises' => $exercises,
         ]);
     }
 }
