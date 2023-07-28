@@ -5,12 +5,14 @@
 {% block body %}
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Adrian/3_Selfmade/5_Programme/_6 Php/my_project_directory/src/Controller/WorkoutController.php'|file_link(0) }}">src/Controller/WorkoutController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Adrian/3_Selfmade/5_Programme/_6 Php/my_project_directory/templates/workout/index.html.twig'|file_link(0) }}">templates/workout/index.html.twig</a></code></li>
-    </ul>
+    <h2>Workouts</h2>
+    {% if workouts %}
+        {% for workout in workouts %}
+            <div>
+                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <a href="{{ path('new_workout') }}" class="button">New Workout</a>
 </div>
 {% endblock %}
