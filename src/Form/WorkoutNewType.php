@@ -6,6 +6,7 @@ use App\Entity\Workout;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use App\Entity\Exercise;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -18,6 +19,11 @@ class WorkoutNewType extends AbstractType
         $builder
             ->add('date')
             ->add('info')
+            ->add('isReal', CheckboxType::class, [
+                'label' => 'Is it real?',
+                'required' => false,
+                'attr' => ['class' => 'abc'],
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Submit',
                 'attr' => ['class' => 'abc'],

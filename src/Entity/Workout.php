@@ -22,6 +22,9 @@ class Workout
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $info = null;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $isReal = false;
+
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'workout')]
     private ?Collection $units;
 
@@ -55,6 +58,18 @@ class Workout
     public function setInfo(?string $info): self
     {
         $this->info = $info;
+
+        return $this;
+    }
+
+    public function getIsReal(): ?bool
+    {
+        return $this->isReal;
+    }
+
+    public function setIsReal(?bool $isReal): self
+    {
+        $this->isReal = $isReal;
 
         return $this;
     }
