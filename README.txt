@@ -22,7 +22,9 @@ symfony console make:controller ConferenceController
 
 TIPS_________________________________________________________________
 
-Twig-ausgabe:   {{ dump(unit) }}
+Twig-ausgabe:     {{ dump(unit) }}
+Symfony-ausgabe:     dump($...)
+Symfony-Version:  php bin/console --version
 
 STRUCTURE____________________________________________________________
 
