@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 error: function(xhr, status, error) {
                     // Bei einem Fehler kannst du hier entsprechende Fehlerbehandlung vornehmen
-                    alert('Fehler beim Speichern der Daten.' + exerciseId.value + ", " + set1Input.value);
+                    alert('Fehler beim Speichern der Daten.' + error);
                 }
             });
         }
