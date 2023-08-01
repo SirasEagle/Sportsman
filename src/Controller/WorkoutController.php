@@ -34,63 +34,76 @@ class WorkoutController extends AbstractController
     }
 
     /**
-     * @Route("/workout/transferehere", name="transfere_here_workout")
+     * @Route("/workout/transfere/here/workouts", name="transfere_here_workout")
      */
-    public function transfereToHere(Request $request)
+    public function transfereToHereWorkouts(Request $request)
     {
-        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
-        $uebungen = $exerciseRepository->findAll();
+        // Load Workouts
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $workouts = $workoutRepository->findAll();
+        $workoutsDates = array();
+        foreach ($workouts as $workout) {
+            // Die getName()-Werte dem neuen Array hinzufügen
+            $workoutsDates[] = $workout->getDate();
+        }
 
         $controllerDirectory = __DIR__;
         $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user0exer/exercises.txt');
         $dataSets = explode('--', $fileContents);
 
-        $workoutData = [];
-        $i= 0;
-
         foreach ($dataSets as $dataSet) {
             $lines = explode("\n", trim($dataSet));
             $date = new DateTime(array_shift($lines));
 
-            $exercises = [];
+            // Extract and persist workout
+            if (in_array($date, $workoutsDates)) {
+                error_log("Workout mit dem Datum " . $date->format('Y-m-d') . " gibt es schon.");
+                return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
+            }
             $workout = new Workout();
             $workout->setDate($date);
             $workout->setIsReal(true);
+            $this->entityManager->persist($workout);
+            $this->entityManager->flush();
+        }
+
+        return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/workout/transfere/here/exercises", name="transfere_here_workout")
+     */
+    public function transfereToHereExercises(Request $request)
+    {
+        $controllerDirectory = __DIR__;
+        $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user0exer/exercises.txt');
+        $dataSets = explode('--', $fileContents);
+
+        foreach ($dataSets as $dataSet) {
+            $lines = explode("\n", trim($dataSet));
+            $date = new DateTime(array_shift($lines)); // important, dont remove
+
             foreach ($lines as $line) {
-                list($exercise, $values) = explode('-', $line, 2);
-                $valuesArray = explode('-', $values);
-                $exercises[$exercise] = array_map('intval', $valuesArray);
-
-                $unit = new Unit();
-                $unit->setSet1($valuesArray[0]);
-                $unit->setSet2($valuesArray[1]);
-                $unit->setSet3($valuesArray[2]);
-
-                foreach ($uebungen as $uebung) {
-                    if (strcmp($uebung->getName(), $exercise) == 0) {
-                        $unit->setExercise($uebung);
-                    }
+                // Load exercises
+                $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+                $exercises = $exerciseRepository->findAll();
+                $exercisesNames = array();
+                foreach ($exercises as $exercise) {
+                    // Die getName()-Werte dem neuen Array hinzufügen
+                    $exercisesNames[] = $exercise->getName();
                 }
 
-                $unit->setWorkout($workout);
-            }
-
-            $workoutData[] = [
-                'date' => $date,
-                'exercises' => $exercises,
-            ];
-
-            $i++;
-            if ($i > 10) {
-                dump($workout);
-                dd($workoutData);
-                return new Response(json_encode($workoutData), 200, ['Content-Type' => 'application/json']);
+                list($txtExercise, $values) = explode('-', $line, 2);
+                if (!in_array($txtExercise, $exercisesNames)) {
+                    $exercise = new Exercise();
+                    $exercise->setName($txtExercise);
+                    $this->entityManager->persist($exercise);
+                    $this->entityManager->flush();
+                }
             }
         }
 
-
-        // dd($workoutData);
-        return new Response(json_encode($workoutData), 200, ['Content-Type' => 'application/json']);
+        return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
     }
 
     /**
