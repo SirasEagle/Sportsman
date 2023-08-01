@@ -38,31 +38,58 @@ class WorkoutController extends AbstractController
      */
     public function transfereToHere(Request $request)
     {
+        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+        $uebungen = $exerciseRepository->findAll();
+
         $controllerDirectory = __DIR__;
         $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user0exer/exercises.txt');
         $dataSets = explode('--', $fileContents);
 
         $workoutData = [];
+        $i= 0;
 
         foreach ($dataSets as $dataSet) {
             $lines = explode("\n", trim($dataSet));
             $date = new DateTime(array_shift($lines));
 
             $exercises = [];
+            $workout = new Workout();
+            $workout->setDate($date);
+            $workout->setIsReal(true);
             foreach ($lines as $line) {
                 list($exercise, $values) = explode('-', $line, 2);
                 $valuesArray = explode('-', $values);
                 $exercises[$exercise] = array_map('intval', $valuesArray);
+
+                $unit = new Unit();
+                $unit->setSet1($valuesArray[0]);
+                $unit->setSet2($valuesArray[1]);
+                $unit->setSet3($valuesArray[2]);
+
+                foreach ($uebungen as $uebung) {
+                    if (strcmp($uebung->getName(), $exercise) == 0) {
+                        $unit->setExercise($uebung);
+                    }
+                }
+
+                $unit->setWorkout($workout);
             }
 
             $workoutData[] = [
                 'date' => $date,
                 'exercises' => $exercises,
             ];
+
+            $i++;
+            if ($i > 10) {
+                dump($workout);
+                dd($workoutData);
+                return new Response(json_encode($workoutData), 200, ['Content-Type' => 'application/json']);
+            }
         }
 
 
-        dd($workoutData);
+        // dd($workoutData);
         return new Response(json_encode($workoutData), 200, ['Content-Type' => 'application/json']);
     }
 
