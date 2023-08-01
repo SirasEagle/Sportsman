@@ -7,9 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use App\Entity\Exercise;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class WorkoutNewType extends AbstractType
@@ -17,7 +16,10 @@ class WorkoutNewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date')
+            ->add('date', DateType::class, [
+                'widget' => 'single_text', // Datepicker anzeigen
+                'data' => new \DateTime(), // Hier wird das aktuelle Datum eingestellt
+            ])
             ->add('info')
             ->add('isReal', CheckboxType::class, [
                 'label' => 'Is it real?',
