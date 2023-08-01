@@ -8,7 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Workout;
 use App\Entity\Exercise;
+use App\Entity\Unit;
 use App\Form\WorkoutNewType;
+use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 
 class WorkoutController extends AbstractController
@@ -29,6 +31,39 @@ class WorkoutController extends AbstractController
         return $this->render('workout/index.html.twig', [
             'workouts' => $workouts,
         ]);
+    }
+
+    /**
+     * @Route("/workout/transferehere", name="transfere_here_workout")
+     */
+    public function transfereToHere(Request $request)
+    {
+        $controllerDirectory = __DIR__;
+        $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user0exer/exercises.txt');
+        $dataSets = explode('--', $fileContents);
+
+        $workoutData = [];
+
+        foreach ($dataSets as $dataSet) {
+            $lines = explode("\n", trim($dataSet));
+            $date = new DateTime(array_shift($lines));
+
+            $exercises = [];
+            foreach ($lines as $line) {
+                list($exercise, $values) = explode('-', $line, 2);
+                $valuesArray = explode('-', $values);
+                $exercises[$exercise] = array_map('intval', $valuesArray);
+            }
+
+            $workoutData[] = [
+                'date' => $date,
+                'exercises' => $exercises,
+            ];
+        }
+
+
+        dd($workoutData);
+        return new Response(json_encode($workoutData), 200, ['Content-Type' => 'application/json']);
     }
 
     /**
