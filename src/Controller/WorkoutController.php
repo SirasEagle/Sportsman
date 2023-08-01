@@ -38,6 +38,8 @@ class WorkoutController extends AbstractController
      */
     public function transfereToHereWorkouts(Request $request)
     {
+        $change = 0;
+
         // Load Workouts
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $workouts = $workoutRepository->findAll();
@@ -60,6 +62,7 @@ class WorkoutController extends AbstractController
                 error_log("Workout mit dem Datum " . $date->format('Y-m-d') . " gibt es schon.");
                 return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
             }
+            $change = 1;
             $workout = new Workout();
             $workout->setDate($date);
             $workout->setIsReal(true);
@@ -67,6 +70,9 @@ class WorkoutController extends AbstractController
             $this->entityManager->flush();
         }
 
+        if ($change == 1) {
+            return new Response(json_encode(['message' => 'Es wurden Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
+        }
         return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
     }
 
@@ -75,6 +81,7 @@ class WorkoutController extends AbstractController
      */
     public function transfereToHereExercises(Request $request)
     {
+        $change = 0;
         $controllerDirectory = __DIR__;
         $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user0exer/exercises.txt');
         $dataSets = explode('--', $fileContents);
@@ -95,6 +102,7 @@ class WorkoutController extends AbstractController
 
                 list($txtExercise, $values) = explode('-', $line, 2);
                 if (!in_array($txtExercise, $exercisesNames)) {
+                    $change = 1;
                     $exercise = new Exercise();
                     $exercise->setName($txtExercise);
                     $this->entityManager->persist($exercise);
@@ -103,6 +111,9 @@ class WorkoutController extends AbstractController
             }
         }
 
+        if ($change == 1) {
+            return new Response(json_encode(['message' => 'Es wurden Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
+        }
         return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
     }
 
