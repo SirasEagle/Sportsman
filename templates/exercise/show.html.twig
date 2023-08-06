@@ -7,5 +7,9 @@
 <div class="example-wrapper">
     <h2>{{ exercise.name }}:</h2>
     <div>{{ exercise.description }}</div>
+    {% for unit in units %}
+        {# <li>{{ unit.workoutId }}, {{ unit.info }}</li> #}
+        <li>{{ unit.workout.date|date('Y-m-d') }}; {{ unit.set1 }}; {{ unit.set2 }}; {{ unit.set3 }}; {{ unit.info }}</li>
+    {% endfor %}
 </div>
 {% endblock %}
