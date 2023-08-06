@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -18,6 +21,14 @@ class User
 
     #[ORM\Column]
     private ?int $level = null;
+
+    #[ORM\OneToMany(targetEntity: Workout::class, mappedBy: 'user')]
+    private ?Collection $workouts;
+
+    public function __construct()
+    {
+        $this->workouts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,5 +57,37 @@ class User
         $this->level = $level;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Workout[]
+     */
+    public function getWorkouts(): ?Collection
+    {
+        return $this->workouts ?? new ArrayCollection();
+    }
+
+    /**
+     * Add a workout to the user.
+     *
+     * @param Workout $workout
+     */
+    public function addWorkout(Workout $workout): void
+    {
+        if (!$this->workouts->contains($workout)) {
+            $this->workouts->add($workout);
+            $workout->setUser($this);
+        }
+    }
+
+    /**
+     * Remove a workout from the user.
+     *
+     * @param Workout $workout
+     */
+    public function removeWorkout(Workout $workout): void
+    {
+        $this->workouts->removeElement($workout);
+        $workout->setUser(null);
     }
 }

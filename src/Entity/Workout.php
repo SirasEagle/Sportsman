@@ -28,6 +28,12 @@ class Workout
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'workout')]
     private ?Collection $units;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'workouts')]
+    private ?User $user;
+
+    #[ORM\Column]
+    private ?int $userId = null;
+
     public function __construct()
     {
         $this->units = new ArrayCollection();
@@ -104,6 +110,21 @@ class Workout
     {
         $this->units->removeElement($unit);
         $unit->setWorkout(null);
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): void
+    {
+        $this->user = $user;
+        if ($user) {
+            $this->userId = $user->getId();
+        } else {
+            $this->userId = null;
+        }
     }
 
 }

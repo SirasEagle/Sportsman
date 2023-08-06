@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Workout;
 use App\Entity\Exercise;
+use App\Entity\User;
 use App\Entity\Unit;
 use App\Form\WorkoutNewType;
 use DateTime;
@@ -194,6 +195,23 @@ class WorkoutController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Werte aus dem Formular holen und in das workout-Objekt schreiben
             $workout = $form->getData();
+
+            // Holen Sie den ausgewählten Wert für 'user' aus dem Formular
+            $selectedUserId = $form->get('user')->getData();
+            $user = $this->entityManager->getRepository(User::class)->find($selectedUserId);
+            $workout->setUser($user);
+
+            // check if date already exists within other workouts
+            $workoutRepository = $this->entityManager->getRepository(Workout::class);
+            $workouts = $workoutRepository->findAll();
+            $workoutsDates = array();
+            foreach ($workouts as $current) {
+                // Die getName()-Werte dem neuen Array hinzufügen
+                $workoutsDates[] = $current->getDate();
+            }
+            if (in_array($workout->getDate(), $workoutsDates)) {
+                return new Response(json_encode(['message' => "Workout mit dem Datum " . $workout->getDate()->format('Y-m-d') . " gibt es schon."]), 200, ['Content-Type' => 'application/json']);
+            }
 
             // Das workout-Objekt in der Datenbank persistieren
             $this->entityManager->persist($workout);
