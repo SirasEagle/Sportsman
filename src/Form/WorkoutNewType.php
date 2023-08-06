@@ -8,8 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class WorkoutNewType extends AbstractType
 {
@@ -25,6 +25,16 @@ class WorkoutNewType extends AbstractType
                 'label' => 'Is it real?',
                 'required' => false,
                 'attr' => ['class' => 'abc'],
+            ])
+            ->add('user', ChoiceType::class, [
+                'choices' => [
+                    'Adrian' => 0,
+                    'Angelina' => 1,
+                ],
+                'expanded' => true, // Anzeigen als Radio-Buttons
+                'label' => 'Choose user:',
+                'attr' => ['class' => 'abc'],
+                'mapped' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Submit',
