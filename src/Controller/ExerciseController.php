@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Exercise;
+use App\Entity\Unit;
 use App\Form\ExerciseEditType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,8 +71,13 @@ class ExerciseController extends AbstractController
             throw $this->createNotFoundException('Exercise not found');
         }
 
+        // Hier rufen wir die Units für die gegebene Exercise ab
+        $unitRepository = $this->entityManager->getRepository(Unit::class);
+        $units = $unitRepository->findBy(['exercise' => $exercise]);
+
         return $this->render('exercise/show.html.twig', [
             'exercise' => $exercise,
+            'units' => $units
         ]);
     }
 }
