@@ -6,7 +6,11 @@
 
 <div class="example-wrapper">
    <h2>{{ workout.date|date('Y-m-d') }}:</h2>
-   <div>{{ workout.info }}</div>
+   <div>Workout von {{ workout.user.name }}</div>
+   {% if workout.info is not null %}
+      <div>"{{ workout.info }}"</div>
+   {% endif %}
+
    <table class="workoutTable">
       <tr>
          <th>Exercise</th>
