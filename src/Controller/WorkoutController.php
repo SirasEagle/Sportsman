@@ -30,7 +30,7 @@ class WorkoutController extends AbstractController
         $workouts = $workoutRepository->findAll();
 
         // sorting the workouts
-        usort($workouts, function($a, $b) {
+        usort($workouts, function ($a, $b) {
             $dateTimeA = $a->getDate();
             $dateTimeB = $b->getDate();
             if ($dateTimeA == $dateTimeB) {
@@ -44,60 +44,69 @@ class WorkoutController extends AbstractController
         ]);
     }
 
-    // ONLY RUN ONCE FOR IMPORT , TODO: check if workout of that date is empty on units: then ignjore that workout
-        // /**
-        //  * @Route("/workout/transfere/here/units", name="transfere_here_units")
-        //  */
-        // public function transfereToHereUnits(Request $request)
-        // {
-        //     $change = 0;
-        //     // Load exercises
-        //     $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
-        //     $uebungen = $exerciseRepository->findAll();
-        //     // Load Workouts
-        //     $workoutRepository = $this->entityManager->getRepository(Workout::class);
-        //     $workouts = $workoutRepository->findAll();
-        //     $indexerWorkouts = [];
-        //     foreach ($workouts as $workout) {
-        //         $indexerWorkouts[$workout->getDate()->format('Y-m-d')] = $workout;
-        //     }
-        //     // Load file
-        //     $controllerDirectory = __DIR__;
-        //     $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user0exer/exercises.txt');
-        //     $dataSets = explode('--', $fileContents);
+    /**
+     * @Route("/workout/transfere/here/units", name="transfere_here_units")
+     */
+    public function transfereToHereUnits(Request $request)
+    {
+        $change = 0;
+        // Load exercises
+        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+        $uebungen = $exerciseRepository->findAll();
+        // Load Workouts
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $allWorkouts = $workoutRepository->findAll();
 
-        //     foreach ($dataSets as $dataSet) {
-        //         $lines = explode("\n", trim($dataSet));
-        //         $date = new DateTime(array_shift($lines)); // dont delete
+        $workouts = [];
 
-        //         $exercises = [];
-        //         foreach ($lines as $line) {
-        //             list($txtExercise, $values) = explode('-', $line, 2);
-        //             $valuesArray = explode('-', $values);
-        //             $exercises[$txtExercise] = array_map('intval', $valuesArray);
+        foreach ($allWorkouts as $workout) {
+            if ($workout->getUser()->getId() === 1) {
+                $workouts[] = $workout;
+            }
+        }
+        
 
-        //             $unit = new Unit();
-        //             $unit->setSet1($valuesArray[0]);
-        //             $unit->setSet2($valuesArray[1]);
-        //             $unit->setSet3($valuesArray[2]);
-        //             $unit->setWorkout($indexerWorkouts[$date->format('Y-m-d')]);
 
-        //             foreach ($uebungen as $exercise) {
-        //                 if (strcmp($exercise->getName(), $txtExercise) == 0) {
-        //                     $unit->setExercise($exercise);
-        //                 }
-        //             }
-        //             $change = 1;
-        //             $this->entityManager->persist($unit);
-        //             $this->entityManager->flush();
+        $indexerWorkouts = [];
+        foreach ($workouts as $workout) {
+            $indexerWorkouts[$workout->getDate()->format('Y-m-d')] = $workout;
+        }
+        // Load file
+        $controllerDirectory = __DIR__;
+        $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user1exer/exercises.txt');
+        $dataSets = explode('--', $fileContents);
 
-        //         }
-        //     }
-        //     if ($change == 1) {
-        //         return new Response(json_encode(['message' => 'Es wurden Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
-        //     }
-        //     return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
-    // }
+        foreach ($dataSets as $dataSet) {
+            $lines = explode("\n", trim($dataSet));
+            $date = new DateTime(array_shift($lines)); // dont delete
+
+            $exercises = [];
+            foreach ($lines as $line) {
+                list($txtExercise, $values) = explode('-', $line, 2);
+                $valuesArray = explode('-', $values);
+                $exercises[$txtExercise] = array_map('intval', $valuesArray);
+
+                $unit = new Unit();
+                $unit->setSet1($valuesArray[0]);
+                $unit->setSet2($valuesArray[1]);
+                $unit->setSet3($valuesArray[2]);
+                $unit->setWorkout($indexerWorkouts[$date->format('Y-m-d')]);
+
+                foreach ($uebungen as $exercise) {
+                    if (strcmp($exercise->getName(), $txtExercise) == 0) {
+                        $unit->setExercise($exercise);
+                    }
+                }
+                $change = 1;
+                $this->entityManager->persist($unit);
+                $this->entityManager->flush();
+            }
+        }
+        if ($change == 1) {
+            return new Response(json_encode(['message' => 'Es wurden Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
+        }
+        return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
+    }
 
     /**
      * @Route("/workout/add", name="new_workout")
