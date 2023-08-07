@@ -44,49 +44,6 @@ class WorkoutController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/workout/transfere/here/workouts", name="transfere_here_workouts")
-     */
-    public function transfereToHereWorkouts(Request $request)
-    {
-        $change = 0;
-
-        // Load Workouts
-        $workoutRepository = $this->entityManager->getRepository(Workout::class);
-        $workouts = $workoutRepository->findAll();
-        $workoutsDates = array();
-        foreach ($workouts as $workout) {
-            // Die getName()-Werte dem neuen Array hinzufügen
-            $workoutsDates[] = $workout->getDate();
-        }
-
-        $controllerDirectory = __DIR__;
-        $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user0exer/exercises.txt');
-        $dataSets = explode('--', $fileContents);
-
-        foreach ($dataSets as $dataSet) {
-            $lines = explode("\n", trim($dataSet));
-            $date = new DateTime(array_shift($lines));
-
-            // Extract and persist workout
-            if (in_array($date, $workoutsDates)) {
-                error_log("Workout mit dem Datum " . $date->format('Y-m-d') . " gibt es schon.");
-                return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
-            }
-            $change = 1;
-            $workout = new Workout();
-            $workout->setDate($date);
-            $workout->setIsReal(true);
-            $this->entityManager->persist($workout);
-            $this->entityManager->flush();
-        }
-
-        if ($change == 1) {
-            return new Response(json_encode(['message' => 'Es wurden Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
-        }
-        return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
-    }
-
     // ONLY RUN ONCE FOR IMPORT , TODO: check if workout of that date is empty on units: then ignjore that workout
         // /**
         //  * @Route("/workout/transfere/here/units", name="transfere_here_units")
