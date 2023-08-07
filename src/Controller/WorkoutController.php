@@ -87,47 +87,6 @@ class WorkoutController extends AbstractController
         return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
     }
 
-    /**
-     * @Route("/workout/transfere/here/exercises", name="transfere_here_exercises")
-     */
-    public function transfereToHereExercises(Request $request)
-    {
-        $change = 0;
-        $controllerDirectory = __DIR__;
-        $fileContents = file_get_contents($controllerDirectory . '/../../../../_1 Java/alul/src/database/user0exer/exercises.txt');
-        $dataSets = explode('--', $fileContents);
-
-        foreach ($dataSets as $dataSet) {
-            $lines = explode("\n", trim($dataSet));
-            $date = new DateTime(array_shift($lines)); // important, dont remove
-
-            foreach ($lines as $line) {
-                // Load exercises
-                $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
-                $exercises = $exerciseRepository->findAll();
-                $exercisesNames = array();
-                foreach ($exercises as $exercise) {
-                    // Die getName()-Werte dem neuen Array hinzufügen
-                    $exercisesNames[] = $exercise->getName();
-                }
-
-                list($txtExercise, $values) = explode('-', $line, 2);
-                if (!in_array($txtExercise, $exercisesNames)) {
-                    $change = 1;
-                    $exercise = new Exercise();
-                    $exercise->setName($txtExercise);
-                    $this->entityManager->persist($exercise);
-                    $this->entityManager->flush();
-                }
-            }
-        }
-
-        if ($change == 1) {
-            return new Response(json_encode(['message' => 'Es wurden Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
-        }
-        return new Response(json_encode(['message' => 'Keine Daten verarbeitet']), 200, ['Content-Type' => 'application/json']);
-    }
-
     // ONLY RUN ONCE FOR IMPORT , TODO: check if workout of that date is empty on units: then ignjore that workout
         // /**
         //  * @Route("/workout/transfere/here/units", name="transfere_here_units")
