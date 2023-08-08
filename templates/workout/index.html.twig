@@ -2,17 +2,48 @@
 
 {% block title %}Hello WorkoutController!{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/workout.css') }}">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/workout.js') }}"></script>
+{% endblock %}
 
-<div class="example-wrapper">
-    <h2>Workouts</h2>
-    {% if workouts %}
-        {% for workout in workouts %}
-            <div>
-                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
+{% block body %}
+<div class="tab-container">
+    <div class="tabs">
+        <div class="tab active-tab" id="tab1">{{ user0.name }}</div>
+        <div class="tab" id="tab2">{{ user1.name }}</div>
+    </div>
+    <div class="tab-content">
+        <div class="tab1-content" style="display: block;">
+            <div class="example-wrapper">
+                <h2>Workouts</h2>
+                {% if workoutsUser0 %}
+                    {% for workout in workoutsUser0 %}
+                        <div>
+                            <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <a href="{{ path('new_workout') }}" class="button">New Workout</a>
             </div>
-        {% endfor %}
-    {% endif %}
-    <a href="{{ path('new_workout') }}" class="button">New Workout</a>
+        </div>
+        <div class="tab2-content">
+            <div class="example-wrapper">
+                <h2>Workouts</h2>
+                {% if workoutsUser1 %}
+                    {% for workout in workoutsUser1 %}
+                        <div>
+                            <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <a href="{{ path('new_workout') }}" class="button">New Workout</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -27,6 +27,7 @@ class WorkoutController extends AbstractController
     public function index(): Response
     {
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $userRepository = $this->entityManager->getRepository(User::class);
         $workouts = $workoutRepository->findAll();
 
         // sorting the workouts
@@ -36,11 +37,29 @@ class WorkoutController extends AbstractController
             if ($dateTimeA == $dateTimeB) {
                 return 0;
             }
-            return ($dateTimeA < $dateTimeB) ? -1 : 1;
+            return ($dateTimeA > $dateTimeB) ? -1 : 1;
         });
 
+        // fetching the users
+        $user0 = $userRepository->find(0);
+        $user1 = $userRepository->find(1);
+
+        // splitting the workouts into users
+        $workoutsUser0 = [];
+        $workoutsUser1 = [];
+        foreach ($workouts as $workout) {
+            if ($workout->getUser()->getId() === 0) {
+                $workoutsUser0[] = $workout;
+            } else {
+                $workoutsUser1[] = $workout;
+            }
+        }
+
         return $this->render('workout/index.html.twig', [
-            'workouts' => $workouts,
+            'workoutsUser0' => $workoutsUser0,
+            'workoutsUser1' => $workoutsUser1,
+            'user0' => $user0,
+            'user1' => $user1,
         ]);
     }
 

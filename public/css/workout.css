@@ -1,0 +1,29 @@
+.tab-container {
+   display: flex;
+   flex-direction: column;
+}
+
+.tabs {
+   display: flex;
+   gap: 10px;
+}
+
+.tab {
+   padding: 10px;
+   background-color: rgb(233, 233, 233);
+   cursor: pointer;
+}
+
+.tab-content {
+   margin-top: 10px;
+   display: flex;
+   flex-direction: column;
+}
+
+.tab-content > div {
+   display: none;
+}
+
+.active-tab {
+   background-color: rgb(176, 176, 176);
+}
