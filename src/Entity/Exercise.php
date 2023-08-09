@@ -21,6 +21,9 @@ class Exercise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageLink = null;
+
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'exercise')]
     private ?Collection $units;
 
@@ -49,6 +52,18 @@ class Exercise
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImageLink(): ?string
+    {
+        return $this->imageLink;
+    }
+
+    public function setImageLink(?string $imageLink): self
+    {
+        $this->imageLink = $imageLink;
 
         return $this;
     }
