@@ -1,0 +1,8 @@
+:root {
+   /* css-file-specific */
+   --main: var(--red);
+   --main-background: var(--gray-red);
+   --main-transparent: var(--red-transparent);
+   --main-light: var(--red-light);
+   --main-light-transparent: var(--red-light-transparent);
+}
