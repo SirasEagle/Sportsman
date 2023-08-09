@@ -28,6 +28,16 @@ class ExerciseController extends AbstractController
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercises = $exerciseRepository->findAll();
 
+        // sorting the exercises
+        usort($exercises, function ($a, $b) {
+            $nameA = $a->getName();
+            $nameB = $b->getName();
+            if ($nameA == $nameB) {
+                return 0;
+            }
+            return ($nameA < $nameB) ? -1 : 1;
+        });
+
         return $this->render('exercise/index.html.twig', [
             'exercises' => $exercises,
         ]);

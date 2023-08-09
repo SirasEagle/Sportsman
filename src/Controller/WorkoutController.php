@@ -120,6 +120,16 @@ class WorkoutController extends AbstractController
             throw $this->createNotFoundException('Workout not found');
         }
 
+        // sorting the exercises
+        usort($exercises, function ($a, $b) {
+            $nameA = $a->getName();
+            $nameB = $b->getName();
+            if ($nameA == $nameB) {
+                return 0;
+            }
+            return ($nameA < $nameB) ? -1 : 1;
+        });
+
         return $this->render('workout/show.html.twig', [
             'workout' => $workout,
             'exercises' => $exercises,
