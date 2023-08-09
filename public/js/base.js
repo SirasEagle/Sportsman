@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 success: function(response) {
                     // Erfolgreiche Antwort vom Server, hier kannst du entsprechende Aktionen ausführen
+                    set1Input.value = '0';
+                    set2Input.value = '0';
+                    set3Input.value = '0';
+                    unitInfo.value = '';
                     location.reload(); // Beispiel: Seite neu laden
                 },
                 error: function(xhr, status, error) {
