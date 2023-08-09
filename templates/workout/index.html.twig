@@ -21,27 +21,31 @@
         <div class="tab1-content" style="display: block;">
             <div class="example-wrapper">
                 <h2>Workouts</h2>
-                {% if workoutsUser0 %}
-                    {% for workout in workoutsUser0 %}
-                        <div>
-                            <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
-                        </div>
-                    {% endfor %}
-                {% endif %}
                 <a href="{{ path('new_workout') }}" class="button">New Workout</a>
+                {% if workoutsUser0 %}
+                    <div class="workout-container">
+                        {% for workout in workoutsUser0 %}
+                            <div class="workoutPanel">
+                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div class="tab2-content">
             <div class="example-wrapper">
                 <h2>Workouts</h2>
-                {% if workoutsUser1 %}
-                    {% for workout in workoutsUser1 %}
-                        <div>
-                            <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
-                        </div>
-                    {% endfor %}
-                {% endif %}
                 <a href="{{ path('new_workout') }}" class="button">New Workout</a>
+                {% if workoutsUser1 %}
+                    <div class="workout-container">
+                        {% for workout in workoutsUser1 %}
+                            <div class="workoutPanel">
+                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

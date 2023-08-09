@@ -10,7 +10,6 @@
 
 .tab {
    padding: 10px;
-   background-color: rgb(233, 233, 233);
    cursor: pointer;
 }
 
@@ -20,10 +19,36 @@
    flex-direction: column;
 }
 
-.tab-content > div {
+.tab-content>div {
    display: none;
 }
 
 .active-tab {
    background-color: rgb(176, 176, 176);
+}
+
+.workout-container {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+   justify-content: flex-start;
+}
+
+.workoutPanel {
+   width: 145px;
+   /* flex: 1; streckt Elemente mit der Klasse auf die volle Weite, wenn sie nicht manuell die selbe width hätten */
+   margin: 5px;
+}
+
+.workoutPanel a {
+   background-color: rgb(105, 220, 75);
+   color: white;
+   padding: 14px 25px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+}
+
+.workoutPanel a:hover {
+   background-color: rgba(105, 220, 75, 0.75);
 }
