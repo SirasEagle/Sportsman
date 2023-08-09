@@ -1,12 +1,17 @@
-/* Allgemeine Stildefinitionen für Elemente der Klasse "abc" */
-.abc {
-   padding: 5px;
-   color: blue;
+/* default settings */
+body {
+   background-color: rgb(95, 95, 95);
+   color: white;
 }
 
-/* Stildefinition für den Hover-Effekt */
-.abc:hover {
-   color: red;
+a {
+   color: rgb(135, 250, 105);
+   text-decoration: none;
+}
+
+a:hover {
+   color: rgba(134, 250, 105, 0.75);
+   text-decoration: underline;
 }
 
 .example-wrapper {
@@ -65,7 +70,7 @@
    position: absolute;
    background-color: #f9f9f9;
    min-width: 40px;
-   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
    z-index: 1;
 }
 
