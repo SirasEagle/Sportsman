@@ -22,7 +22,7 @@
 
    /* css-file-specific */
    --main: var(--green);
-   --main-background: var(--gray-green);
+   --main-gray: var(--gray-green);
    --main-transparent: var(--green-transparent);
    --main-light: var(--green-light);
    --main-light-transparent: var(--green-light-transparent);
@@ -30,7 +30,7 @@
 
 /* default settings */
 body {
-   background-color: var(--main-background);
+   background-color: var(--main-gray);
    color: white;
 }
 
@@ -68,12 +68,10 @@ a:hover {
 }
 
 .sidebarElement {
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 40px;
    padding: 5px;
    margin: 5px;
    margin-bottom: 2px;
    background-color: var(--main-transparent);
-}
-
-.sidebarElement > a {
-   color: var(--main-light);
 }
