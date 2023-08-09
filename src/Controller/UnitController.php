@@ -36,7 +36,10 @@ class UnitController extends AbstractController
         $set3 = $request->request->get('set3');
         $exerciseId = $request->request->get('exId');
         $workoutId = $request->request->get('wId');
-        $unitInfo = $request->request->get('unitInfo');
+        $unitInfo = null;
+        if ($request->request->get('unitInfo') != '') {
+            $unitInfo = $request->request->get('unitInfo');
+        }
 
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercise = $exerciseRepository->find($exerciseId);
