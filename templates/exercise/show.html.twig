@@ -9,6 +9,9 @@
 
 <div class="example-wrapper">
     <h2>{{ exercise.name }}:</h2>
+    {% if exercise.imageLink is not null %}
+        <img src={{ exercise.imageLink }} alt="exercise" height="400">
+    {% endif %}
     <div>{{ exercise.description }}</div>
     {% for unit in units %}
         {# <li>{{ unit.workoutId }}, {{ unit.info }}</li> #}
