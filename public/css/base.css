@@ -1,5 +1,10 @@
 :root {
    /* colors */
+   --gray: rgb(65, 65, 65);
+   --gray-green: rgb(63, 70, 63);
+   --gray-purple: rgb(64, 62, 68);
+   --gray-red: rgb(69, 63, 63);
+
    --green: rgb(110, 200, 75);
    --green-transparent: rgba(110, 200, 75, 0.50);
    --green-light: rgb(135, 250, 105);
@@ -10,8 +15,14 @@
    --purple-light: rgb(207, 180, 255);
    --purple-light-transparent: rgba(207, 180, 255, 0.65);
 
+   --red: rgb(230, 20, 20);
+   --red-transparent: rgba(230, 20, 20, 0.50);
+   --red-light: rgb(255, 106, 106);
+   --red-light-transparent: rgba(255, 106, 106, 0.65);
+
    /* css-file-specific */
    --main: var(--green);
+   --main-background: var(--gray-green);
    --main-transparent: var(--green-transparent);
    --main-light: var(--green-light);
    --main-light-transparent: var(--green-light-transparent);
@@ -19,7 +30,7 @@
 
 /* default settings */
 body {
-   background-color: rgb(95, 95, 95);
+   background-color: var(--main-background);
    color: white;
 }
 
