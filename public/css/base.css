@@ -1,3 +1,16 @@
+:root {
+   --main-bg-color: brown;
+
+   --green: rgb(110, 200, 75);
+   --green-slight-transparent: rgba(110, 200, 75, 0.75);
+
+   --green-strong: rgb(135, 250, 105);
+   --green-strong-transparent: rgba(134, 250, 105, 0.75);
+
+   --purple: rgb(104, 55, 190);
+   --purple-transparent: rgba(104, 55, 190, 0.50);
+ }
+
 /* default settings */
 body {
    background-color: rgb(95, 95, 95);
@@ -5,12 +18,12 @@ body {
 }
 
 a {
-   color: rgb(135, 250, 105);
+   color: var(--green-strong);
    text-decoration: none;
 }
 
 a:hover {
-   color: rgba(134, 250, 105, 0.75);
+   color: var(--green-strong-transparent);
    text-decoration: underline;
 }
 
@@ -35,56 +48,4 @@ a:hover {
    left: 0;
    display: flex;
    flex-direction: column;
-}
-
-.workoutTable {
-   font-family: Arial, Helvetica, sans-serif;
-   border-collapse: collapse;
-   width: 60%;
-}
-
-.workoutTable td,
-.workoutTable th {
-   border: 1px solid #ddd;
-   padding: 8px;
-}
-
-.workoutTable tr:nth-child(even) {
-   background-color: #f2f2f2;
-}
-
-.workoutTable tr:hover {
-   background-color: #ddd;
-}
-
-.workoutTable th {
-   padding-top: 12px;
-   padding-bottom: 12px;
-   text-align: left;
-   background-color: #369938;
-   color: white;
-}
-
-.dropdown-content {
-   display: none;
-   position: absolute;
-   background-color: #f9f9f9;
-   min-width: 40px;
-   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-   z-index: 1;
-}
-
-.dropdown-content a {
-   color: black;
-   padding: 8px 12px;
-   text-decoration: none;
-   display: block;
-}
-
-.dropdown-content a:hover {
-   background-color: #f1f1f1;
-}
-
-.dropdown:hover .dropdown-content {
-   display: block;
 }
