@@ -1,3 +1,12 @@
+:root {
+   /* css-file-specific */
+   --main: var(--purple);
+   --main-transparent: var(--purple-transparent);
+   --main-light: var(--purple-light);
+   --main-light-transparent: var(--purple-light-transparent);
+}
+
+/* user selection tabs =========================================================================================== */
 .tab-container {
    display: flex;
    flex-direction: column;
@@ -27,6 +36,8 @@
    background-color: rgb(176, 176, 176);
 }
 
+/* Panel styling================================================================================================== */
+
 /* Container that carries the panels */
 .workout-container {
    display: flex;
@@ -35,7 +46,6 @@
    justify-content: flex-start;
 }
 
-/* Panel styling================================================================================================== */
 .workoutPanel {
    width: 145px;
    /* flex: 1; streckt Elemente mit der Klasse auf die volle Weite, wenn sie nicht manuell die selbe width hätten */
@@ -43,7 +53,7 @@
 }
 
 .workoutPanel a {
-   background-color: var(--green);
+   background-color: var(--main);
    color: white;
    padding: 14px 25px;
    text-align: center;
@@ -52,8 +62,8 @@
 }
 
 .workoutPanel a:hover {
-   background-color: var(--green-slight-transparent);
-   font-size:95%;
+   background-color: var(--main-transparent);
+   font-size: 95%;
 }
 
 /* show-Table styling============================================================================================= */
@@ -74,13 +84,13 @@
 }
 
 .workoutTable tr:hover {
-   background-color: var(--purple-transparent);
+   background-color: var(--main-transparent);
 }
 
 .workoutTable th {
    padding-top: 12px;
    padding-bottom: 12px;
    text-align: left;
-   background-color: var(--purple);
+   background-color: var(--main);
    color: white;
 }

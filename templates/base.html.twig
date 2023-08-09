@@ -8,19 +8,21 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/base.css') }}">
         {% endblock %}
-        <script src="{{ asset('js/base.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        {% block javascripts %}
+            <script src="{{ asset('js/base.js') }}"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        {% endblock %}
 
     </head>
     <body>
         <div class="sidebar">
-            <div style="flex: 1;">
+            <div class="sidebarElement" style="flex: 1;">
                 <a href="{{ path('index_workout') }}">Workouts</a>
             </div>
-            <div style="flex: 1;">
+            <div class="sidebarElement" style="flex: 1;">
                 <a href="{{ path('index_exercise') }}">Exercises</a>
             </div>
-            <div style="flex: 1;">
+            <div class="sidebarElement" style="flex: 1;">
                 <a href="{{ path('app_calendar') }}">Calendar</a>
             </div>
         </div>

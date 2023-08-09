@@ -1,14 +1,20 @@
 :root {
-   --main-bg-color: brown;
-
+   /* colors */
    --green: rgb(110, 200, 75);
-   --green-slight-transparent: rgba(110, 200, 75, 0.75);
+   --green-transparent: rgba(110, 200, 75, 0.50);
+   --green-light: rgb(135, 250, 105);
+   --green-light-transparent: rgba(134, 250, 105, 0.65);
 
-   --green-strong: rgb(135, 250, 105);
-   --green-strong-transparent: rgba(134, 250, 105, 0.75);
+   --purple: rgb(104, 65, 190);
+   --purple-transparent: rgba(104, 65, 190, 0.40);
+   --purple-light: rgb(207, 180, 255);
+   --purple-light-transparent: rgba(207, 180, 255, 0.65);
 
-   --purple: rgb(104, 55, 190);
-   --purple-transparent: rgba(104, 55, 190, 0.50);
+   /* css-file-specific */
+   --main: var(--green);
+   --main-transparent: var(--green-transparent);
+   --main-light: var(--green-light);
+   --main-light-transparent: var(--green-light-transparent);
  }
 
 /* default settings */
@@ -18,12 +24,12 @@ body {
 }
 
 a {
-   color: var(--green-strong);
+   color: var(--main-light);
    text-decoration: none;
 }
 
 a:hover {
-   color: var(--green-strong-transparent);
+   color: var(--main-light-transparent);
    text-decoration: underline;
 }
 
@@ -40,7 +46,7 @@ a:hover {
 }
 
 .sidebar {
-   background-color: gray;
+   background-color: rgba(0, 0, 0, 0.30);
    width: 300px;
    height: 100vh;
    position: fixed;
@@ -48,4 +54,15 @@ a:hover {
    left: 0;
    display: flex;
    flex-direction: column;
+}
+
+.sidebarElement {
+   padding: 5px;
+   margin: 5px;
+   margin-bottom: 2px;
+   background-color: var(--main-transparent);
+}
+
+.sidebarElement > a {
+   color: var(--main-light);
 }

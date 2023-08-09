@@ -1,0 +1,30 @@
+/* Panel styling================================================================================================== */
+
+/* Container that carries the panels */
+.exercise-container {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+   justify-content: flex-start;
+}
+
+.exercisePanel {
+   width: 200px;
+   /* flex: 1; streckt Elemente mit der Klasse auf die volle Weite, wenn sie nicht manuell die selbe width hätten */
+   margin: 5px;
+}
+
+.exercisePanel a {
+   width: 150px;
+   background-color: var(--main);
+   color: white;
+   padding: 14px 25px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+}
+
+.exercisePanel a:hover {
+   background-color: var(--main-transparent);
+   font-size: 95%;
+}

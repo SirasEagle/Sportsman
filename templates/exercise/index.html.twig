@@ -1,18 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello ExerciseController!{% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/exercise.css') }}">
+{% endblock %}
 {% block body %}
 
 <div class="example-wrapper">
     <h2>Exercises</h2>
-    {% if exercises %}
-        {% for exercise in exercises %}
-            <div>
-                <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{{ exercise.name }}</a>
-            </div>
-        {% endfor %}
-    {% endif %}
     <a href="{{ path('new_exercise') }}" class="button">New Exercise</a>
+    {% if exercises %}
+        <div class="exercise-container">
+            {% for exercise in exercises %}
+                <div class="exercisePanel">
+                    <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{{ exercise.name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
