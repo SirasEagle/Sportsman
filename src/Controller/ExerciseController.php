@@ -70,6 +70,37 @@ class ExerciseController extends AbstractController
     }
 
     /**
+     * @Route("/exercise/median", name="median_exercise")
+     */
+    public function median(Request $request)
+    {
+        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+        $exercises = $exerciseRepository->findAll();
+
+        foreach ($exercises as $exercise) {
+            if (!$exercise) {
+                throw $this->createNotFoundException('Exercise not found');
+            }
+            
+            // Hier rufen wir die Units für die gegebene Exercise ab
+            $unitRepository = $this->entityManager->getRepository(Unit::class);
+            $units = $unitRepository->findBy(['exercise' => $exercise]);
+
+            $median = 0;
+            foreach ($units as $unit) {
+                $median += $unit->getSet1();
+                $median += $unit->getSet2();
+                $median += $unit->getSet3();
+            }
+            $median = ($median / (count($units) * 3));
+            $exercise->setMedian((float)$median);
+            $this->entityManager->persist($exercise);
+            $this->entityManager->flush();
+        }
+        return $this->redirectToRoute('index_exercise');
+    }
+
+    /**
      * @Route("/exercise/{id}", name="show_exercise")
      */
     public function show(int $id): Response

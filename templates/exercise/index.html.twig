@@ -10,6 +10,7 @@
 <div class="example-wrapper">
     <h2>Exercises</h2>
     <a href="{{ path('new_exercise') }}" class="button">New Exercise</a>
+    <a href="{{ path('median_exercise') }}" class="button">Calculate median</a>
     {% if exercises %}
         <div class="exercise-container">
             {% for exercise in exercises %}
