@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello WorkoutController!{% endblock %}
+{% block title %}Workouts{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -26,7 +26,7 @@
                     <div class="workout-container">
                         {% for workout in workoutsUser0 %}
                             <div class="workoutPanel">
-                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
+                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('d.m.Y') }}</a>
                             </div>
                         {% endfor %}
                     </div>
@@ -41,7 +41,7 @@
                     <div class="workout-container">
                         {% for workout in workoutsUser1 %}
                             <div class="workoutPanel">
-                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('Y-m-d') }}</a>
+                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('d.m.Y') }}</a>
                             </div>
                         {% endfor %}
                     </div>
