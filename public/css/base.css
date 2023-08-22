@@ -1,9 +1,9 @@
 :root {
    /* colors */
    --gray: rgb(65, 65, 65);
-   --gray-green: rgb(63, 70, 63);
-   --gray-purple: rgb(64, 62, 68);
-   --gray-red: rgb(69, 63, 63);
+   --gray-green: rgb(53, 60, 53);
+   --gray-purple: rgb(54, 52, 58);
+   --gray-red: rgb(59, 53, 53);
 
    --green: rgb(110, 200, 75);
    --green-transparent: rgba(110, 200, 75, 0.50);
@@ -41,7 +41,7 @@ a {
 
 a:hover {
    color: var(--main-light-transparent);
-   text-decoration: underline;
+   /* text-decoration: underline; */
 }
 
 .example-wrapper {
@@ -68,9 +68,10 @@ a:hover {
 }
 
 .sidebarElement {
+   cursor: pointer;
    font-family: Arial, Helvetica, sans-serif;
    font-size: 40px;
-   padding: 5px;
+   padding: 15px;
    margin: 5px;
    margin-bottom: 2px;
    background-color: var(--main-transparent);

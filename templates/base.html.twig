@@ -16,14 +16,14 @@
     </head>
     <body>
         <div class="sidebar">
-            <div class="sidebarElement" style="flex: 1;">
+            <div onclick="window.location.href = '{{ path('index_workout') }}';" class="sidebarElement" style="flex: 1;">
                 <a href="{{ path('index_workout') }}">Workouts</a>
             </div>
-            <div class="sidebarElement" style="flex: 1;">
+            <div onclick="window.location.href = '{{ path('index_exercise') }}';" class="sidebarElement" style="flex: 1;">
                 <a href="{{ path('index_exercise') }}">Exercises</a>
             </div>
-            <div class="sidebarElement" style="flex: 1;">
-                <a href="{{ path('app_calendar') }}">Calendar</a>
+            <div onclick="window.location.href = '{{ path('app_calendar') }}';" class="sidebarElement" style="flex: 1;">
+                <a href="{{ path('app_calendar') }}">Kalender</a>
             </div>
         </div>
         <div style="float: right;">
