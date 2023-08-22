@@ -80,10 +80,20 @@ class ExerciseController extends AbstractController
         if (!$exercise) {
             throw $this->createNotFoundException('Exercise not found');
         }
-
+        
         // Hier rufen wir die Units für die gegebene Exercise ab
         $unitRepository = $this->entityManager->getRepository(Unit::class);
         $units = $unitRepository->findBy(['exercise' => $exercise]);
+        
+        // sorting the workouts
+        usort($units, function ($a, $b) {
+            $dateTimeA = $a->getWorkout()->getDate();
+            $dateTimeB = $b->getWorkout()->getDate();
+            if ($dateTimeA == $dateTimeB) {
+                return 0;
+            }
+            return ($dateTimeA > $dateTimeB) ? -1 : 1;
+        });
 
         return $this->render('exercise/show.html.twig', [
             'exercise' => $exercise,
