@@ -24,6 +24,9 @@ class Exercise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageLink = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $median = null;
+
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'exercise')]
     private ?Collection $units;
 
@@ -64,6 +67,18 @@ class Exercise
     public function setImageLink(?string $imageLink): self
     {
         $this->imageLink = $imageLink;
+
+        return $this;
+    }
+
+    public function getMedian(): ?float
+    {
+        return $this->median;
+    }
+
+    public function setMedian(?float $median): self
+    {
+        $this->median = $median;
 
         return $this;
     }
