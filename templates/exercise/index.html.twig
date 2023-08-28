@@ -15,7 +15,7 @@
         <div class="exercise-container">
             {% for exercise in exercises %}
                 <div class="exercisePanel">
-                    <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{{ exercise.name }}</a>
+                    <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{% if exercise.name|length > 18 %}{{ exercise.nameShort }}{% else %}{{ exercise.name }}{% endif %}</a>
                 </div>
             {% endfor %}
         </div>

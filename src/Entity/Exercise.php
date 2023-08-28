@@ -46,6 +46,11 @@ class Exercise
         return $this->name;
     }
 
+    public function getNameShort(): ?string
+    {
+        return substr($this->name, 0, 15) . '...';
+    }
+
     public function setName(string $name): self
     {
         $this->name = $name;
