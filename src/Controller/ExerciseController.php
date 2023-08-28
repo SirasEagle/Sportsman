@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Exercise;
 use App\Entity\Unit;
 use App\Form\ExerciseNewType;
+use App\Form\ExerciseEditType1;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,6 +66,33 @@ class ExerciseController extends AbstractController
         }
 
         return $this->render('exercise/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/exercise/edit/{id}", name="edit_exercise")
+     */
+    public function edit(Request $request, int $id): Response
+    {
+        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+        $exercise = $exerciseRepository->find($id);
+        $form = $this->createForm(ExerciseEditType1::class, $exercise);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Werte aus dem Formular holen und in das Exercise-Objekt schreiben
+            $exercise = $form->getData();
+
+            // Das Exercise-Objekt in der Datenbank persistieren
+            $this->entityManager->persist($exercise);
+            $this->entityManager->flush();
+
+            // Umleiten zu einer anderen Route, z. B. zur Detailansicht des neuen Exercises
+            return $this->redirectToRoute('show_exercise', ['id' => $exercise->getId()]);
+        }
+
+        return $this->render('exercise/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
