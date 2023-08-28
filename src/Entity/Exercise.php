@@ -30,6 +30,12 @@ class Exercise
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'exercise')]
     private ?Collection $units;
 
+    #[ORM\ManyToOne(targetEntity: MuscleGroup::class, inversedBy: 'exercises')]
+    private ?MuscleGroup $muscleGroup;
+
+    #[ORM\Column]
+    private ?int $muscleGroupId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,6 +87,19 @@ class Exercise
         $this->median = $median;
 
         return $this;
+    }
+
+    public function getMuscleGroup(): ?MuscleGroup
+    {
+        return $this->muscleGroup;
+    }
+
+    public function setMuscleGroup(?MuscleGroup $muscleGroup): void
+    {
+        $this->muscleGroup = $muscleGroup;
+        if ($muscleGroup) {
+            $this->muscleGroupId = $muscleGroup->getId();
+        }
     }
 
     /**
