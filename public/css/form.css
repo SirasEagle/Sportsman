@@ -1,9 +1,4 @@
 /* css for the form/type sites */
 .abc {
    padding: 5px;
-   color: blue;
-}
-
-.abc:hover {
-   color: red;
 }

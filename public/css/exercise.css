@@ -12,6 +12,7 @@
    width: 200px;
    /* flex: 1; streckt Elemente mit der Klasse auf die volle Weite, wenn sie nicht manuell die selbe width hätten */
    margin: 5px;
+   margin-left: 0px;
 }
 
 .exercisePanel a {

@@ -1,7 +1,7 @@
 :root {
    /* css-file-specific */
    --main: var(--purple);
-   --main-background: var(--gray-purple);
+   --main-gray: var(--gray-purple);
    --main-transparent: var(--purple-transparent);
    --main-light: var(--purple-light);
    --main-light-transparent: var(--purple-light-transparent);
@@ -51,6 +51,7 @@
    width: 145px;
    /* flex: 1; streckt Elemente mit der Klasse auf die volle Weite, wenn sie nicht manuell die selbe width hätten */
    margin: 5px;
+   margin-left: 0px;
 }
 
 .workoutPanel a {
