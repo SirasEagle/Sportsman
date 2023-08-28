@@ -9,13 +9,14 @@
 
 <div class="example-wrapper">
     <h2>{{ exercise.name }}:</h2>
+    <p>Durschnittlich {{ exercise.median|number_format }} Wiederholungen pro Set</p>
     {% if exercise.imageLink is not null %}
         <img src={{ exercise.imageLink }} alt="exercise" height="400">
     {% endif %}
-    <div>{{ exercise.description }}</div>
+    <div>{{ exercise.description }}</div><p></p>
     {% for unit in units %}
         {# <li>{{ unit.workoutId }}, {{ unit.info }}</li> #}
-        <li>{{ unit.workout.user.name }} - {{ unit.workout.date|date('Y-m-d') }}; {{ unit.set1 }}; {{ unit.set2 }}; {{ unit.set3 }}; {{ unit.info }}</li>
+        <div>{{ unit.workout.user.name }} - {{ unit.workout.date|date('Y-m-d') }}; {{ unit.set1 }}; {{ unit.set2 }}; {{ unit.set3 }}; {{ unit.info }}</div>
     {% endfor %}
 </div>
 {% endblock %}
