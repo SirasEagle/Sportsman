@@ -85,13 +85,15 @@ class WorkoutController extends AbstractController
             $workoutRepository = $this->entityManager->getRepository(Workout::class);
             $workouts = $workoutRepository->findAll();
             $workoutsDates = array();
-            foreach ($workouts as $current) {
-                // Die getName()-Werte dem neuen Array hinzufügen
-                $workoutsDates[] = $current->getDate();
-            }
-            if (in_array($workout->getDate(), $workoutsDates)) {
-                return new Response(json_encode(['message' => "Workout mit dem Datum " . $workout->getDate()->format('Y-m-d') . " gibt es schon."]), 200, ['Content-Type' => 'application/json']);
-            }
+
+            // // uncomment, if there shoulkd only be one workout with taht date:
+            // foreach ($workouts as $current) {
+            //     // Die getName()-Werte dem neuen Array hinzufügen
+            //     $workoutsDates[] = $current->getDate();
+            // }
+            // if (in_array($workout->getDate(), $workoutsDates)) {
+            //     return new Response(json_encode(['message' => "Workout mit dem Datum " . $workout->getDate()->format('Y-m-d') . " gibt es schon."]), 200, ['Content-Type' => 'application/json']);
+            // }
 
             // Das workout-Objekt in der Datenbank persistieren
             $this->entityManager->persist($workout);
