@@ -47,3 +47,22 @@ annotations.
 [templates > dirXY > fileXY.html.twig]
 The file that is called from a Controller function and loaded
 as a page.
+
+
+
+
+--------
+
+SELECT w.*
+FROM workout w
+LEFT JOIN unit u ON w.id = u.workout_id
+WHERE u.workout_id IS NULL;
+
+
+DELETE FROM workout
+WHERE id IN (
+    SELECT w.id
+    FROM workout w
+    LEFT JOIN unit u ON w.id = u.workout_id
+    WHERE u.workout_id IS NULL
+);
