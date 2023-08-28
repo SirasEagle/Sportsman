@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Exercise;
 use App\Entity\Unit;
-use App\Form\ExerciseEditType;
+use App\Form\ExerciseNewType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +49,7 @@ class ExerciseController extends AbstractController
     public function new(Request $request): Response
     {
         $exercise = new Exercise();
-        $form = $this->createForm(ExerciseEditType::class, $exercise);
+        $form = $this->createForm(ExerciseNewType::class, $exercise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
