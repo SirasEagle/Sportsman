@@ -13,10 +13,11 @@
     {% if exercise.imageLink is not null %}
         <img src={{ exercise.imageLink }} alt="exercise" height="400">
     {% endif %}
-    <div>{{ exercise.description }}</div><p></p>
-    <button onclick="window.location.href = '{{ path('edit_exercise', {'id': exercise.id}) }}';" class="btn">
-        <i class="fa fa-edit" style="color:red;"></i>Bearbeiten
+    <div>{{ exercise.description }}</div>
+    <button onclick="window.location.href = '{{ path('edit_exercise', {'id': exercise.id}) }}';" class="btn editButton">
+        <i class="fa fa-edit"></i> Bearbeiten
     </button>
+    <p></p>
     {% for unit in units %}
         {# <li>{{ unit.workoutId }}, {{ unit.info }}</li> #}
         <div>{{ unit.workout.user.name }} - {{ unit.workout.date|date('Y-m-d') }}; {{ unit.set1 }}; {{ unit.set2 }}; {{ unit.set3 }}; {{ unit.info }}</div>
