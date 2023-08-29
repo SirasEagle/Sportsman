@@ -69,7 +69,7 @@ $("#result").text(result);
 
 <div class="example-wrapper">
     <h2>{{ exercise.name }}:</h2>
-    <p>Durschnittlich {{ exercise.median|number_format }} Wiederholungen pro Set</p>
+    <p>{{ exercise.muscleGroup.term }} - Durschnittlich {{ exercise.median|number_format }} Wiederholungen pro Set</p>
     {% if exercise.imageLink is not null %}
         <img src={{ exercise.imageLink }} alt="exercise" height="400">
     {% endif %}
