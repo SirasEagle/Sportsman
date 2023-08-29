@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Exercise;
+use App\Entity\MuscleGroup;
 use App\Entity\Unit;
 use App\Form\ExerciseNewType;
 use App\Form\ExerciseEditType1;
@@ -26,21 +27,46 @@ class ExerciseController extends AbstractController
      */
     public function index(): Response
     {
+        // Fetch all exercises
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercises = $exerciseRepository->findAll();
 
-        // sorting the exercises
-        usort($exercises, function ($a, $b) {
-            $nameA = $a->getName();
-            $nameB = $b->getName();
-            if ($nameA == $nameB) {
-                return 0;
-            }
-            return ($nameA < $nameB) ? -1 : 1;
-        });
+        $categories = [];
+
+        // Fetch all muscleGroups
+        $muscleGroupRepository = $this->entityManager->getRepository(MuscleGroup::class);
+        $muscleGroups = $muscleGroupRepository->findAll();
+
+        // Initialize categories array with empty arrays for each muscle group
+        foreach ($muscleGroups as $muscleGroup) {
+            $categories[$muscleGroup->getTerm()] = [];
+        }
+
+        // Populate the categories array with exercises
+        foreach ($exercises as $exercise) {
+            $muscleGroup = $exercise->getMuscleGroup();
+            $muscleGroupName = $muscleGroup->getTerm();
+            $categories[$muscleGroupName][] = $exercise;
+        }
+
+        // Sort exercise names within each category
+        foreach ($categories as &$thisExercises) {
+            // sort($exerciseNames);
+            // sorting the exercises
+            usort($thisExercises, function ($a, $b) {
+                $nameA = $a->getName();
+                $nameB = $b->getName();
+                if ($nameA == $nameB) {
+                    return 0;
+                }
+                return ($nameA < $nameB) ? -1 : 1;
+            });
+        }
+
 
         return $this->render('exercise/index.html.twig', [
             'exercises' => $exercises,
+            'categories' => $categories,
         ]);
     }
 

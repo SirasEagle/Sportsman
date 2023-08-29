@@ -11,11 +11,26 @@
     <h2>Exercises</h2>
     <a href="{{ path('new_exercise') }}" class="button">New Exercise</a>
     <a href="{{ path('median_exercise') }}" class="button">Calculate median</a>
+    {% if categories %}
+        {% for category, exercises in categories %}
+            <h3>{{ category }}</h3>
+            <div class="exercise-container">
+                {# {{ "I like Twig.\nYou will like it too."|nl2br }} #}
+                {% for exercise in exercises %}
+                    <div class="exercisePanel">
+                        <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{% if exercise.name|length > 16 %}{{ exercise.nameShort }}{% else %}{{ exercise.name }}{% endif %}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     {% if exercises %}
+        <h3>{{ "Alles" }}</h3>
         <div class="exercise-container">
             {% for exercise in exercises %}
                 <div class="exercisePanel">
-                    <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{% if exercise.name|length > 18 %}{{ exercise.nameShort }}{% else %}{{ exercise.name }}{% endif %}</a>
+                    <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{% if exercise.name|length > 16 %}{{ exercise.nameShort }}{% else %}{{ exercise.name }}{% endif %}</a>
                 </div>
             {% endfor %}
         </div>
