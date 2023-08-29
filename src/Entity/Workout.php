@@ -25,6 +25,9 @@ class Workout
     #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $isReal = false;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $points = null;
+
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'workout')]
     private ?Collection $units;
 
@@ -76,6 +79,19 @@ class Workout
     public function setIsReal(?bool $isReal): self
     {
         $this->isReal = $isReal;
+
+        return $this;
+    }
+
+    
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(?int $points): self
+    {
+        $this->points = $points;
 
         return $this;
     }
