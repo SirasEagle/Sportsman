@@ -107,6 +107,18 @@ class Exercise
         }
     }
 
+    public function getMuscleGroupId(): ?int
+    {
+        return $this->muscleGroupId;
+    }
+
+    public function setMuscleGroupId(?int $muscleGroupId): self
+    {
+        $this->muscleGroupId = $muscleGroupId;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Unit[]
      */

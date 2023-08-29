@@ -23,6 +23,7 @@ class ExerciseNewType extends AbstractType
                 'label' => 'Description:',
                 'attr' => ['class' => 'abc'],
             ])
+            ->add('muscle_group_id')
             ->add('submit', SubmitType::class, [
                 'label' => 'Submit',
                 'attr' => ['class' => 'abc'],
