@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\UnitEditType;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Unit;
 use App\Entity\Exercise;
@@ -25,6 +26,28 @@ class UnitController extends AbstractController
     {
         return $this->render('unit/index.html.twig', [
             'controller_name' => 'UnitController',
+        ]);
+    }
+
+    #[Route('/unit/edit/{id}', name: 'edit_unit')]
+    public function edit(Request $request, int $id): Response
+    {
+        $unitRepository = $this->entityManager->getRepository(Unit::class);
+        $unit = $unitRepository->find($id);
+        $form = $this->createForm(UnitEditType::class, $unit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $unit = $form->getData();
+
+            $this->entityManager->persist($unit);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('show_workout', ['id' => $unit->getWorkout()->getId()]);
+        }
+
+        return $this->render('unit/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

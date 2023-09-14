@@ -25,7 +25,7 @@
          <th>Info</th>
       </tr>
       {% for unit in workout.units %}
-         <tr>
+         <tr ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">
             <td>{{ unit.exercise.name }}</td>
             <td>{{ unit.set1 }}</td>
             <td>{{ unit.set2 }}</td>
