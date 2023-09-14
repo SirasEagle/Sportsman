@@ -8,9 +8,9 @@
 {% block body %}
 
 <div class="example-wrapper">
-    <h2>Exercises</h2>
-    <a href="{{ path('new_exercise') }}" class="button">New Exercise</a>
-    <a href="{{ path('median_exercise') }}" class="button">Calculate median</a>
+    <h2>Übungen</h2>
+    <a href="{{ path('new_exercise') }}" class="button">Neue Übung</a>
+    <a href="{{ path('median_exercise') }}" class="button">- Berechne Durchschnitte</a>
     {% if categories %}
         {% for category, exercises in categories %}
             <h3>{{ category }}</h3>
