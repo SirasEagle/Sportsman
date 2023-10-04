@@ -68,6 +68,18 @@
    font-size: 95%;
 }
 
+.transparent-0 a {
+   opacity: 70%;
+}
+
+.transparent-1 a  {
+   background-color: rgba(var(--main), 10%);
+}
+
+.transparent-2 a {
+   background-color: rgba(var(--main), 20%);
+}
+
 /* show-Table styling============================================================================================= */
 .workoutTable {
    font-family: Arial, Helvetica, sans-serif;
