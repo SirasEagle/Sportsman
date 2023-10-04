@@ -21,12 +21,14 @@
         <div class="tab1-content" style="display: block;">
             <div class="example-wrapper">
                 <h2>Workouts</h2>
-                <a href="{{ path('new_workout') }}" class="button">New Workout</a>
+                <a href="{{ path('new_workout') }}" class="button">Neues Workout</a>
+                <a href="{{ path('points_workout') }}" class="button">- Berechne Punkte</a>
                 {% if workoutsUser0 %}
                     <div class="workout-container">
                         {% for workout in workoutsUser0 %}
+                            {% set opacity = workout.points >= 10 ? 100 : workout.points == 0 ? 40 : (10 - workout.points) * 6 + 40 %}
                             <div class="workoutPanel">
-                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('d.m.Y') }}</a>
+                                <a href="{{ path('show_workout', {'id': workout.id}) }}" style="opacity: {{ opacity }}%">{{ workout.date|date('d.m.Y') }}</a>
                             </div>
                         {% endfor %}
                     </div>
@@ -36,12 +38,14 @@
         <div class="tab2-content">
             <div class="example-wrapper">
                 <h2>Workouts</h2>
-                <a href="{{ path('new_workout') }}" class="button">New Workout</a>
+                <a href="{{ path('new_workout') }}" class="button">Neues Workout</a>
+                <a href="{{ path('points_workout') }}" class="button">- Berechne Punkte</a>
                 {% if workoutsUser1 %}
                     <div class="workout-container">
                         {% for workout in workoutsUser1 %}
+                            {% set opacity = workout.points >= 10 ? 100 : workout.points == 0 ? 40 : (10 - workout.points) * 6 + 40 %}
                             <div class="workoutPanel">
-                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('d.m.Y') }}</a>
+                                <a href="{{ path('show_workout', {'id': workout.id}) }}" style="opacity: {{ opacity }}%">{{ workout.date|date('d.m.Y') }}</a>
                             </div>
                         {% endfor %}
                     </div>
