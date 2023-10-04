@@ -15,24 +15,43 @@
     {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ 1) %}
     <div class="month-navigation">
         <a id="prev-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date_modify('-1 month')|date('d-m-Y') }) }}">Vorheriger Monat</a>
-        <span>Aktueller Monat</span>
+        <span>{{ (currentDate)|date('F')}}</span>
         <a id="next-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date_modify('+1 month')|date('d-m-Y') }) }}">Nächster Monat</a>
     </div>
     <table class="calendar">
-        {% if workouts %}
-            {% for workout in workouts %}
-                {{ workout.date|date('d.m.Y') }}
-            {% endfor %}
-        {% endif %}
+    {% if workouts %}
         {% for day in 1..days %}
             {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ day) %}
             <tr>
-                <td class="calendar-day {% if currentDate|date('m') != currentMonth %}other-month{% endif %}"
-                    data-date="{{ currentDate|date('Y-m-d') }}">
-                    {{ currentDate|date('d.m.Y') }}
+                <td class="calendar-day {% if currentDate|date('m') != currentMonth %}other-month{% endif %}" data-date="{{ currentDate|date('Y-m-d') }}">
+                    {% set temp = "" %}
+                    {% set isLink = false %}
+                    {% for workout in workouts %}
+                        {% if workout.date == currentDate %}
+                            <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('d.m.Y') }}</a>
+                            {% set temp = workout %}
+                            {% set isLink = true %}
+                        {% else %}
+                            {% set temp = currentDate|date('d.m.Y') %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if isLink == false %}
+                        {{ temp|date('d.m.Y') }}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
+    {% endif %}
+
+        {# for all days of month   
+            for all workouts
+                if workout.day = day
+                    LINK ""
+                else
+                    "" #}
+            
+
+
     </table>
 </div>
 {% endblock %}

@@ -36,6 +36,15 @@ class CalendarController extends AbstractController
         $currentYear = $date->format('Y');
         $days = cal_days_in_month(0, $currentMonth, $currentYear);
 
+        $tempdates = $this->workouts;
+        $this->workouts = [];
+        foreach ($tempdates as $workout) {
+            $date = $workout->getDate();
+            if ($date && $date->format('m') == $currentMonth && $date->format('Y') == $currentYear) {
+                $this->workouts[] = $workout;
+            }
+        }
+
         return [
             'currentMonth' => $currentMonth,
             'currentYear' => $currentYear,
