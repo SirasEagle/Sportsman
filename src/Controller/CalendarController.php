@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Workout;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CalendarController extends AbstractController
 {
@@ -22,51 +21,45 @@ class CalendarController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/calendar', name: 'app_calendar')]
-    public function viewCalendar(Request $request): Response
+    private function loadWorkoutsIfNotLoaded()
     {
-        $date = new DateTime('now');
         if (!$this->loaded) {
             $calendarRepository = $this->entityManager->getRepository(Workout::class);
             $this->workouts = $calendarRepository->findAll();
+            $this->loaded = true;
         }
+    }
 
-        // Beispiel: Aktuellen Monat und Jahr ermitteln (ersetzen Sie dies durch Ihre eigene Logik):
-        $currentDay = $date->format('d'); // Aktueller Monat
-        $currentMonth = $date->format('m'); // Aktueller Monat
-        $currentYear = $date->format('Y'); // Aktuelles Jahr
-        $days = cal_days_in_month( 0, $currentMonth, $currentYear);
+    private function getCurrentMonthData(DateTime $date)
+    {
+        $currentMonth = $date->format('m');
+        $currentYear = $date->format('Y');
+        $days = cal_days_in_month(0, $currentMonth, $currentYear);
 
-        return $this->render('calendar/view.html.twig', [
-            'currentDay' => $currentDay,
+        return [
             'currentMonth' => $currentMonth,
             'currentYear' => $currentYear,
             'days' => $days,
             'workouts' => $this->workouts,
-        ]);
+        ];
+    }
+
+    #[Route('/calendar', name: 'app_calendar')]
+    public function viewCalendar(Request $request): Response
+    {
+        $this->loadWorkoutsIfNotLoaded();
+        $date = new DateTime('now');
+        $data = $this->getCurrentMonthData($date);
+
+        return $this->render('calendar/view.html.twig', $data);
     }
 
     #[Route('/calendar/{date}', name: 'app_calendar_date')]
     public function viewCalendarDate(Request $request, DateTime $date): Response
     {
-        
-        if (!$this->loaded) {
-            $calendarRepository = $this->entityManager->getRepository(Workout::class);
-            $this->workouts = $calendarRepository->findAll();
-        }
-        
-        // Beispiel: Aktuellen Monat und Jahr ermitteln (ersetzen Sie dies durch Ihre eigene Logik):
-        $currentDay = $date->format('d'); // Aktueller Monat
-        $currentMonth = $date->format('m'); // Aktueller Monat
-        $currentYear = $date->format('Y'); // Aktuelles Jahr
-        $days = cal_days_in_month( 0, $currentMonth, $currentYear);
+        $this->loadWorkoutsIfNotLoaded();
+        $data = $this->getCurrentMonthData($date);
 
-        return $this->render('calendar/view.html.twig', [
-            'currentDay' => $currentDay,
-            'currentMonth' => $currentMonth,
-            'currentYear' => $currentYear,
-            'days' => $days,
-            'workouts' => $this->workouts,
-        ]);
+        return $this->render('calendar/view.html.twig', $data);
     }
 }

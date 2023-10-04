@@ -12,7 +12,7 @@
 
 {% block body %}
 <div class="calendar-wrapper">
-    {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ currentDay) %}
+    {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ 1) %}
     <div class="month-navigation">
         <a id="prev-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date_modify('-1 month')|date('d-m-Y') }) }}">Vorheriger Monat</a>
         <span>Aktueller Monat</span>
@@ -25,10 +25,11 @@
             {% endfor %}
         {% endif %}
         {% for day in 1..days %}
+            {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ day) %}
             <tr>
                 <td class="calendar-day {% if currentDate|date('m') != currentMonth %}other-month{% endif %}"
                     data-date="{{ currentDate|date('Y-m-d') }}">
-                    {{ day }} , {{ currentDate|date('d.m.Y') }}
+                    {{ currentDate|date('d.m.Y') }}
                 </td>
             </tr>
         {% endfor %}
