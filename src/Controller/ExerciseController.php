@@ -136,7 +136,6 @@ class ExerciseController extends AbstractController
                 throw $this->createNotFoundException('Exercise not found');
             }
             
-            // Hier rufen wir die Units für die gegebene Exercise ab
             $unitRepository = $this->entityManager->getRepository(Unit::class);
             $units = $unitRepository->findBy(['exercise' => $exercise]);
 

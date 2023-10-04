@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kalender{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
+{% endblock %}
+{# {% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/calendar.js') }}"></script>
+{% endblock %} #}
+
+{% block body %}
+<div class="calendar-wrapper">
+    <div class="month-navigation">
+        <a id="prev-month-link" href="{{ path('app_calendar', { 'month': currentMonth - 1 }) }}">Vorheriger Monat</a>
+        <span>Aktueller Monat</span>
+        <a id="next-month-link" href="{{ path('app_calendar', { 'month': currentMonth + 1 }) }}">Nächster Monat</a>
+    </div>
+    <table class="calendar">
+        {% if workouts %}
+            {% for workout in workouts %}
+                {{ workout.date|date('d.m.Y') }}
+            {% endfor %}
+        {% endif %}
+        {% for day in 1..31 %}
+            {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ day) %}
+            <tr>
+                <td class="calendar-day {% if currentDate|date('m') != currentMonth %}other-month{% endif %}"
+                    data-date="{{ currentDate|date('Y-m-d') }}">
+                    {{ day }} , {{ currentDate|date('d.m.Y') }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
