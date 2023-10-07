@@ -124,9 +124,9 @@ class ExerciseController extends AbstractController
     }
 
     /**
-     * @Route("/exercise/median", name="median_exercise")
+     * @Route("/exercise/median/{id}", name="median_exercise")
      */
-    public function median(Request $request)
+    public function median(Request $request, int $id)
     {
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercises = $exerciseRepository->findAll();
@@ -150,7 +150,7 @@ class ExerciseController extends AbstractController
             $this->entityManager->persist($exercise);
             $this->entityManager->flush();
         }
-        return $this->redirectToRoute('index_exercise');
+        return $this->redirectToRoute('points_workout', array('id' => $id));
     }
 
     /**

@@ -109,9 +109,9 @@ class WorkoutController extends AbstractController
     }
 
     /**
-     * @Route("/workout/points", name="points_workout")
+     * @Route("/workout/points/{id}", name="points_workout")
      */
-    public function points(Request $request)
+    public function points(Request $request, int $id)
     {
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $workouts = $workoutRepository->findAll();
@@ -124,28 +124,18 @@ class WorkoutController extends AbstractController
             $points = 0;
             $units = $workout->getUnits();
             foreach ($units as $unit) {
+                $temp = 0;
                 $points++;
+                $temp += $unit->getSet1();
+                $temp += $unit->getSet2();
+                $temp += $unit->getSet3();
+                $points += ($temp / 3) / $unit->getExercise()->getMedian();
             }
             $workout->setPoints($points);
             $this->entityManager->persist($workout);
             $this->entityManager->flush();
-            
-            // // Hier rufen wir die Units für die gegebene Exercise ab
-            // $unitRepository = $this->entityManager->getRepository(Unit::class);
-            // $units = $unitRepository->findBy(['exercise' => $exercise]);
-
-            // $median = 0;
-            // foreach ($units as $unit) {
-            //     $median += $unit->getSet1();
-            //     $median += $unit->getSet2();
-            //     $median += $unit->getSet3();
-            // }
-            // $median = ($median / (count($units) * 3));
-            // $exercise->setMedian((float)$median);
-            // $this->entityManager->persist($exercise);
-            // $this->entityManager->flush();
         }
-        return $this->redirectToRoute('index_workout');
+        return $this->redirectToRoute('show_workout', array('id' => $id));
     }
 
     /**
