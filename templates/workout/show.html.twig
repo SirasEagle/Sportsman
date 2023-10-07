@@ -18,19 +18,19 @@
 
    <table class="workoutTable">
       <tr>
-         <th>Exercise</th>
+         <th>Übung</th>
          <th>Set1</th>
          <th>Set3</th>
          <th>Set3</th>
          <th>Info</th>
       </tr>
       {% for unit in workout.units %}
-         <tr ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">
-            <td>{{ unit.exercise.name }}</td>
-            <td>{{ unit.set1 }}</td>
-            <td>{{ unit.set2 }}</td>
-            <td>{{ unit.set3 }}</td>
-            <td>{{ unit.info }}</td>
+         <tr>
+            <td  onclick="window.location.href = '{{ path('show_exercise', {'id': unit.exercise.id}) }}';" style="cursor: pointer;">{{ unit.exercise.name }}</td>
+            <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">{{ unit.set1 }}</td>
+            <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">{{ unit.set2 }}</td>
+            <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">{{ unit.set3 }}</td>
+            <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">{{ unit.info }}</td>
          </tr>
       {% endfor %}
    </table>
@@ -54,6 +54,7 @@
       </table>
       <button id="saveUnitToExercise">Speichern</button>
    </div>
+   <a href="{{ path('median_exercise', {'id': workout.id}) }}" class="button"> Berechne Durchschnitte</a>
 </div>
 
 {% endblock %}
