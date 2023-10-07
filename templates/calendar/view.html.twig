@@ -15,28 +15,23 @@
         <a id="next-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date_modify('+1 month')|date('d-m-Y') }) }}">Nächster Monat</a>
     </div>
     <table class="calendar">
-        {% if workouts %}
-            {% for day in 1..days %}
-                {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ day) %}
-                <tr>
-                    <td class="calendar-day {% if currentDate|date('m') != currentMonth %}other-month{% endif %}" data-date="{{ currentDate|date('Y-m-d') }}">
-                        {% set temp = "" %}
-                        {% set isLink = false %}
-                        {% for workout in workouts %}
-                            {% if workout.date == currentDate %}
-                                <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('d.m.Y') }} - {{ workout.points }} - {{ workout.user.name }}</a><br>
-                                {% set isLink = true %}
-                            {% else %}
-                                {% set temp = currentDate|date('d.m.Y') %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if isLink == false %}
-                            {{ temp|date('d.m.Y') }}
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        {% endif %}
+        {% for day in 1..days %}
+            {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ day) %}
+            <tr>
+                <td class="calendar-day {% if currentDate|date('m') != currentMonth %}other-month{% endif %}" data-date="{{ currentDate|date('Y-m-d') }}">
+                    {% set hasWorkout = false %}
+                    {% for workout in workouts %}
+                        {% if workout.date == currentDate %}
+                            {% set hasWorkout = true %}
+                            <a href="{{ path('show_workout', {'id': workout.id}) }}">{{ workout.date|date('d.m.Y') }} - {{ workout.points }} - {{ workout.user.name }}</a><br>
+                        {% endif %} 
+                    {% endfor %}
+                    {% if hasWorkout == false %}
+                        {{ currentDate|date('d.m.Y') }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
     </table>
 </div>
 {% endblock %}
