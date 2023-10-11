@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Workout;
+use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -15,6 +16,7 @@ class CalendarController extends AbstractController
     private $entityManager;
     private $loaded = false;
     private $workouts = [];
+    private $userId = 0;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -40,16 +42,24 @@ class CalendarController extends AbstractController
         $this->workouts = [];
         foreach ($tempdates as $workout) {
             $date = $workout->getDate();
-            if ($date && $date->format('m') == $currentMonth && $date->format('Y') == $currentYear) {
+            if (($workout->getUser()->getId() == $this->userId) && $date && $date->format('m') == $currentMonth && $date->format('Y') == $currentYear) {
                 $this->workouts[] = $workout;
             }
         }
+
+        // fetching the users
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $user0 = $userRepository->find(0);
+        $user1 = $userRepository->find(1);
 
         return [
             'currentMonth' => $currentMonth,
             'currentYear' => $currentYear,
             'days' => $days,
             'workouts' => $this->workouts,
+            'activeUser' => $this->userId,
+            'user0' => $user0,
+            'user1' => $user1,
         ];
     }
 
@@ -63,10 +73,11 @@ class CalendarController extends AbstractController
         return $this->render('calendar/view.html.twig', $data);
     }
 
-    #[Route('/calendar/{date}', name: 'app_calendar_date')]
-    public function viewCalendarDate(Request $request, DateTime $date): Response
+    #[Route('/calendar/{date}/{user}', name: 'app_calendar_date')]
+    public function viewCalendarDate(Request $request, DateTime $date, int $user): Response
     {
         $this->loadWorkoutsIfNotLoaded();
+        $this->userId = $user;
         $data = $this->getCurrentMonthData($date);
 
         return $this->render('calendar/view.html.twig', $data);

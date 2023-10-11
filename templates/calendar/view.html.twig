@@ -9,10 +9,14 @@
 {% block body %}
 <div class="calendar-wrapper">
     {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ 1) %}
+    <div class="tabs">
+        <a class="tab {% if activeUser == 0 %}active-tab{% endif %}" id="prev-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date('d-m-Y'), 'user': 0 }) }}">{{ user0.name }}</a>
+        <a class="tab {% if activeUser == 1 %}active-tab{% endif %}" id="next-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date('d-m-Y'), 'user': 1 }) }}">{{ user1.name }}</a>
+    </div>
     <div class="month-navigation">
-        <a id="prev-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date_modify('-1 month')|date('d-m-Y') }) }}">Vorheriger Monat</a>
+        <a id="prev-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date_modify('-1 month')|date('d-m-Y'), 'user': activeUser }) }}">Vorheriger Monat</a>
         <span>{{ (currentDate)|date('F')}}</span>
-        <a id="next-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date_modify('+1 month')|date('d-m-Y') }) }}">Nächster Monat</a>
+        <a id="next-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date_modify('+1 month')|date('d-m-Y'), 'user': activeUser }) }}">Nächster Monat</a>
     </div>
     <table class="calendar">
         {% for day in 1..days %}
