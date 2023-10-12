@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\MuscleGroup;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,10 +48,17 @@ class CalendarController extends AbstractController
             }
         }
 
+        $monthPoints = 0;
+        foreach ($this->workouts as $workout) {
+            $monthPoints += $workout->getPoints();
+        }
+
         // fetching the users
         $userRepository = $this->entityManager->getRepository(User::class);
         $user0 = $userRepository->find(0);
         $user1 = $userRepository->find(1);
+
+        $bree = $this->bubi($date);
 
         return [
             'currentMonth' => $currentMonth,
@@ -58,9 +66,34 @@ class CalendarController extends AbstractController
             'days' => $days,
             'workouts' => $this->workouts,
             'activeUser' => $this->userId,
+            'monthPoints' => $monthPoints,
             'user0' => $user0,
             'user1' => $user1,
         ];
+    }
+
+    private function bubi(DateTime $date)
+    {
+        $muscleGroupRepository = $this->entityManager->getRepository(MuscleGroup::class);
+        $muscleGroups = $muscleGroupRepository->findAll();
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $user = $userRepository->find($this->userId);
+
+        foreach ($this->workouts as $workout) {
+            foreach ($workout->getUnits() as $unit) {
+                foreach ($user->getLastMuscleGroups() as $currentGroup) {
+                    // var_dump($currentGroup->getMuscleGroup()->getTerm());
+                    if ($currentGroup->getMuscleGroup()->getId() == $unit->getExercise()->getMuscleGroup()->getId()) {
+                        if ($currentGroup->getDate() < $workout->getDate()) {
+                            $currentGroup->setDate($workout->getDate());
+                            $this->entityManager->persist($currentGroup);
+                            $this->entityManager->flush();
+                        }
+                    }
+                }
+            }
+        }
+        // exit;
     }
 
     #[Route('/calendar', name: 'app_calendar')]
