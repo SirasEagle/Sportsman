@@ -25,9 +25,13 @@ class User
     #[ORM\OneToMany(targetEntity: Workout::class, mappedBy: 'user')]
     private ?Collection $workouts;
 
+    #[ORM\OneToMany(targetEntity: UserLastMuscleGroup::class, mappedBy: 'user')]
+    private ?Collection $lastMuscleGroups;
+
     public function __construct()
     {
         $this->workouts = new ArrayCollection();
+        $this->lastMuscleGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,5 +93,37 @@ class User
     {
         $this->workouts->removeElement($workout);
         $workout->setUser(null);
+    }
+
+    /**
+     * @return Collection|UserLastMuscleGroup[]
+     */
+    public function getLastMuscleGroups(): ?Collection
+    {
+        return $this->lastMuscleGroups ?? new ArrayCollection();
+    }
+
+    /**
+     * Add an lastMuscleGroup to the muscle-group.
+     *
+     * @param UserLastMuscleGroup $lastMuscleGroup
+     */
+    public function addLastMuscleGroup(UserLastMuscleGroup $lastMuscleGroup): void
+    {
+        if (!$this->lastMuscleGroups->contains($lastMuscleGroup)) {
+            $this->lastMuscleGroups->add($lastMuscleGroup);
+            $lastMuscleGroup->setUser($this);
+        }
+    }
+
+    /**
+     * Remove an lastMuscleGroup from the muscle-group.
+     *
+     * @param UserLastMuscleGroup $lastMuscleGroup
+     */
+    public function removeLastMuscleGroup(UserLastMuscleGroup $lastMuscleGroup): void
+    {
+        $this->lastMuscleGroups->removeElement($lastMuscleGroup);
+        $lastMuscleGroup->setUser(null);
     }
 }
