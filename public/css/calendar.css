@@ -6,3 +6,16 @@
    --main-light: var(--red-light);
    --main-light-transparent: var(--red-light-transparent);
 }
+
+/* user selection tabs =========================================================================================== */
+.tabs {
+   display: flex;
+   gap: 10px;
+}
+.tab {
+   padding: 10px;
+   cursor: pointer;
+}
+.active-tab {
+   background-color: var(--black-transparent);
+}
