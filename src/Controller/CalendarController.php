@@ -24,13 +24,21 @@ class CalendarController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Loads all workout entries into the private array $workouts
+     */
     private function loadWorkoutsIfNotLoaded()
     {
         if (!$this->loaded) {
-            $calendarRepository = $this->entityManager->getRepository(Workout::class);
-            $this->workouts = $calendarRepository->findAll();
-            $this->loaded = true;
+            try {
+                $calendarRepository = $this->entityManager->getRepository(Workout::class);
+                $this->workouts = $calendarRepository->findAll();
+                $this->loaded = true;
+            } catch (\Throwable $th) {
+                printf("[e250419-001] Failed to load workouts from the database");
+            }
         }
+        exit;
     }
 
     private function getCurrentMonthData(DateTime $date)
