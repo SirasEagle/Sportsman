@@ -3,18 +3,21 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 SETUP________________________________________________________________
-XAMPP: start Apache and MySQL
-To start the Server, navigate into the project folder and type:
-[symfony server:start]
+> XAMPP: start Apache and MySQL
+> To start the Server, navigate into the project folder and type:
+    symfony server:start
+> open http://localhost:8000/calendar
+> for help:
+    .\bin\console
 
-php .\bin\console //for help
 
+Entity generation____________________________________________________
 
-Entity generieren____________________________________________________
-
-php .\bin\console make:entity 
-php bin/console make:migration
-php bin/console doctrine:migrations:migrate
+> php .\bin\console make:entity 
+> php bin/console make:migration
+> php bin/console doctrine:migrations:migrate
+> mark all migrations as not executed (use with caution)
+    php bin/console doctrine:migrations:version --delete --all
 
 Controller__________________
 
