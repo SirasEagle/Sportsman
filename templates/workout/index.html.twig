@@ -16,6 +16,9 @@
     <div class="tabs">
         <div class="tab active-tab" id="tab1">{{ user0.name }}</div>
         <div class="tab" id="tab2">{{ user1.name }}</div>
+        <div onclick="window.location.href = '{{ path('index_user') }}';" class="tab">
+            <a href="{{ path('index_user') }}">Users</a>
+        </div>
     </div>
     <div class="tab-content">
         <div class="tab1-content" style="display: block;">
