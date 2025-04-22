@@ -35,10 +35,9 @@ class CalendarController extends AbstractController
                 $this->workouts = $calendarRepository->findAll();
                 $this->loaded = true;
             } catch (\Throwable $th) {
-                printf("[e250419-001] Failed to load workouts from the database");
+                printf("[e250419-001] %s\n", $th->getMessage());
             }
         }
-        exit;
     }
 
     private function getCurrentMonthData(DateTime $date)
