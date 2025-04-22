@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+{% endblock %}
+{% block body %}
+
+<div class="example-wrapper">
+    <h2>Users</h2>
+    <a href="{{ path('new_user') }}" class="button">New User</a>
+
+    {% if users %}
+        <h3>{{ "All" }}</h3>
+        <div>
+            {% for user in users %}
+                <div>
+                    <div>{{ user.name }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+
+
+
+
+
+</div>
+{% endblock %}
