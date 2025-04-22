@@ -140,12 +140,14 @@ class ExerciseController extends AbstractController
             $units = $unitRepository->findBy(['exercise' => $exercise]);
 
             $median = 0;
-            foreach ($units as $unit) {
-                $median += $unit->getSet1();
-                $median += $unit->getSet2();
-                $median += $unit->getSet3();
+            if ($units) {
+                foreach ($units as $unit) {
+                    $median += $unit->getSet1();
+                    $median += $unit->getSet2();
+                    $median += $unit->getSet3();
+                }
+                $median = ($median / (count($units) * 3));
             }
-            $median = ($median / (count($units) * 3));
             $exercise->setMedian((float)$median);
             $this->entityManager->persist($exercise);
             $this->entityManager->flush();
