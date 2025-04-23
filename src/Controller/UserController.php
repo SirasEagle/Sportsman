@@ -22,7 +22,7 @@ class UserController extends AbstractController
     #[Route('/user', name: 'index_user')]
     public function index(): Response
     {
-        // TODO: check if a user exists
+        // check if a user exists
         $userRepository = $this->entityManager->getRepository(User::class);
         $anyUser = $userRepository->findOneBy([]);
         if (!$anyUser) {
@@ -54,6 +54,7 @@ class UserController extends AbstractController
             $this->entityManager->flush();
 
             // TODO: redirect to user show
+            // TODO: make multiple users possible
             // return $this->redirectToRoute('show_exercise', ['id' => $exercise->getId()]);
             return $this->redirectToRoute('index_user');
         }

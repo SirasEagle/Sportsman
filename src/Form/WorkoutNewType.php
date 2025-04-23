@@ -28,8 +28,8 @@ class WorkoutNewType extends AbstractType
             ])
             ->add('user', ChoiceType::class, [
                 'choices' => [
-                    'Adrian' => 0,
-                    'Angelina' => 1,
+                    'Adrian' => 1,
+                    'Angelina' => 2,
                 ],
                 'expanded' => true, // Anzeigen als Radio-Buttons
                 'label' => 'Choose user:',
@@ -37,7 +37,7 @@ class WorkoutNewType extends AbstractType
                 'mapped' => false
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Submit',
+                'label' => 'Speichern',
                 'attr' => ['class' => 'abc'],
             ])
         ;

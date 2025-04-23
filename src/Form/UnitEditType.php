@@ -30,7 +30,7 @@ class UnitEditType extends AbstractType
             ])
             // ->add('workout')
             ->add('submit', SubmitType::class, [
-                'label' => 'Submit',
+                'label' => 'Speichern',
                 'attr' => ['class' => 'abc'],
             ])
         ;

@@ -24,7 +24,7 @@ class LuckyController extends AbstractController
         $number = random_int(0, $num);
         // start
         $date = new Date(new \DateTime('2022-10-10'));
-        $amount = new Amount('1500', 'Euro'); //TODO where to insert?
+        $amount = new Amount('1500', 'Euro'); //TODO: remove this part; where to insert?
         
         $doc = new Document(Document::TYPE_COMFORT);
         $doc->getHeader()->setId('RE1337'); // Set invoice No.

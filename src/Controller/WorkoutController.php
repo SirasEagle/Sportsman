@@ -41,14 +41,14 @@ class WorkoutController extends AbstractController
         });
 
         // fetching the users
-        $user0 = $userRepository->find(0);
-        $user1 = $userRepository->find(1);
+        $user0 = $userRepository->find(1);
+        $user1 = $userRepository->find(2);
 
         // splitting the workouts into users
         $workoutsUser0 = [];
         $workoutsUser1 = [];
         foreach ($workouts as $workout) {
-            if ($workout->getUser()->getId() === 0) {
+            if ($workout->getUser()->getId() === 1) {
                 $workoutsUser0[] = $workout;
             } else {
                 $workoutsUser1[] = $workout;
@@ -73,13 +73,12 @@ class WorkoutController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Werte aus dem Formular holen und in das workout-Objekt schreiben
             $workout = $form->getData();
 
-            // Holen Sie den ausgewählten Wert für 'user' aus dem Formular
             $selectedUserId = $form->get('user')->getData();
             $user = $this->entityManager->getRepository(User::class)->find($selectedUserId);
             $workout->setUser($user);
+            $workout->setPoints(0);
 
             // check if date already exists within other workouts
             $workoutRepository = $this->entityManager->getRepository(Workout::class);

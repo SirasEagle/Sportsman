@@ -62,8 +62,8 @@ class CalendarController extends AbstractController
 
         // fetching the users
         $userRepository = $this->entityManager->getRepository(User::class);
-        $user0 = $userRepository->find(0);
-        $user1 = $userRepository->find(1);
+        $user0 = $userRepository->find(1);
+        $user1 = $userRepository->find(2);
 
         $bree = $this->bubi($date);
 

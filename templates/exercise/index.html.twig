@@ -17,7 +17,7 @@
                 {# {{ "I like Twig.\nYou will like it too."|nl2br }} #}
                 {% for exercise in exercises %}
                     <div class="exercisePanel">
-                        <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{% if exercise.name|length > 16 %}{{ exercise.nameShort }}{% else %}{{ exercise.name }}{% endif %}</a>
+                        <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{% if exercise.name|length > 14 %}{{ exercise.nameShort }}{% else %}{{ exercise.name }}{% endif %}</a>
                     </div>
                 {% endfor %}
             </div>
@@ -29,7 +29,7 @@
         <div class="exercise-container">
             {% for exercise in exercises %}
                 <div class="exercisePanel">
-                    <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{% if exercise.name|length > 16 %}{{ exercise.nameShort }}{% else %}{{ exercise.name }}{% endif %}</a>
+                    <a href="{{ path('show_exercise', {'id': exercise.id}) }}">{% if exercise.name|length > 14 %}{{ exercise.nameShort }}{% else %}{{ exercise.name }}{% endif %}</a>
                 </div>
             {% endfor %}
         </div>
