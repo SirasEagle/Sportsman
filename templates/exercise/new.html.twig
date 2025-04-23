@@ -9,6 +9,12 @@
 
 {% block body %}
 <div class="example-wrapper">
+    <div>
+        <a href="{{ path('new_muscle_group') }}" class="button">Neue MuscleGroup</a>
+    </div>
+    <div>
+        <a href="{{ path('index_muscle_group') }}" class="button">MuscleGroups</a>
+    </div>
    {{ form(form) }}
 </div>
 {% endblock %}
