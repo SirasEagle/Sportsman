@@ -11,17 +11,22 @@ SETUP________________________________________________________________
     .\bin\console
 
 
-Entity generation____________________________________________________
+AUTOMATIC_GENERATION_________________________________________________
 
-> php .\bin\console make:entity 
+    > entity 1      php .\bin\console make:entity
+    > entity 2      symfony console make:entity Name
+    > controller    symfony console make:controller ConferenceController
+    > form          symfony console make:form FormName
+    > command       symfony console make:command CommandName
+
+
+MIGRATIONS___________________________________________________________
+
 > php bin/console make:migration
 > php bin/console doctrine:migrations:migrate
 > mark all migrations as not executed (use with caution)
     php bin/console doctrine:migrations:version --delete --all
 
-Controller__________________
-
-symfony console make:controller ConferenceController
 
 TIPS_________________________________________________________________
 
