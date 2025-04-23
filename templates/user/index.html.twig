@@ -10,7 +10,6 @@
 <div class="example-wrapper">
     <h2>Users</h2>
     <a href="{{ path('new_user') }}" class="button">New User</a>
-
     {% if users %}
         <h3>{{ "All" }}</h3>
         <div>
@@ -21,12 +20,5 @@
             {% endfor %}
         </div>
     {% endif %}
-
-
-
-
-
-
-
 </div>
 {% endblock %}

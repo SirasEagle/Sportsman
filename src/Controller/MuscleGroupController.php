@@ -22,8 +22,17 @@ class MuscleGroupController extends AbstractController
     #[Route('/musclegroup', name: 'index_muscle_group')]
     public function index(): Response
     {
+        $mgroupRepository = $this->entityManager->getRepository(MuscleGroup::class);
+        $anyMg = $mgroupRepository->findOneBy([]);
+        if (!$anyMg) {
+            // no muscle group, create new muscle group
+            return $this->redirectToRoute('new_muscle_group');
+        }
+
+        $musclegroups = $mgroupRepository->findAll();
+
         return $this->render('muscle_group/index.html.twig', [
-            'controller_name' => 'MuscleGroupController',
+            'musclegroups' => $musclegroups,
         ]);
     }
 
