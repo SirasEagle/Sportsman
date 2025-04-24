@@ -2,3 +2,16 @@
 .abc {
    padding: 5px;
 }
+
+/* styling for general input/selection fields */
+.mg-add-rows {
+   padding: 10px;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-end;
+}
+
+/* headline specific styling */
+.form-header {
+   padding: 10px;
+}
