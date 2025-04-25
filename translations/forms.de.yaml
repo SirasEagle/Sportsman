@@ -11,6 +11,7 @@ exercise:
     name: "Name"
     description: "Beschreibung"
     muscle_group: "Muskelgruppe"
+    uses_weight: "Verwendet Gewichte"
     submit: "Speichern"
 
 muscle_group:

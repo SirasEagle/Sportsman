@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ExerciseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExerciseRepository::class)]
@@ -20,6 +21,9 @@ class Exercise
 
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $usesWeight = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageLink = null;
@@ -66,6 +70,18 @@ class Exercise
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUsesWeight(): ?bool
+    {
+        return $this->usesWeight;
+    }
+
+    public function setUsesWeight(?bool $usesWeight): self
+    {
+        $this->usesWeight = $usesWeight;
 
         return $this;
     }

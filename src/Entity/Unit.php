@@ -34,6 +34,12 @@ class Unit
     #[ORM\Column(nullable: true)]
     private ?int $set3 = null;
 
+    /**
+     * the weight of dumbbells for example
+     */
+    #[ORM\Column(nullable: true)]
+    private ?float $weight = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $info = null;
 
@@ -100,6 +106,18 @@ class Unit
     public function setSet3(?int $set3): self
     {
         $this->set3 = $set3;
+
+        return $this;
+    }
+
+    public function getWeight(): ?float
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(?float $weight): self
+    {
+        $this->weight = $weight;
 
         return $this;
     }
