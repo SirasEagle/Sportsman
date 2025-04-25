@@ -18,22 +18,26 @@ class ExerciseNewType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name:',
+                'label' => 'exercise.name',
                 'attr' => ['class' => 'abc'],
+                'row_attr' => ['class' => 'mg-add-rows'],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description:',
+                'label' => 'exercise.description',
                 'attr' => ['class' => 'abc'],
+                'row_attr' => ['class' => 'mg-add-rows'],
             ])
             ->add('muscleGroup', EntityType::class, [
-                'label' => 'Muskelgruppe:',
+                'label' => 'exercise.muscle_group',
                 'class' => MuscleGroup::class,
                 'choice_label' => 'term', // This is the property of MuscleGroup to display as option label
                 'attr' => ['class' => 'abc'],
+                'row_attr' => ['class' => 'mg-add-rows'],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Submit',
+                'label' => 'exercise.submit',
                 'attr' => ['class' => 'abc'],
+                'row_attr' => ['class' => 'mg-add-rows'],
             ])
         ;
     }
@@ -42,6 +46,7 @@ class ExerciseNewType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Exercise::class,
+            'translation_domain' => 'forms',
         ]);
     }
 }
