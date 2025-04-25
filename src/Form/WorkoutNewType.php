@@ -56,6 +56,7 @@ class WorkoutNewType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Workout::class,
+            'translation_domain' => 'forms',
         ]);
     }
 }
