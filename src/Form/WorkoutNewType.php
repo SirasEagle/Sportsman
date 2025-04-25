@@ -16,36 +16,38 @@ class WorkoutNewType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // TODO: nicht 1/2
         $builder
             ->add('date', DateType::class, [
+                'label' => 'workout_new.date',
                 'widget' => 'single_text', // Datepicker anzeigen
                 'data' => new \DateTime(), // Hier wird das aktuelle Datum eingestellt
                 'row_attr' => ['class' => 'mg-add-rows'],
             ])
             ->add('info', TextType::class, [
-                'label' => 'Information',
+                'label' => 'workout_new.info',
                 'required' => false,
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
             ])
             ->add('isReal', CheckboxType::class, [
-                'label' => 'Is it real?',
+                'label' => 'workout_new.is_real',
                 'required' => false,
                 'row_attr' => ['class' => 'mg-add-check'],
             ])
             ->add('user', ChoiceType::class, [
+                'label' => 'workout_new.user',
                 'choices' => [
                     'Adrian' => 1,
                     'Angelina' => 2,
                 ],
                 'expanded' => true, // Anzeigen als Radio-Buttons
-                'label' => 'Choose user:',
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
                 'mapped' => false
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Speichern',
+                'label' => 'workout_new.submit',
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
             ])
