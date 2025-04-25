@@ -35,6 +35,12 @@ class ExerciseNewType extends AbstractType
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
             ])
+            ->add('imageLink', TextType::class, [
+                'label' => 'Link zu beschreibendem Bild:',
+                'required' => false,
+                'attr' => ['class' => 'abc'],
+                'row_attr' => ['class' => 'mg-add-rows'],
+            ])
             ->add('usesWeight', CheckboxType::class, [
                 'label' => 'exercise.uses_weight',
                 'required' => false,
