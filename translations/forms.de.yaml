@@ -3,5 +3,5 @@ workout_new:
     date:         "Datum"
     info:         "Information"
     is_real:      "Ist es real?"
-    user:         "Benutzer auswählen"
+    user:         "Benutzer auswählen:"
     submit:       "Speichern"
