@@ -11,6 +11,11 @@
    justify-content: flex-end;
 }
 
+/* styling for checkbox fields */
+.mg-add-check {
+   padding: 10px;
+}
+
 /* headline specific styling */
 .form-header {
    padding: 10px;
