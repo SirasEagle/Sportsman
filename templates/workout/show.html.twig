@@ -26,11 +26,15 @@
       </tr>
       {% for unit in workout.units %}
          <tr>
-            <td  onclick="window.location.href = '{{ path('show_exercise', {'id': unit.exercise.id}) }}';" style="cursor: pointer;">{{ unit.exercise.name }}</td>
+            <td onclick="window.location.href = '{{ path('show_exercise', {'id': unit.exercise.id}) }}';" style="cursor: pointer;">{{ unit.exercise.name }}</td>
             <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">{{ unit.set1 }}</td>
             <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">{{ unit.set2 }}</td>
             <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">{{ unit.set3 }}</td>
-            <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">{{ unit.info }}</td>
+            <td ondblclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';">
+               {{ unit.exercise.usesWeight ? (unit.weight ~ "kg") : "" }}
+               {{ (unit.exercise.usesWeight and unit.info) ? "; " : "" }}
+               {{ unit.info }}
+            </td>
          </tr>
       {% endfor %}
    </table>
@@ -41,13 +45,14 @@
             <td ALIGN="center">
                <select id="exerciseOption">   
                   {% for exercise in exercises %}
-                     <option value={{ exercise.id }}>{{ exercise.name }}</option>
+                     <option value={{ exercise.id }} data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}">{{ exercise.name }}</option>
                   {% endfor %}
                </select>
             </td>
             <td><div><input id="set1Input" type="number" value="0">Set1</div></td>
             <td><div><input id="set2Input" type="number" value="0">Set2</div></td>
             <td><div><input id="set3Input" type="number" value="0">Set3</div></td>
+            <td id="weightCell" style="display: none;"><div><input id="weightInput" type="text" value="0.0kg">Weight</div></td>
             <td><div><textarea id="unitInfo"></textarea></td>
             <input id="workoutId" type="number" value={{ workout.id }} style="display: none;"></input>
          </tr>

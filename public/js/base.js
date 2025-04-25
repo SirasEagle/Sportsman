@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
    const set2Input = document.getElementById('set2Input');
    const set3Input = document.getElementById('set3Input');
    const exerciseId = document.getElementById('exerciseOption');
+   const weightCell = document.getElementById('weightCell');
+   const weightInput = document.getElementById('weightInput');
    const workoutId = document.getElementById('workoutId');
    const unitInfo = document.getElementById('unitInfo');
 
@@ -19,6 +21,17 @@ document.addEventListener('DOMContentLoaded', function() {
            showTableButton.textContent = "+";
        }
    });
+
+    exerciseId.addEventListener('change', function() {
+        const selected = exerciseId.selectedOptions[0];
+        const usesWeight = selected.dataset.usesWeight === '1';
+        if (usesWeight) {
+            weightCell.style.display = '';   // wieder einblenden
+        } else {
+            weightCell.style.display = 'none';
+            weightInput.value = '0.0kg';     // Reset
+        }
+    });
 
     saveUnitToExercise.addEventListener('click', function() {
         if ((set1Input.value < 0) || (set2Input.value < 0) || (set3Input.value < 0)) {
@@ -34,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     set3: set3Input.value,
                     exId: exerciseId.value,
                     wId: workoutId.value,
+                    unW: weightInput.value,
                     unitInfo: unitInfo.value
                 },
                 success: function(response) {
