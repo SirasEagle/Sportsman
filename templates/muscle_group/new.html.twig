@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Neue MuscleGroup{% endblock %}
+{% trans_default_domain 'forms' %}
+{% block title %}{{ 'muscle_group.new'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -9,6 +10,7 @@
 
 {% block body %}
 <div class="example-wrapper">
+    <h2 class="form-header">{{ 'muscle_group.new'|trans }}</h2>
    {{ form(form) }}
 </div>
 {% endblock %}
