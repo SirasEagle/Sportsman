@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Neue Exercise{% endblock %}
+{% trans_default_domain 'forms' %}
+{% block title %}{{ 'exercise.new'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -9,11 +10,12 @@
 
 {% block body %}
 <div class="example-wrapper">
-    <div>
-        <a href="{{ path('new_muscle_group') }}" class="button">Neue MuscleGroup</a>
+    <h2 class="form-header">{{ 'exercise.new'|trans }}</h2>
+    <div class="link-top">
+        <a href="{{ path('index_muscle_group') }}" class="button">{{ 'muscle_group.plural'|trans }}</a>
     </div>
-    <div>
-        <a href="{{ path('index_muscle_group') }}" class="button">MuscleGroups</a>
+    <div class="link-top">
+        <a href="{{ path('new_muscle_group') }}" class="button">{{ 'muscle_group.new'|trans }}</a>
     </div>
    {{ form(form) }}
 </div>

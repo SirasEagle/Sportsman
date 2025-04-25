@@ -16,6 +16,11 @@
    padding: 10px;
 }
 
+/* href in top part specific styling */
+.link-top {
+   padding: 10px;
+}
+
 /* headline specific styling */
 .form-header {
    padding: 10px;

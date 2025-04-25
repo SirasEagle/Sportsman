@@ -5,3 +5,14 @@ workout_new:
     is_real:      "Ist es real?"
     user:         "Benutzer auswählen:"
     submit:       "Speichern"
+
+exercise:
+    new: "Neue Übung"
+    name: "Name"
+    description: "Beschreibung"
+    muscle_group: "Muskelgruppe"
+    submit: "Speichern"
+
+muscle_group:
+    new: "Neue Muskelgruppe"
+    plural: "Muskelgruppen"
