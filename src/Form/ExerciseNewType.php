@@ -32,6 +32,7 @@ class ExerciseNewType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'exercise.description',
+                'required' => false,
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
             ])
