@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class WorkoutController extends AbstractController
 {
     private $entityManager;
+    private $userId = 1; // TODO: warum? nur weil Adrian ist bis jetzt
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -41,25 +42,26 @@ class WorkoutController extends AbstractController
         });
 
         // fetching the users
-        $user0 = $userRepository->find(1);
-        $user1 = $userRepository->find(2);
+        $users = $userRepository->findAll();
 
-        // splitting the workouts into users
-        $workoutsUser0 = [];
-        $workoutsUser1 = [];
+        // initialise user-workout-arrays
+        $workoutsUsers = [];
+        foreach ($users as $user) {
+            $workoutsUsers[$user->getId()] = [];
+        }
+
+        // assign workouts to users
         foreach ($workouts as $workout) {
-            if ($workout->getUser()->getId() === 1) {
-                $workoutsUser0[] = $workout;
-            } else {
-                $workoutsUser1[] = $workout;
+            $userId = $workout->getUser()?->getId();
+            if ($userId !== null && isset($workoutsUsers[$userId])) {
+                $workoutsUsers[$userId][] = $workout;
             }
         }
 
         return $this->render('workout/index.html.twig', [
-            'workoutsUser0' => $workoutsUser0,
-            'workoutsUser1' => $workoutsUser1,
-            'user0' => $user0,
-            'user1' => $user1,
+            'workoutsUsers' => $workoutsUsers,
+            'users' => $users,
+            'activeUser' => $this->userId,
         ]);
     }
 
