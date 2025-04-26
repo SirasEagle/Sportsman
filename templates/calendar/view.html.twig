@@ -10,8 +10,9 @@
 <div class="calendar-wrapper">
     {% set currentDate = date(currentYear ~ '-' ~ currentMonth ~ '-' ~ 1) %}
     <div class="tabs">
-        <a class="tab {% if activeUser == 1 %}active-tab{% endif %}" id="prev-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date('d-m-Y'), 'user': 1 }) }}">{{ user0.name }}</a>
-        <a class="tab {% if activeUser == 2 %}active-tab{% endif %}" id="next-month-link" href="{{ path('app_calendar_date', { 'date': currentDate|date('d-m-Y'), 'user': 2 }) }}">{{ user1.name }}</a>
+        {% for user in users %}
+            <a class="tab {% if activeUser == user.id %}active-tab{% endif %}" id="prev-month-link-{{ user.id }}" href="{{ path('app_calendar_date', { 'date': currentDate|date('d-m-Y'), 'user': user.id }) }}">{{ user.name }}</a>    
+        {% endfor %}
     </div>
     <div style="display: flex;">
         <div style="width:50%">
@@ -40,6 +41,23 @@
                 {% endfor %}
             </table>
         </div>
+        {# TODO: what's happening here? #}
+        {# <div style="width:50%">
+            <table>
+                {% set currentUser = user0 %}
+                {% if activeUser == 2 %}{% set currentUser = user1 %}{% endif %}
+                {% for muscleGroup in currentUser.lastMuscleGroups %}
+                    <tr>
+                        <td style="padding: 4px; padding-right: 10px;">
+                            {{ muscleGroup.muscleGroup.term }}:
+                        </td>
+                        <td>
+                            {{ muscleGroup.date|date('d.m.Y') }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div> #}
     </div>
 </div>
 {% endblock %}

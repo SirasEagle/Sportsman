@@ -17,7 +17,7 @@ class CalendarController extends AbstractController
     private $entityManager;
     private $loaded = false;
     private $workouts = [];
-    private $userId = 0;
+    private $userId = 1; // TODO: warum? nur weil Adrian ist bis jetzt
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -62,8 +62,7 @@ class CalendarController extends AbstractController
 
         // fetching the users
         $userRepository = $this->entityManager->getRepository(User::class);
-        $user0 = $userRepository->find(1);
-        $user1 = $userRepository->find(2);
+        $users = $userRepository->findAll();
 
         $bree = $this->bubi($date);
 
@@ -74,8 +73,7 @@ class CalendarController extends AbstractController
             'workouts' => $this->workouts,
             'activeUser' => $this->userId,
             'monthPoints' => $monthPoints,
-            'user0' => $user0,
-            'user1' => $user1,
+            'users' => $users,
         ];
     }
 
