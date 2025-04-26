@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Workout{% endblock %}
+{% trans_default_domain 'forms' %}
+{% block title %}{{ 'workout.workout'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -18,7 +19,7 @@
 
    <table class="workoutTable">
       <tr>
-         <th>Übung</th>
+         <th>{{ 'exercise.exercise'|trans }}</th>
          <th>Set1</th>
          <th>Set3</th>
          <th>Set3</th>
@@ -45,14 +46,14 @@
             <td ALIGN="center">
                <select id="exerciseOption">   
                   {% for exercise in exercises %}
-                     <option value={{ exercise.id }} data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}">{{ exercise.name }}</option>
+                     <option value={{ exercise.id }} data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}">{{ exercise.nameMid }}</option>
                   {% endfor %}
                </select>
             </td>
             <td><div><input id="set1Input" type="number" value="0">Set1</div></td>
             <td><div><input id="set2Input" type="number" value="0">Set2</div></td>
             <td><div><input id="set3Input" type="number" value="0">Set3</div></td>
-            <td id="weightCell" style="display: none;"><div><input id="weightInput" type="text" value="0.0kg">Weight</div></td>
+            <td id="weightCell" style="display: none;"><div><input id="weightInput" type="text" value="0.0kg">{{ 'workout.weight'|trans }}</div></td>
             <td><div><textarea id="unitInfo"></textarea></td>
             <input id="workoutId" type="number" value={{ workout.id }} style="display: none;"></input>
          </tr>

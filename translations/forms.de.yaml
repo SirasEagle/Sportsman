@@ -6,7 +6,12 @@ workout_new:
     user:         "Benutzer auswählen:"
     submit:       "Speichern"
 
+workout:
+    workout: "Workout"
+    weight: "Gewicht"
+
 exercise:
+    exercise: "Übung"
     new: "Neue Übung"
     name: "Name"
     description: "Beschreibung"
