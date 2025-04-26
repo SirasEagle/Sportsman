@@ -16,6 +16,14 @@
    padding: 10px;
 }
 
+/* styling for smaller numeric fields*/
+.number-input {
+   padding: 10px;
+}
+.number-input input {
+   margin-left: 15px;
+}
+
 /* href in top part specific styling */
 .link-top {
    padding: 10px;

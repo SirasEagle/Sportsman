@@ -16,10 +16,10 @@
 }
 
 .exercisePanel a {
-   width: 150px;
+   width: 160px;
    background-color: var(--main);
    color: white;
-   padding: 14px 25px;
+   padding: 18px 23px;
    text-align: center;
    text-decoration: none;
    display: inline-block;
