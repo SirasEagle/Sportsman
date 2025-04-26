@@ -40,6 +40,10 @@ class UnitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $unit = $form->getData();
 
+            $weightString = $form->get('weight')->getData();
+            $weight = $this->weightStringToFloat($weightString);
+            $unit->setWeight($weight);
+
             $this->entityManager->persist($unit);
             $this->entityManager->flush();
 
@@ -60,7 +64,7 @@ class UnitController extends AbstractController
         $exerciseId = $request->request->get('exId');
         $workoutId = $request->request->get('wId');
         $weightInput = $request->request->get('unW');
-        $weight = (float) 0;
+        $weight = $this->weightStringToFloat($weightInput);
         $unitInfo = null;
         if ($request->request->get('unitInfo') != '') {
             $unitInfo = $request->request->get('unitInfo');
@@ -70,17 +74,6 @@ class UnitController extends AbstractController
         $exercise = $exerciseRepository->find($exerciseId);
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $workout = $workoutRepository->find($workoutId);
-
-        // convert weight input into float; Regex: 
-        // ^\s*           → Anfang, optionale Leerzeichen
-        // (\d+([.,]\d+)?)→ ein oder mehrere Ziffern, optional gefolgt von Komma/Punkt und weiteren Ziffern
-        // \s*            → optionale Leerzeichen
-        // (?:kg)?        → optional "kg" (nicht-kapturierend)
-        // \s*$           → optionale Leerzeichen bis zum Ende
-        if (preg_match('/^\s*(\d+(?:[.,]\d+)?)\s*(?:kg)?\s*$/i', $weightInput, $matches)) {
-            $normalized = str_replace(',', '.', $matches[1]);
-            $weight = (float) $normalized;
-        }
 
         $unit = new Unit();
         $unit->setSet1($set1);
@@ -96,5 +89,21 @@ class UnitController extends AbstractController
         $this->entityManager->flush();
 
         return new Response('Data saved successfully!', Response::HTTP_OK);
+    }
+
+    public function weightStringToFloat(string $weightString) {
+        $weight = (float) 0;
+
+        // convert weight input into float; Regex: 
+        // ^\s*           → Anfang, optionale Leerzeichen
+        // (\d+([.,]\d+)?)→ ein oder mehrere Ziffern, optional gefolgt von Komma/Punkt und weiteren Ziffern
+        // \s*            → optionale Leerzeichen
+        // (?:kg)?        → optional "kg" (nicht-kapturierend)
+        // \s*$           → optionale Leerzeichen bis zum Ende
+        if (preg_match('/^\s*(\d+(?:[.,]\d+)?)\s*(?:kg)?\s*$/i', $weightString, $matches)) {
+            $normalized = str_replace(',', '.', $matches[1]);
+            $weight = (float) $normalized;
+        }
+        return $weight;
     }
 }
