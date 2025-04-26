@@ -8,6 +8,8 @@ workout_new:
 
 workout:
     workout: "Workout"
+    plural: "Workouts"
+    new: "Neues Workout"
     weight: "Gewicht"
 
 exercise:
@@ -22,3 +24,6 @@ exercise:
 muscle_group:
     new: "Neue Muskelgruppe"
     plural: "Muskelgruppen"
+
+user:
+    plural: "Benutzer"

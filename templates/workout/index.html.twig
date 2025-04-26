@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Workouts{% endblock %}
+{% trans_default_domain 'forms' %}
+{% block title %}{{ 'workout.plural'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -18,15 +19,15 @@
             <div class="tab{% if activeUser == user.id %} active-tab{% endif %}" id="tab{{user.id}}">{{ user.name }}</div>
         {% endfor %}
         <div onclick="window.location.href = '{{ path('index_user') }}';" class="tab">
-            <a href="{{ path('index_user') }}">Users</a>
+            <a href="{{ path('index_user') }}">{{ 'user.plural'|trans }}</a>
         </div>
     </div>
     <div class="tab-content">
         {% for user in users %}
             <div class="tab{{user.id}}-content" {% if activeUser == user.id %}style="display: block;{% endif %}">
                 <div class="example-wrapper">
-                    <h2>Workouts</h2>
-                    <a href="{{ path('new_workout') }}" class="button">Neues Workout</a>
+                    <h2>{{ 'workout.plural'|trans }}</h2>
+                    <a href="{{ path('new_workout') }}" class="button">{{ 'workout.new'|trans }}</a>
                     {% if workoutsUsers[user.id] %}
                         <div class="workout-container">
                             {% for workout in workoutsUsers[user.id] %}

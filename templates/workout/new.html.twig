@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Neues Workout{% endblock %}
+{% trans_default_domain 'forms' %}
+{% block title %}{{ 'workout.new'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
