@@ -19,6 +19,7 @@ exercise:
     description: "Beschreibung"
     muscle_group: "Muskelgruppe"
     uses_weight: "Verwendet Gewichte"
+    weight.kg: "Gewicht (kg)"
     submit: "Speichern"
 
 muscle_group:
@@ -27,3 +28,10 @@ muscle_group:
 
 user:
     plural: "Benutzer"
+
+unit:
+    set1: "Set 1"
+    set2: "Set 2"
+    set3: "Set 3"
+    info: "Information"
+    submit: "Speichern"
