@@ -4,14 +4,6 @@ controllers:
     resource: ../src/Controller/
     type: attribute
 
-
-# uncomment, when stopping to use annotations    
-# app_lucky_number:
-#     path: /lucky/number
-#     controller: App\Controller\LuckyController::number
-#     defaults:
-#         title: "Hello world!"
-
 blog_list:
       path: /blog/{page<\d+>?1} # <\d+> ckecks, if the page element is a decimal; ?1 sets 1 as the default parameter, if there is no parameter
       controller: App\Controller\BlogController::list
