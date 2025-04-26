@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Workout;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +18,6 @@ class WorkoutNewType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // TODO: nicht 1/2
         $builder
             ->add('date', DateType::class, [
                 'label' => 'workout_new.date',
@@ -35,16 +36,14 @@ class WorkoutNewType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'mg-add-check'],
             ])
-            ->add('user', ChoiceType::class, [
+            ->add('user', EntityType::class, [
+                'class' => User::class,
                 'label' => 'workout_new.user',
-                'choices' => [
-                    'Adrian' => 1,
-                    'Angelina' => 2,
-                ],
-                'expanded' => true, // Anzeigen als Radio-Buttons
+                'choice_label' => 'name', // user.name
+                'expanded' => true, // radio-buttons
+                'multiple' => false,
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
-                'mapped' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'workout_new.submit',

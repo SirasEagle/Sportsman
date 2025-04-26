@@ -75,9 +75,7 @@ class WorkoutController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $workout = $form->getData();
 
-            $selectedUserId = $form->get('user')->getData();
-            $user = $this->entityManager->getRepository(User::class)->find($selectedUserId);
-            $workout->setUser($user);
+            // initialise points
             $workout->setPoints(0);
 
             // check if date already exists within other workouts
@@ -85,7 +83,7 @@ class WorkoutController extends AbstractController
             $workouts = $workoutRepository->findAll();
             $workoutsDates = array();
 
-            // // uncomment, if there shoulkd only be one workout with taht date:
+            // // uncomment, if there should only be one workout with that date: TODO:
             // foreach ($workouts as $current) {
             //     // Die getName()-Werte dem neuen Array hinzufügen
             //     $workoutsDates[] = $current->getDate();
