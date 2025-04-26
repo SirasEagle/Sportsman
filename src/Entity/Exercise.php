@@ -55,6 +55,11 @@ class Exercise
         return substr($this->name, 0, 14) . '...';
     }
 
+    public function getNameMid(): ?string
+    {
+        return substr($this->name, 0, 20) . '...';
+    }
+
     public function setName(string $name): self
     {
         $this->name = $name;
