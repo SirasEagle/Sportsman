@@ -64,6 +64,7 @@ class UnitEditType extends AbstractType
                     'label'    => 'exercise.weight.kg',
                     'required' => true,
                     'mapped' => false,
+                    'data'     => $unit->getWeight(),
                     'scale'    => 1,
                     'attr'     => [
                         'min'  => 0,
