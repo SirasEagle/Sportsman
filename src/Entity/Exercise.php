@@ -57,7 +57,14 @@ class Exercise
 
     public function getNameMid(): ?string
     {
-        return substr($this->name, 0, 20) . '...';
+        if ($this->name === null) return null;
+
+        $length = mb_strlen($this->name);
+        if ($length <= 20) {
+            return $this->name;
+        }
+
+        return mb_substr($this->name, 0, 20) . '...';
     }
 
     public function setName(string $name): self
