@@ -34,6 +34,7 @@ class WorkoutNewType extends AbstractType
             ->add('isReal', CheckboxType::class, [
                 'label' => 'workout_new.is_real',
                 'required' => false,
+                'data' => true,
                 'row_attr' => ['class' => 'mg-add-check'],
             ])
             ->add('user', EntityType::class, [
