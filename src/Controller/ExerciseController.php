@@ -108,6 +108,14 @@ class ExerciseController extends AbstractController
     {
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercise = $exerciseRepository->find($id);
+
+        $multiplier = $exercise->getMultiplier();
+        if (!$multiplier) {
+            $multiplier = new Multiplier();
+            $multiplier->setExercise($exercise);
+            $exercise->setMultiplier($multiplier);
+        }
+
         $form = $this->createForm(ExerciseEditType1::class, $exercise);
         $form->handleRequest($request);
 
