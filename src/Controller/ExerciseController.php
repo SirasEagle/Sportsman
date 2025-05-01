@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Exercise;
+use App\Entity\Multiplier;
 use App\Entity\MuscleGroup;
 use App\Entity\Unit;
 use App\Form\ExerciseNewType;
@@ -76,6 +77,10 @@ class ExerciseController extends AbstractController
     public function new(Request $request): Response
     {
         $exercise = new Exercise();
+        $multiplier = new Multiplier();
+        $multiplier->setExercise($exercise);
+        $exercise->setMultiplier($multiplier);
+
         $form = $this->createForm(ExerciseNewType::class, $exercise);
         $form->handleRequest($request);
 

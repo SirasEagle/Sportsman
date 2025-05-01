@@ -35,3 +35,7 @@ unit:
     set3: "Set 3"
     info: "Information"
     submit: "Speichern"
+
+multiplier:
+    addition: "Zusätzliche Punkte pro Eintrag:"
+    multiply_by: "Multipliziere die Basispunkzahl mit.. (0 = nichts)"

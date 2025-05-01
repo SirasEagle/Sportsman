@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Exercise;
 use App\Entity\MuscleGroup;
+use App\Form\MultiplierType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -47,6 +48,12 @@ class ExerciseNewType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'mg-add-check'],
                 'data'     => false,
+            ])
+            ->add('multiplier', MultiplierType::class, [
+                'label' => false, // no label for this container
+                'mapped' => true,
+                'required' => true,
+                'empty_data' => null,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'exercise.submit',
