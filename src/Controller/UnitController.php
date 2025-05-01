@@ -40,9 +40,11 @@ class UnitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $unit = $form->getData();
 
-            $weightString = $form->get('weight')->getData();
-            $weight = $this->weightStringToFloat($weightString);
-            $unit->setWeight($weight);
+            if ($unit->getExercise()->getUsesWeight()) {
+                $weightString = $form->get('weight')->getData();
+                $weight = $this->weightStringToFloat($weightString);
+                $unit->setWeight($weight);
+            }
 
             $this->entityManager->persist($unit);
             $this->entityManager->flush();
