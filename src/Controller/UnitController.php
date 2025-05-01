@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UnitEditType;
+use App\Form\UnitNewType;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Unit;
 use App\Entity\Exercise;
@@ -26,6 +27,46 @@ class UnitController extends AbstractController
     {
         return $this->render('unit/index.html.twig', [
             'controller_name' => 'UnitController',
+        ]);
+    }
+
+    #[Route('/unit/add/{id}', name: 'add_unit')]
+    public function new(Request $request, int $id): Response
+    {
+        $unit = new Unit();
+
+        $today = new \DateTime();
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $currentWorkout = $workoutRepository->findOneBy([
+            'date' => $today,
+            // TODO: check user as well
+        ]);
+        $unit->setWorkout($currentWorkout);
+
+        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+        $exercise = $exerciseRepository->find($id);
+        $unit->setExercise($exercise);
+
+        $form = $this->createForm(UnitNewType::class, $unit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $unit = $form->getData();
+
+            if ($unit->getExercise()->getUsesWeight()) {
+                $weightString = $form->get('weight')->getData();
+                $weight = $this->weightStringToFloat($weightString);
+                $unit->setWeight($weight);
+            }
+
+            $this->entityManager->persist($unit);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('show_workout', ['id' => $unit->getWorkout()->getId()]);
+        }
+
+        return $this->render('unit/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

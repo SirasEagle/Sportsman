@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'forms' %}
 {% block title %}{{ exercise.name }}{% endblock %}
 
 {% block stylesheets %}
@@ -17,7 +18,11 @@
 		{% endif %}
 		<div>{{ exercise.description }}</div>
 		<button onclick="window.location.href = '{{ path('edit_exercise', {'id': exercise.id}) }}';" class="btn editButton">
-			<i class="fa fa-edit"></i> Bearbeiten
+			<i class="fa fa-edit"></i> {{ 'exercise.edit'|trans }}
+		</button>
+		
+		<button onclick="window.location.href = '{{ path('add_unit', {'id': exercise.id}) }}';" class="btn editButton">
+			<i class="fa fa-plus"></i> {{ 'exercise.add_today'|trans }}
 		</button>
 		<p></p>
 		{% for unit in units %}

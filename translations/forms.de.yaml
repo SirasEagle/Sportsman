@@ -21,6 +21,8 @@ exercise:
     uses_weight: "Verwendet Gewichte"
     weight.kg: "Gewicht (kg)"
     submit: "Speichern"
+    edit: "Bearbeiten"
+    add_today: "Zu heute hinzufügen"
 
 muscle_group:
     new: "Neue Muskelgruppe"
