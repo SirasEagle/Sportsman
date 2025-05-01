@@ -3,12 +3,11 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 SETUP________________________________________________________________
-> XAMPP: start Apache and MySQL
-> To start the Server, navigate into the project folder and type:
-    symfony server:start
-> open http://localhost:8000/calendar
-> for help:
-    .\bin\console
+
+    > start database        XAMPP->MySQL->Start  
+    > start server          XAMPP->Apache->Start
+    > start server          [project folder] symfony server:start
+    > open http://localhost:8000/calendar
 
 
 AUTOMATIC_GENERATION_________________________________________________
@@ -22,10 +21,19 @@ AUTOMATIC_GENERATION_________________________________________________
 
 MIGRATIONS___________________________________________________________
 
-> php bin/console make:migration
-> php bin/console doctrine:migrations:migrate
-> mark all migrations as not executed (use with caution)
-    php bin/console doctrine:migrations:version --delete --all
+    > create migration      php bin/console make:migration
+    > create migration      php bin/console doctrine:migrations:diff
+    > execute migration     php bin/console doctrine:migrations:migrate
+    
+    > "The metadata storage is not up to date, please run the sync-metadata-storage command to fix this issue."
+        - visit https://github.com/doctrine/DoctrineMigrationsBundle/issues/337
+        - vendor\doctrine\migrations\lib\Doctrine\Migrations\Metadata\Storage\TableMetadataStorage.php
+    > show generated statements in console
+                            php bin/console doctrine:schema:update --dump-sql 
+    > mark all migrations as not executed (use with caution)
+        php bin/console doctrine:migrations:version --delete --all
+    > mark all migrations as executed
+        php bin/console doctrine:migrations:version --add --all
 
 
 TIPS_________________________________________________________________
