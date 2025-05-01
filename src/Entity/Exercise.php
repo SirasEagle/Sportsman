@@ -40,6 +40,9 @@ class Exercise
     #[ORM\Column]
     private ?int $muscleGroupId = null;
 
+    #[ORM\OneToOne(mappedBy: 'exercise', cascade: ['persist', 'remove'])]
+    private ?Multiplier $multiplier = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -177,5 +180,22 @@ class Exercise
     {
         $this->units->removeElement($unit);
         $unit->setExercise(null);
+    }
+
+    public function getMultiplier(): ?Multiplier
+    {
+        return $this->multiplier;
+    }
+
+    public function setMultiplier(Multiplier $multiplier): static
+    {
+        // set the owning side of the relation if necessary
+        if ($multiplier->getExercise() !== $this) {
+            $multiplier->setExercise($this);
+        }
+
+        $this->multiplier = $multiplier;
+
+        return $this;
     }
 }
