@@ -124,11 +124,23 @@ class WorkoutController extends AbstractController
             $units = $workout->getUnits();
             foreach ($units as $unit) {
                 $temp = 0;
+
                 $points++; // +1p for making an exercise
+                if ($unit->getExercise()->getMultiplier()) {
+                    // + fix additional points for making that exercise
+                    $points += $unit->getExercise()->getMultiplier()->getAddition();
+                }
+
+                // +1p for each 50% median bases reps
                 $temp += $unit->getSet1();
                 $temp += $unit->getSet2();
                 $temp += $unit->getSet3();
-                $points += (($temp / 3) * 2) / $unit->getExercise()->getMedian(); // +1p for each 50% median bases reps
+                $temp = (($temp / 3) * 2);
+                if ($unit->getExercise()->getMultiplier() && ($unit->getExercise()->getMultiplier()->getMultiplyBy() != 0)) {
+                    // multiply by set multiplier
+                    $temp = $temp * $unit->getExercise()->getMultiplier()->getMultiplyBy();
+                }
+                $points += $temp / $unit->getExercise()->getMedian();
             }
             $workout->setPoints($points);
             $this->entityManager->persist($workout);
