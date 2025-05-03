@@ -41,6 +41,13 @@ class UnitController extends AbstractController
             'date' => $today,
             // TODO: check user as well
         ]);
+        // case: no workout for today exists
+        if (!$currentWorkout) {
+            return $this->render('unit/confirm_new_workout.html.twig', [
+                'exerciseId' => $id,
+                'todayDate'  => $today->format('Y-m-d'),
+            ]);
+        }
         $unit->setWorkout($currentWorkout);
 
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);

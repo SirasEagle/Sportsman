@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'forms' %}
+{% block title %}{{ 'workout.new_question'|trans }}{% endblock %}
+
+{% block body %}
+  <script>
+    // Frage per JS-Dialog
+    if (confirm('Für heute ({{ todayDate }}) existiert noch kein Workout. Neues anlegen?')) {
+      // OK: weiter zur Route, die das neue Workout anlegt
+      window.location.href = '{{ path('new_workout') }}';
+    } else {
+      // Abbrechen: zurück zur Exercise-Ansicht
+      window.location.href = '{{ path('show_exercise', {'id': exerciseId}) }}';
+    }
+  </script>
+  <noscript>
+    <!-- Fallback, falls JS ausgeschaltet ist -->
+    <p>Für heute existiert kein Workout.  
+       <a href="{{ path('new_workout') }}">{{ 'workout.new'|trans }}</a>  
+       oder <a href="{{ path('show_exercise', {'id': exerciseId}) }}">{{ 'workout.back'|trans }}</a>.</p>
+  </noscript>
+{% endblock %}

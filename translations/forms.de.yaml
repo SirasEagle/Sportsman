@@ -10,7 +10,9 @@ workout:
     workout: "Workout"
     plural: "Workouts"
     new: "Neues Workout"
+    new_question: "Neues Workout anlegen?"
     weight: "Gewicht"
+    back: "zurück"
 
 exercise:
     exercise: "Übung"
