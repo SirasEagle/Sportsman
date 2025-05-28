@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Config\Category;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Annotations\Annotation\Enum;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 
@@ -28,9 +30,13 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Company $company = null;
 
+    #[ORM\ManyToMany(targetEntity: Portion::class, mappedBy: 'products')]
+    private Collection $portions;
+
     public function __construct()
     {
         $this->category = Category::Meal;
+        $this->portions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +88,33 @@ class Product
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Portion>
+     */
+    public function getPortions(): Collection
+    {
+        return $this->portions;
+    }
+
+    public function addPortion(Portion $portion): static
+    {
+        if (!$this->portions->contains($portion)) {
+            $this->portions->add($portion);
+            $portion->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePortion(Portion $portion): static
+    {
+        if ($this->portions->removeElement($portion)) {
+            $portion->removeProduct($this);
+        }
 
         return $this;
     }
