@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'forms' %}
+{% block title %}New Product{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h2 class="form-header">{{ 'product.new'|trans }}</h2>
+    {{ form(form) }}
+    <div class="mg-add-rows" style="padding-top: 0px; margin-top: -10px">
+        <button class="abc" onclick="window.location.href = '{{ path('index_product') }}';" class="btn editButton">
+            {{ 'product.back'|trans }}
+        </button>
+    </div>
+</div>
+{% endblock %}
