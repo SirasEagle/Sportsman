@@ -20,6 +20,16 @@
 			   <div>{{ portion.name }}, {{ portion.weight }}g</div>
          {% endfor %}
 		{% endif %}
+      {% if product.nutritionalTable is not null %}
+         <h3>{{ 'nutri_table.nutri_table'|trans }} ({{ 'nutri_table.per_cent'|trans }}):</h3>
+         <div>{{ 'nutri_table.kcal'|trans }}: {{ product.nutritionalTable.kcal }}</div>
+         <div>{{ 'nutri_table.fat'|trans }}: {{ product.nutritionalTable.fat }}g</div>
+         <div>{{ 'nutri_table.sat_fat'|trans }}: {{ product.nutritionalTable.saturatedFat }}g</div>
+         <div>{{ 'nutri_table.carbs'|trans }}: {{ product.nutritionalTable.carbohydrates }}g</div>
+         <div>{{ 'nutri_table.sugars'|trans }}: {{ product.nutritionalTable.sugars }}g</div>
+         <div>{{ 'nutri_table.protein'|trans }}: {{ product.nutritionalTable.protein }}g</div>
+         <div>{{ 'nutri_table.salt'|trans }}: {{ product.nutritionalTable.salt }}g</div>
+		{% endif %}
 
       <button onclick="window.location.href = '{{ path('index_product') }}';" class="btn editButton">
 			<i class="fa fa-arrow-left"></i> {{ 'product.back'|trans }}

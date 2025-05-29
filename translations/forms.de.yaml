@@ -56,3 +56,15 @@ product:
 
 category:
     category: "Kategorie"
+
+nutri_table:
+    nutri_table: "Nährwerttabelle"
+    per_cent: "pro 100g"
+    kcal: "kcal"
+    fat: "Fett"
+    sat_fat: "gesättigte Fettsäuren"
+    carbs: "Kohlenhydrate"
+    sugars: "Zucker"
+    protein: "Eiweiß"
+    salt: "Salz"
+
