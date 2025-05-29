@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'forms' %}
+{% block title %}{{ 'product.product'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+{% endblock %}
+
+{% block body %}
+
+	<div class="example-wrapper">
+		<h2>{{ product.name }}:</h2>
+      <div>{{ product.category.value }}</div>
+      <div>{{ product.packageSize }}g</div>
+      <div>{{ product.company.name }}</div>
+      {% if product.portions is not null %}
+         {% for portion in product.portions %}
+			   <div>{{ portion.name }}, {{ portion.weight }}g</div>
+         {% endfor %}
+		{% endif %}
+
+      <button onclick="window.location.href = '{{ path('index_product') }}';" class="btn editButton">
+			<i class="fa fa-arrow-left"></i> {{ 'product.back'|trans }}
+		</button>
+	</div>
+
+{% endblock %}
