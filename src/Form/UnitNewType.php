@@ -88,7 +88,7 @@ class UnitNewType extends AbstractType
                 ->add('exercise', EntityType::class, [
                     'label' => 'exercise.exercise',
                     'class' => Exercise::class,
-                    'choice_label' => 'name', // This is the property of MuscleGroup to display as option label
+                    'choice_label' => 'name', // This is the property of exercise to display as option label
                     'attr' => ['class' => 'abc'],
                     'row_attr' => ['class' => 'mg-add-rows'],
                 ])
