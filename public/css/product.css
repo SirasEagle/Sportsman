@@ -1,0 +1,25 @@
+:root {
+   /* css-file-specific */
+   --main: var(--blue);
+   --main-gray: var(--gray-blue);
+   --main-transparent: var(--blue-transparent);
+   --main-light: var(--blue-light);
+   --main-light-transparent: var(--blue-light-transparent);
+}
+
+button {
+   background-color: var(--blue-light-transparent);
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin: 10px 0px;
+   cursor: pointer;
+}
+
+button:hover {
+   background-color: var(--blue-light);
+}

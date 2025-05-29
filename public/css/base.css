@@ -4,6 +4,7 @@
    --gray-green: rgb(53, 60, 53);
    --gray-purple: rgb(54, 52, 58);
    --gray-red: rgb(59, 53, 53);
+   --gray-blue: rgb(49, 51, 65);
 
    --green: rgb(110, 200, 75);
    --green-transparent: rgba(110, 200, 75, 0.50);
@@ -19,6 +20,11 @@
    --red-transparent: rgba(230, 20, 20, 0.50);
    --red-light: rgb(255, 106, 106);
    --red-light-transparent: rgba(255, 106, 106, 0.65);
+
+   --blue: rgb(20, 20, 230);
+   --blue-transparent: rgba(56, 56, 228, 0.5);
+   --blue-light: rgb(125, 130, 255);
+   --blue-light-transparent: rgba(97, 109, 250, 0.65);
 
    --black-transparent: rgba(0, 0, 0, 0.5);
 

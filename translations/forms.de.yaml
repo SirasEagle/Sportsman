@@ -43,3 +43,16 @@ unit:
 multiplier:
     addition: "Zusätzliche Punkte pro Eintrag:"
     multiply_by: "Multipliziere die Basispunkzahl mit.. (0 = nichts)"
+
+product:
+    product: "Produkt"
+    plural: "Produkte"
+    name: "Name"
+    package_size: "Packungsgröße (in g)"
+    new: "Neues Produkt"
+    all: "Alle"
+    back: "Zurück"
+    submit: "Speichern"
+
+category:
+    category: "Kategorie"
