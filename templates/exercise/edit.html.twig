@@ -10,5 +10,10 @@
 {% block body %}
 <div class="example-wrapper">
    {{ form(form) }}
+    <div class="mg-add-rows">
+        <button class="abc" onclick="window.location.href = '{{ path('show_exercise', {'id': exercise.id}) }}';" class="btn editButton">
+            {{ 'Zurück' }}
+        </button>
+    </div>
 </div>
 {% endblock %}

@@ -133,6 +133,7 @@ class ExerciseController extends AbstractController
 
         return $this->render('exercise/edit.html.twig', [
             'form' => $form->createView(),
+            'exercise' => $exercise,
         ]);
     }
 
