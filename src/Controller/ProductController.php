@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\NutritionalTable;
 use App\Entity\Product;
 use App\Form\ProductNewType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,9 +33,13 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/new', name: 'new_product')]
-    public function newUser(Request $request): Response
+    public function new(Request $request): Response
     {
         $product = new Product();
+        $nutritionalTable = new NutritionalTable();
+        $nutritionalTable->setProduct($product);
+        $product->setNutritionalTable($nutritionalTable);
+        
         $form = $this->createForm(ProductNewType::class, $product);
         $form->handleRequest($request);
 

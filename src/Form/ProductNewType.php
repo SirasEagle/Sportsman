@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Config\Category;
 use App\Entity\Company;
+use App\Entity\NutritionalTable;
 use App\Entity\Portion;
 use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -41,6 +42,12 @@ class ProductNewType extends AbstractType
                 'choice_label' => 'name', // This is the property of company to display as option label
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
+            ])
+            ->add('nutritionalTable', NutritionalTableNewType::class, [
+                'label' => false, // no label for this container
+                'mapped' => true,
+                'required' => true,
+                'empty_data' => null,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'product.submit',
