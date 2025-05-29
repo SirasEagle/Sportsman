@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'forms' %}
+{% block title %}{{ 'product.plural'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h2>{{ 'product.plural'|trans }}</h2>
+    <a href="{{ path('new_product') }}" class="button">{{ 'product.new'|trans }}</a>
+    {% if products %}
+        <h3>{{ 'product.all'|trans }}</h3>
+        <div>
+            {% for product in products %}
+                <div>
+                    <a href="{{ path('show_product', {'id': product.id}) }}">{{ product.company.name }} - {{ product.name }}, {{ product.packageSize }}g</a><br>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
