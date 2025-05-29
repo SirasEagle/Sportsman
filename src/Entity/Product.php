@@ -33,6 +33,9 @@ class Product
     #[ORM\ManyToMany(targetEntity: Portion::class, mappedBy: 'products')]
     private Collection $portions;
 
+    #[ORM\OneToOne(mappedBy: 'product', cascade: ['persist', 'remove'])]
+    private ?NutritionalTable $nutritionalTable = null;
+
     public function __construct()
     {
         $this->category = Category::Meal;
@@ -115,6 +118,28 @@ class Product
         if ($this->portions->removeElement($portion)) {
             $portion->removeProduct($this);
         }
+
+        return $this;
+    }
+
+    public function getNutritionalTable(): ?NutritionalTable
+    {
+        return $this->nutritionalTable;
+    }
+
+    public function setNutritionalTable(?NutritionalTable $nutritionalTable): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($nutritionalTable === null && $this->nutritionalTable !== null) {
+            $this->nutritionalTable->setProduct(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($nutritionalTable !== null && $nutritionalTable->getProduct() !== $this) {
+            $nutritionalTable->setProduct($this);
+        }
+
+        $this->nutritionalTable = $nutritionalTable;
 
         return $this;
     }
