@@ -14,8 +14,18 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            lazy: true
+            lazy: true # prevents the session from being started if there is no need for authorization (i.e. explicit check for a user privilege)
             provider: app_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: app_calendar # where to redirect after login
+                always_use_default_target_path: true # always redirect to the default target path, even if the user was trying to access a different page
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
