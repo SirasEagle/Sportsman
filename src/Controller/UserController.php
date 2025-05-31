@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -38,16 +39,23 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/new', name: 'new_user')]
-    public function newUser(Request $request): Response
+    public function newUser(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserNewType::class, $user);
         $form->handleRequest($request);
-        // FIXME:
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             // Werte aus dem Formular holen und in das User-Objekt schreiben
             $user = $form->getData();
+
+            // hash password
+            $plaintextPassword = $form->get('password')->getData();
+            $hashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $plaintextPassword
+            );
+            $user->setPassword($hashedPassword);
 
             // Das User-Objekt in der Datenbank persistieren
             $this->entityManager->persist($user);
