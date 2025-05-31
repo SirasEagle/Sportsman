@@ -17,7 +17,6 @@ class CalendarController extends AbstractController
     private $entityManager;
     private $loaded = false;
     private $workouts = [];
-    private $userId = 1; // TODO: warum? nur weil Adrian ist bis jetzt
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -32,7 +31,7 @@ class CalendarController extends AbstractController
         if (!$this->loaded) {
             try {
                 $calendarRepository = $this->entityManager->getRepository(Workout::class);
-                $this->workouts = $calendarRepository->findAll();
+                $this->workouts = $calendarRepository->findAll(); //TODO: not all, just of the logged in user
                 $this->loaded = true;
             } catch (\Throwable $th) {
                 printf("[e250419-001] %s\n", $th->getMessage());
@@ -42,6 +41,12 @@ class CalendarController extends AbstractController
 
     private function getCurrentMonthData(DateTime $date)
     {
+        // Ensure the user is logged in
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to view this page.');
+        }
+
         $currentMonth = $date->format('m');
         $currentYear = $date->format('Y');
         $days = cal_days_in_month(0, $currentMonth, $currentYear);
@@ -50,7 +55,7 @@ class CalendarController extends AbstractController
         $this->workouts = [];
         foreach ($tempdates as $workout) {
             $date = $workout->getDate();
-            if (($workout->getUser()->getId() == $this->userId) && $date && $date->format('m') == $currentMonth && $date->format('Y') == $currentYear) {
+            if (($workout->getUser()->getId() == $activeUser->getId()) && $date && $date->format('m') == $currentMonth && $date->format('Y') == $currentYear) {
                 $this->workouts[] = $workout;
             }
         }
@@ -71,23 +76,30 @@ class CalendarController extends AbstractController
             'currentYear' => $currentYear,
             'days' => $days,
             'workouts' => $this->workouts,
-            'activeUser' => $this->userId,
+            'activeUser' => $activeUser->getId(),
             'monthPoints' => $monthPoints,
             'users' => $users,
         ];
     }
 
+    /**In summary:
+This method updates the user's "last trained" date for each muscle group, setting it to the most recent workout date where that muscle group was exercised. */
     private function bubi(DateTime $date)
     {
+        // Ensure the user is logged in
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to view this page.');
+        }
+
         $muscleGroupRepository = $this->entityManager->getRepository(MuscleGroup::class);
         $muscleGroups = $muscleGroupRepository->findAll();
         $userRepository = $this->entityManager->getRepository(User::class);
-        $user = $userRepository->find($this->userId);
+        $user = $userRepository->find($activeUser->getId());
 
         foreach ($this->workouts as $workout) {
             foreach ($workout->getUnits() as $unit) {
                 foreach ($user->getLastMuscleGroups() as $currentGroup) {
-                    // var_dump($currentGroup->getMuscleGroup()->getTerm());
                     if ($currentGroup->getMuscleGroup()->getId() == $unit->getExercise()->getMuscleGroup()->getId()) {
                         if ($currentGroup->getDate() < $workout->getDate()) {
                             $currentGroup->setDate($workout->getDate());
@@ -104,6 +116,12 @@ class CalendarController extends AbstractController
     #[Route('/calendar', name: 'app_calendar')]
     public function viewCalendar(Request $request): Response
     {
+        // Ensure the user is logged in
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to view this page.');
+        }
+
         $this->loadWorkoutsIfNotLoaded();
         $date = new DateTime('now');
         $data = $this->getCurrentMonthData($date);
@@ -114,8 +132,13 @@ class CalendarController extends AbstractController
     #[Route('/calendar/{date}/{user}', name: 'app_calendar_date')]
     public function viewCalendarDate(Request $request, DateTime $date, int $user): Response
     {
+        // Ensure the user is logged in
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to view this page.');
+        }
+
         $this->loadWorkoutsIfNotLoaded();
-        $this->userId = $user;
         $data = $this->getCurrentMonthData($date);
 
         return $this->render('calendar/view.html.twig', $data);
