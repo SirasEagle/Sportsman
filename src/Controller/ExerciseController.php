@@ -6,6 +6,7 @@ use App\Entity\Exercise;
 use App\Entity\Multiplier;
 use App\Entity\MuscleGroup;
 use App\Entity\Unit;
+use App\Entity\Workout;
 use App\Form\ExerciseNewType;
 use App\Form\ExerciseEditType1;
 use Doctrine\ORM\EntityManagerInterface;
@@ -174,16 +175,25 @@ class ExerciseController extends AbstractController
      */
     public function show(int $id): Response
     {
+        // Ensure the user is logged in
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to view this page.');
+        }
+
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercise = $exerciseRepository->find($id);
 
         if (!$exercise) {
             throw $this->createNotFoundException('Exercise not found');
         }
+
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $workouts = $workoutRepository->findBy(['user' => $activeUser]);
         
         // Hier rufen wir die Units für die gegebene Exercise ab
         $unitRepository = $this->entityManager->getRepository(Unit::class);
-        $units = $unitRepository->findBy(['exercise' => $exercise]);
+        $units = $unitRepository->findBy(['exercise' => $exercise, 'workout' => $workouts]);
         
         // sorting the workouts
         usort($units, function ($a, $b) {
