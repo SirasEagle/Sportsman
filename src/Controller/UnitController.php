@@ -33,12 +33,19 @@ class UnitController extends AbstractController
     #[Route('/unit/add/{id}', name: 'add_unit')]
     public function new(Request $request, int $id): Response
     {
+        // Ensure the user is logged in
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to view this page.');
+        }
+
         $unit = new Unit();
 
         $today = new \DateTime();
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $currentWorkout = $workoutRepository->findOneBy([
             'date' => $today,
+            'user' => $activeUser, // Assuming the user is the currently logged-in user
             // TODO: check user as well
         ]);
         // case: no workout for today exists
