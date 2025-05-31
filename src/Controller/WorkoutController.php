@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 class WorkoutController extends AbstractController
 {
     private $entityManager;
-    private $userId = 1; // TODO: warum? nur weil Adrian ist bis jetzt
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -27,6 +26,12 @@ class WorkoutController extends AbstractController
     #[Route('/workout', name: 'index_workout')]
     public function index(): Response
     {
+        // Ensure the user is logged in
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to view this page.');
+        }
+
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $userRepository = $this->entityManager->getRepository(User::class);
         $workouts = $workoutRepository->findAll();
@@ -61,7 +66,7 @@ class WorkoutController extends AbstractController
         return $this->render('workout/index.html.twig', [
             'workoutsUsers' => $workoutsUsers,
             'users' => $users,
-            'activeUser' => $this->userId,
+            'activeUser' => $activeUser->getId(),
         ]);
     }
 
@@ -79,6 +84,7 @@ class WorkoutController extends AbstractController
 
             // initialise points
             $workout->setPoints(0);
+            $workout->setUser($this->getUser());
 
             // check if date already exists within other workouts
             $workoutRepository = $this->entityManager->getRepository(Workout::class);
@@ -154,8 +160,17 @@ class WorkoutController extends AbstractController
      */
     public function show(int $id): Response
     {
+        // Ensure the user is logged in
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to view this page.');
+        }
+        
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $workout = $workoutRepository->find($id);
+        if ($activeUser->getId() !== $workout->getUser()?->getId()) {
+            throw $this->createAccessDeniedException('You can only view your own workouts.');
+        }
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercises = $exerciseRepository->findAll();
 

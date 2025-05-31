@@ -15,9 +15,6 @@
 {% block body %}
 <div class="tab-container">
     <div class="tabs">
-        {% for user in users %}        
-            <div class="tab{% if activeUser == user.id %} active-tab{% endif %}" id="tab{{user.id}}">{{ user.name }}</div>
-        {% endfor %}
         <div onclick="window.location.href = '{{ path('index_user') }}';" class="tab">
             <a href="{{ path('index_user') }}">{{ 'user.plural'|trans }}</a>
         </div>
