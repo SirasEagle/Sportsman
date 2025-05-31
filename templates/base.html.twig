@@ -17,16 +17,19 @@
     </head>
     <body>
         <div class="sidebar">
-            <div onclick="window.location.href = '{{ path('index_workout') }}';" class="sidebarElement" style="flex: 1;">
+            <div onclick="window.location.href = '{{ path('app_login') }}';" class="sidebarElement" style="flex: 1;">
+                <a href="{{ path('app_login') }}">Account</a>
+            </div>
+            <div onclick="window.location.href = '{{ path('index_workout') }}';" class="sidebarElement" style="flex: 2;">
                 <a href="{{ path('index_workout') }}">Workouts</a>
             </div>
-            <div onclick="window.location.href = '{{ path('index_exercise') }}';" class="sidebarElement" style="flex: 1;">
+            <div onclick="window.location.href = '{{ path('index_exercise') }}';" class="sidebarElement" style="flex: 2;">
                 <a href="{{ path('index_exercise') }}">Übungen</a>
             </div>
-            <div onclick="window.location.href = '{{ path('index_product') }}';" class="sidebarElement" style="flex: 1;">
+            <div onclick="window.location.href = '{{ path('index_product') }}';" class="sidebarElement" style="flex: 2;">
                 <a href="{{ path('index_product') }}">Produkte</a>
             </div>
-            <div onclick="window.location.href = '{{ path('app_calendar') }}';" class="sidebarElement" style="flex: 1;">
+            <div onclick="window.location.href = '{{ path('app_calendar') }}';" class="sidebarElement" style="flex: 2;">
                 <a href="{{ path('app_calendar') }}">Kalender</a>
             </div>
         </div>
