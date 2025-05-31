@@ -37,15 +37,6 @@ class WorkoutNewType extends AbstractType
                 'data' => true,
                 'row_attr' => ['class' => 'mg-add-check'],
             ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'label' => 'workout_new.user',
-                'choice_label' => 'name', // user.name
-                'expanded' => true, // radio-buttons
-                'multiple' => false,
-                'attr' => ['class' => 'abc'],
-                'row_attr' => ['class' => 'mg-add-rows'],
-            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'workout_new.submit',
                 'attr' => ['class' => 'abc'],
