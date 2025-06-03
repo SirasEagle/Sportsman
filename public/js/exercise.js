@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = {
                 labels: exerciseLabels,
                 datasets: [{
-                    label: exerciseName,
+                    label: exerciseName, // shows the name of the exercise in the chart legend
                     data: repData,
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -24,18 +24,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 data: data,
                 options: {
                     tooltips: {
+                        // Custom tooltip to show average and sets for each data point (e.g. "Sit ups: 10 (8, 10, 12)")
                         callbacks: {
                             label: function(tooltipItem, data) {
-                                var idx = tooltipItem.index;
-                                var avg = tooltipItem.yLabel;
-                                var sets = setValues[idx];
+                                var idx = tooltipItem.index; // current index of the tooltip item
+                                var avg = tooltipItem.yLabel; // comes from repData that gets used for y-axis-values
+                                var sets = setValues[idx]; // setValues given in Twig
                                 return exerciseName + ': ' + avg + ' (' + sets.join(', ') + ')';
                             }
                         }
                     },
                     scales: {
                         yAxes: [{
-                            ticks: { beginAtZero: true }
+                            ticks: { beginAtZero: true } // Start y-axis at zero
                         }]
                     }
                 }
@@ -65,9 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 data: weightChartData,
                 options: {
                     scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                        yAxes: [{
+                            ticks: { beginAtZero: true }
+                        }]
                     }
                 }
             };
