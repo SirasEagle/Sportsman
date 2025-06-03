@@ -26,7 +26,16 @@
 
 	<div class="example-wrapper">
 		<h2>{{ exercise.name }}:</h2>
-		<p>{{ exercise.muscleGroup.term }} - Durschnittlich {{ exercise.median|number_format }} Wiederholungen pro Set</p>
+
+		{# Show median and last workout date #}
+		<p>
+			{{ exercise.muscleGroup.term }} - Durschnittlich <strong>{{ exercise.median|number_format }}</strong> Wiederholungen pro Set.
+			{% if units|length > 0 %}
+				{{ 'exercise.last_workout'|trans({'%date%': units|last.workout.date|date('d.m.Y')})|raw }}
+			{% else %}
+				{{ 'exercise.no_units'|trans }}
+			{% endif %}
+		</p>
 		{% if exercise.imageLink is not null %}
 			<img src={{ exercise.imageLink }} alt="exercise" height="400">
 		{% endif %}
