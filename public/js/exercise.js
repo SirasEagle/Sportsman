@@ -78,41 +78,70 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // both charts combined in one graph
     const combinedGraph = document.getElementById('combinedGraph');
-    // check if canvas elements exist before initializing chart
-    if (combinedGraph) {
-        const combinedCtx = combinedGraph.getContext('2d');
-        if (typeof exerciseLabels !== 'undefined' && typeof repData !== 'undefined' && typeof weightData !== 'undefined' && typeof exerciseName !== 'undefined') {
-            const combinedData = {
-                labels: exerciseLabels,
-                datasets: [
-                    {
-                        label: exerciseName + ' - Wiederholungen',
-                        data: repData,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        fill: true
-                    },
-                    {
-                        label: exerciseName + ' - Gewicht',
-                        data: weightData,
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        fill: true
-                    }
-                ]
-            };
-            const combinedConfig = {
-                type: 'line',
-                data: combinedData,
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: { beginAtZero: true }
-                        }]
-                    }
+// check if canvas elements exist before initializing chart
+if (combinedGraph) {
+    const combinedCtx = combinedGraph.getContext('2d');
+    if (
+        typeof exerciseLabels !== 'undefined' &&
+        typeof repData !== 'undefined' &&
+        typeof weightData !== 'undefined' &&
+        typeof exerciseName !== 'undefined'
+    ) {
+        const combinedData = {
+            labels: exerciseLabels,
+            datasets: [
+                {
+                    label: exerciseName + ' - Wiederholungen',
+                    data: repData,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    yAxisID: 'y-reps'
+                },
+                {
+                    label: exerciseName + ' - Gewicht',
+                    data: weightData,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true,
+                    yAxisID: 'y-weight'
                 }
-            };
-            new Chart(combinedCtx, combinedConfig);
-        }
+            ]
+        };
+        const combinedConfig = {
+            type: 'line',
+            data: combinedData,
+            options: {
+                scales: {
+                    yAxes: [
+                        {
+                            id: 'y-reps',
+                            type: 'linear',
+                            position: 'left',
+                            ticks: { beginAtZero: true },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Wiederholungen'
+                            }
+                        },
+                        {
+                            id: 'y-weight',
+                            type: 'linear',
+                            position: 'right',
+                            ticks: { beginAtZero: true },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Gewicht'
+                            },
+                            gridLines: {
+                                drawOnChartArea: false // verhindert Überlagerung der Gitterlinien
+                            }
+                        }
+                    ]
+                }
+            }
+        };
+        new Chart(combinedCtx, combinedConfig);
     }
+}
 });
