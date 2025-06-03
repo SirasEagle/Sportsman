@@ -51,9 +51,15 @@ class ExerciseController extends AbstractController
             $categories[$muscleGroupName][] = $exercise;
         }
 
-        // sort the exercises alphabetically for each muscle group
+        // Remove empty categories
+        foreach ($categories as $muscleGroupName => $thisExercises) {
+            if (empty($thisExercises)) {
+                unset($categories[$muscleGroupName]);
+            }
+        }
+
+        // Sort the exercises alphabetically for each muscle group
         foreach ($categories as &$thisExercises) {
-            // sort($exerciseNames);
             // sorting the exercises
             usort($thisExercises, function ($a, $b) {
                 $nameA = $a->getName();
@@ -65,7 +71,7 @@ class ExerciseController extends AbstractController
             });
         }
 
-        // sort the exercises alphabetically for overall view
+        // Sort the exercises alphabetically for overall view
         usort($exercises, function ($a, $b) {
             $nameA = $a->getName();
             $nameB = $b->getName();
