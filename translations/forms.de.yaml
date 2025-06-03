@@ -13,6 +13,8 @@ workout:
     new_question: "Neues Workout anlegen?"
     weight: "Gewicht"
     back: "zurück"
+    add_unit: "Einheit hinzufügen"
+    save_unit: "Einheit speichern"
     delete: "Löschen"
     delete_confirm: "Bist du sicher, dass du dieses Workout löschen möchtest?"
 

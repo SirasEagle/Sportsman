@@ -84,6 +84,104 @@ class UnitController extends AbstractController
         ]);
     }
 
+    /**
+     * Handles the addition of a new unit via an XHR request.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/unit/add-xhr', name: 'add_unit_xhr', methods: ['POST'])]
+    public function addUnitXhr(Request $request): Response
+    {
+        // Ensure the user is logged in
+        /** @var \App\Entity\User $activeUser */ // prevents IDE warnings
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            return new Response('You must be logged in to add a unit.', Response::HTTP_UNAUTHORIZED);
+        }
+        
+        // Validate the request parameters
+        if (!$request->request->has('set1') || !$request->request->has('set2') || !$request->request->has('set3') ||
+            !$request->request->has('exId') || !$request->request->has('wId') || !$request->request->has('unW')) {
+            return new Response('Missing required parameters', Response::HTTP_BAD_REQUEST);
+        }
+
+        // Retrieve parameters from the request
+        $set1 = $request->request->get('set1');
+        $set2 = $request->request->get('set2');
+        $set3 = $request->request->get('set3');
+        $exerciseId = $request->request->get('exId');
+        $workoutId = $request->request->get('wId');
+        $weightInput = $request->request->get('unW');
+        $weight = $this->weightStringToFloat($weightInput);
+        $unitInfo = null;
+        // Check if unitInfo is provided
+        if ($request->request->get('unitInfo') != '') {
+            $unitInfo = $request->request->get('unitInfo');
+        }
+
+        // Validate the sets
+        if (!is_numeric($set1) || !is_numeric($set2) || !is_numeric($set3)) {
+            return new Response('Sets must be numeric values', Response::HTTP_BAD_REQUEST);
+        }
+        $set1 = (int) $set1;
+        $set2 = (int) $set2;
+        $set3 = (int) $set3;
+        if ($set1 < 0 || $set2 < 0 || $set3 < 0) {
+            return new Response('Sets must be non-negative integers', Response::HTTP_BAD_REQUEST);
+        }
+        if ($weight < 0) {
+            return new Response('Weight must be a non-negative number', Response::HTTP_BAD_REQUEST);
+        }
+        // Validate the exercise and workout IDs
+        if (!is_numeric($exerciseId) || !is_numeric($workoutId)) {
+            return new Response('Invalid exercise or workout ID', Response::HTTP_BAD_REQUEST);
+        }
+        $exerciseId = (int) $exerciseId;
+        $workoutId = (int) $workoutId;
+        if ($exerciseId <= 0 || $workoutId <= 0) {
+            return new Response('Exercise and workout IDs must be positive integers', Response::HTTP_BAD_REQUEST);
+        }
+        // Fetch the Exercise and Workout entities
+        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+        $exercise = $exerciseRepository->find($exerciseId);
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $workout = $workoutRepository->find($workoutId);
+
+        // Validate the Exercise and Workout entities
+        if (!$exercise || !$workout) {
+            return new Response('Invalid exercise or workout ID', Response::HTTP_BAD_REQUEST);
+        }
+
+        // Create a new Unit entity
+        $unit = new Unit();
+        $unit->setSet1($set1);
+        $unit->setSet2($set2);
+        $unit->setSet3($set3);
+        $unit->setWeight($weight);
+        $unit->setExercise($exercise);
+        $unit->setWorkout($workout);
+        if ($unitInfo) {
+            $unit->setInfo($unitInfo);
+        }
+
+        // Persist the unit to the database
+        try {
+            $this->entityManager->persist($unit);
+            $this->entityManager->flush();
+
+            // Return a JSON response indicating success
+            return $this->json([
+                'success' => true,
+                'message' => 'Unit added successfully',
+                'unitId' => $unit->getId(),
+            ]);
+            // return new Response('Unit added successfully!', Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new Response('Error saving unit: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     #[Route('/unit/edit/{id}', name: 'edit_unit')]
     public function edit(Request $request, int $id): Response
     {
@@ -110,42 +208,6 @@ class UnitController extends AbstractController
         return $this->render('unit/edit.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    #[Route("/save-unit", name: "save_unit", methods: "POST")]
-    public function saveUnit(Request $request): Response
-    {
-        $set1 = $request->request->get('set1');
-        $set2 = $request->request->get('set2');
-        $set3 = $request->request->get('set3');
-        $exerciseId = $request->request->get('exId');
-        $workoutId = $request->request->get('wId');
-        $weightInput = $request->request->get('unW');
-        $weight = $this->weightStringToFloat($weightInput);
-        $unitInfo = null;
-        if ($request->request->get('unitInfo') != '') {
-            $unitInfo = $request->request->get('unitInfo');
-        }
-
-        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
-        $exercise = $exerciseRepository->find($exerciseId);
-        $workoutRepository = $this->entityManager->getRepository(Workout::class);
-        $workout = $workoutRepository->find($workoutId);
-
-        $unit = new Unit();
-        $unit->setSet1($set1);
-        $unit->setSet2($set2);
-        $unit->setSet3($set3);
-        $unit->setWeight($weight);
-        $unit->setExercise($exercise);
-        $unit->setWorkout($workout);
-        $unit->setInfo($unitInfo);
-        // print_r($unit);
-
-        $this->entityManager->persist($unit);
-        $this->entityManager->flush();
-
-        return new Response('Data saved successfully!', Response::HTTP_OK);
     }
 
     public function weightStringToFloat(string $weightString) {

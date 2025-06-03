@@ -1,69 +1,39 @@
 // public/js/base.js
 document.addEventListener('DOMContentLoaded', function() {
-   const showTableButton = document.getElementById('showTableButton');
-   const hiddenArea = document.getElementById('hiddenArea');
-   const saveUnitToExercise = document.getElementById('saveUnitToExercise');
-   const set1Input = document.getElementById('set1Input');
-   const set2Input = document.getElementById('set2Input');
-   const set3Input = document.getElementById('set3Input');
-   const exerciseId = document.getElementById('exerciseOption');
-   const weightCell = document.getElementById('weightCell');
-   const weightInput = document.getElementById('weightInput');
-   const workoutId = document.getElementById('workoutId');
-   const unitInfo = document.getElementById('unitInfo');
 
-   showTableButton.addEventListener('click', function() {
-       if (hiddenArea.style.display === 'none') {
-           hiddenArea.style.display = 'table';
-           showTableButton.textContent = "-";
-       } else {
-           hiddenArea.style.display = 'none';
-           showTableButton.textContent = "+";
-       }
-   });
+      // Toggle visibility of the add exercise form
+      document.getElementById('addUnitButton').addEventListener('click', function() {
+         var form = document.getElementById('addUnitForm');
+         form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      });
 
-    exerciseId.addEventListener('change', function() {
-        const selected = exerciseId.selectedOptions[0];
-        const usesWeight = selected.dataset.usesWeight === '1';
-        if (usesWeight) {
-            weightCell.style.display = '';   // wieder einblenden
-        } else {
-            weightCell.style.display = 'none';
-            weightInput.value = '0.0kg';     // Reset
-        }
-    });
-
-    saveUnitToExercise.addEventListener('click', function() {
-        if ((set1Input.value < 0) || (set2Input.value < 0) || (set3Input.value < 0)) {
-            alert("Geben Sie eine positive Zahl ein");
-        } else {
-            // AJAX-Anfrage senden
-            $.ajax({
-                url: '/save-unit', // Die URL zu deinem Symfony-Controller
-                method: 'POST',
-                data: {
-                    set1: set1Input.value,
-                    set2: set2Input.value,
-                    set3: set3Input.value,
-                    exId: exerciseId.value,
-                    wId: workoutId.value,
-                    unW: weightInput.value,
-                    unitInfo: unitInfo.value
-                },
-                success: function(response) {
-                    // Erfolgreiche Antwort vom Server, hier kannst du entsprechende Aktionen ausführen
-                    set1Input.value = '0';
-                    set2Input.value = '0';
-                    set3Input.value = '0';
-                    unitInfo.value = '';
-                    location.reload(); // Beispiel: Seite neu laden
-                },
-                error: function(xhr, status, error) {
-                    // Bei einem Fehler kannst du hier entsprechende Fehlerbehandlung vornehmen
-                    alert('Fehler beim Speichern der Daten.' + error);
-                }
-            });
-        }
-    });
+      document.getElementById('exerciseSelect').addEventListener('change', function() {
+         var selectedOption = this.options[this.selectedIndex];
+         var usesWeight = selectedOption.getAttribute('data-uses-weight') === '1';
+         document.getElementById('weight').style.display = usesWeight ? 'inline' : 'none';
+      });
+      document.getElementById('unitForm').addEventListener('submit', function(event) {
+         event.preventDefault();
+         var formData = new FormData(this);
+         fetch('/unit/add-xhr', {
+            method: 'POST',
+            body: formData
+         })
+         .then(response => response.json())
+         .then(data => {
+            console.log(data);
+            if (data.success) {
+               console.log('Unit added successfully');
+               document.getElementById('unitMessage').innerText = 'Unit hinzugefügt';
+               document.getElementById('unitMessage').style.display = 'block';
+               location.reload(); // Reload the page to show the new unit
+            } else {
+               console.error(data.error);
+               document.getElementById('unitMessage').innerText = data.error;
+               document.getElementById('unitMessage').style.display = 'block';
+            }
+         })
+         .catch(error => console.error('Error:', error));
+      });
 });
 

@@ -39,27 +39,25 @@
          </tr>
       {% endfor %}
    </table>
-   <button id="showTableButton">+</button>
-   <div id="hiddenArea" style="display: none;">
-      <table class="workoutTable">
-         <tr>
-            <td ALIGN="center">
-               <select id="exerciseOption">   
-                  {% for exercise in exercises %}
-                     <option value={{ exercise.id }} data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}">{{ exercise.nameMid }}</option>
-                  {% endfor %}
-               </select>
-            </td>
-            <td><div><input id="set1Input" type="number" value="0">Set1</div></td>
-            <td><div><input id="set2Input" type="number" value="0">Set2</div></td>
-            <td><div><input id="set3Input" type="number" value="0">Set3</div></td>
-            <td id="weightCell" style="display: none;"><div><input id="weightInput" type="text" value="0.0kg">{{ 'workout.weight'|trans }}</div></td>
-            <td><div><textarea id="unitInfo"></textarea></td>
-            <input id="workoutId" type="number" value={{ workout.id }} style="display: none;"></input>
-         </tr>
-      </table>
-      <button id="saveUnitToExercise">Speichern</button>
+   {# add new unit via hxr-request #}
+   <button class="buttonAddUnit" id="addUnitButton">{{ 'workout.add_unit'|trans }}</button>
+   <div id="addUnitForm" style="display: none;">
+      <form id="unitForm">
+         <select id="exerciseSelect" name="exId">   
+            {% for exercise in exercises %}
+               <option value="{{ exercise.id }}" data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}">{{ exercise.nameMid }}</option>
+            {% endfor %}
+         </select>
+         <input id="set1" name="set1" type="number" value="0" placeholder="{{ 'workout.set1'|trans }}">
+         <input id="set2" name="set2" type="number" value="0" placeholder="{{ 'workout.set2'|trans }}">
+         <input id="set3" name="set3" type="number" value="0" placeholder="{{ 'workout.set3'|trans }}">
+         <input id="weight" name="unW" type="text" value="0.0kg" placeholder="{{ 'workout.weight'|trans }}" style="display: none;">
+         <textarea id="info" name="unitInfo" placeholder="{{ 'workout.info'|trans }}"></textarea>
+         <input id="workoutId" name="wId" type="hidden" value="{{ workout.id }}">
+         <button type="submit">{{ 'workout.save_unit'|trans }}</button>
+      </form>
    </div>
+   <div id="unitMessage" style="display: none;"></div>
    <div>
       <a href="{{ path('median_exercise', {'id': workout.id}) }}" class="button"> Berechne Durchschnitte</a>
    </div>
