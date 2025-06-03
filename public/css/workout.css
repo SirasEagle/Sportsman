@@ -7,6 +7,24 @@
    --main-light-transparent: var(--purple-light-transparent);
 }
 
+/* General styling ============================================================================================== */
+.buttonAddUnit {
+   background-color: var(--main-transparent);
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin: 10px 0px;
+   cursor: pointer;
+}
+
+.buttonAddUnit:hover {
+   background-color: var(--main);
+}
+
 /* user selection tabs =========================================================================================== */
 .tab-container {
    display: flex;
