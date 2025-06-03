@@ -28,7 +28,8 @@ class Workout
     #[ORM\Column(nullable: true)]
     private ?int $points = null;
 
-    #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'workout')]
+    // Deletes units when the workout is deleted or when a unit is removed by removeUnit()
+    #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'workout', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Collection $units;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'workouts')]

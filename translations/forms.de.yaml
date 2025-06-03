@@ -13,6 +13,8 @@ workout:
     new_question: "Neues Workout anlegen?"
     weight: "Gewicht"
     back: "zurück"
+    delete: "Löschen"
+    delete_confirm: "Bist du sicher, dass du dieses Workout löschen möchtest?"
 
 exercise:
     exercise: "Übung"

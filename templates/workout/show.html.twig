@@ -60,7 +60,14 @@
       </table>
       <button id="saveUnitToExercise">Speichern</button>
    </div>
-   <a href="{{ path('median_exercise', {'id': workout.id}) }}" class="button"> Berechne Durchschnitte</a>
+   <div>
+      <a href="{{ path('median_exercise', {'id': workout.id}) }}" class="button"> Berechne Durchschnitte</a>
+   </div>
+   <div>
+      {# delete button #}
+      <a href="{{ path('delete_workout', {'id': workout.id}) }}" class="button" onclick="return confirm('{{ 'workout.delete_confirm'|trans }}');">{{ 'workout.delete'|trans }}</a>
+   </div>
+   
 </div>
 
 {% endblock %}

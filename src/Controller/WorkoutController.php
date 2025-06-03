@@ -27,6 +27,7 @@ class WorkoutController extends AbstractController
     public function index(): Response
     {
         // Ensure the user is logged in
+        /** @var \App\Entity\User $activeUser */ // prevents IDE warnings
         $activeUser = $this->getUser();
         if (!$activeUser) {
             throw $this->createAccessDeniedException('You must be logged in to view this page.');
@@ -155,12 +156,42 @@ class WorkoutController extends AbstractController
         return $this->redirectToRoute('show_workout', array('id' => $id));
     }
 
+    #[Route('/workout/delete/{id}', name: 'delete_workout')]
+    public function delete(Request $request, int $id): Response
+    {
+        // Ensure the user is logged in
+        /** @var \App\Entity\User $activeUser */ // prevents IDE warnings
+        $activeUser = $this->getUser();
+        if (!$activeUser) {
+            throw $this->createAccessDeniedException('You must be logged in to delete a workout.');
+        }
+
+        // Ensure the user is authorized to delete the workout
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $workout = $workoutRepository->find($id);
+        if ($activeUser->getId() !== $workout->getUser()?->getId()) {
+            throw $this->createAccessDeniedException('You can only delete your own workouts.');
+        }
+
+        // Check if the workout exists
+        if (!$workout) {
+            throw $this->createNotFoundException('Workout not found');
+        }
+
+        // Remove the workout from the database
+        $this->entityManager->remove($workout);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('index_workout');
+    }
+
     /**
      * @Route("/workout/{id}", name="show_workout")
      */
     public function show(int $id): Response
     {
         // Ensure the user is logged in
+        /** @var \App\Entity\User $activeUser */ // prevents IDE warnings
         $activeUser = $this->getUser();
         if (!$activeUser) {
             throw $this->createAccessDeniedException('You must be logged in to view this page.');
