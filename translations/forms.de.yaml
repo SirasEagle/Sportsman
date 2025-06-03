@@ -21,6 +21,7 @@ workout:
 
 exercise:
     exercise: "Übung"
+    music_link: "Link zu Musik (bzw. Workoutvideo)"
     new: "Neue Übung"
     name: "Name"
     description: "Beschreibung"

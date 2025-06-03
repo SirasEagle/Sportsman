@@ -16,6 +16,16 @@
 		{% if exercise.imageLink is not null %}
 			<img src={{ exercise.imageLink }} alt="exercise" height="400">
 		{% endif %}
+		{% if exercise.musicLinkIframe is not null %}
+			<iframe width="600" height="400" src="{{ exercise.musicLinkIframe }}" frameborder="0" allowfullscreen></iframe>
+		{% endif %}
+		<div>
+			{% if exercise.musicLink is not null %}
+				<a href="{{ exercise.musicLink }}" target="_blank">
+					{{ 'exercise.music_link'|trans }}
+				</a>
+			{% endif %}
+		</div>
 		<div>{{ exercise.description }}</div>
 		<button onclick="window.location.href = '{{ path('edit_exercise', {'id': exercise.id}) }}';" class="btn editButton">
 			<i class="fa fa-edit"></i> {{ 'exercise.edit'|trans }}

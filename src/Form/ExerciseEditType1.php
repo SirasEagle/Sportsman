@@ -43,6 +43,18 @@ class ExerciseEditType1 extends AbstractType
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
             ])
+            ->add('musicLink', TextType::class, [
+                'label' => 'Link zum Lied / Workoutvideo:',
+                'required' => false,
+                'attr' => ['class' => 'abc'],
+                'row_attr' => ['class' => 'mg-add-rows'],
+            ])
+            ->add('musicLinkIframe', TextType::class, [
+                'label' => 'Link zu Lied (iframe):',
+                'required' => false,
+                'attr' => ['class' => 'abc'],
+                'row_attr' => ['class' => 'mg-add-rows'],
+            ])
             ->add('usesWeight', CheckboxType::class, [
                 'label' => 'exercise.uses_weight',
                 'required' => false,

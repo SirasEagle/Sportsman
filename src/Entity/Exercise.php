@@ -31,6 +31,14 @@ class Exercise
     #[ORM\Column(nullable: true)]
     private ?float $median = null;
 
+    // Hyperlink to a music track that is associated with the exercise
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $musicLink = null;
+
+    // Hyperlink (iframe) to a music track that is associated with the exercise
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $musicLinkIframe = null;
+
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'exercise')]
     private ?Collection $units;
 
@@ -121,6 +129,44 @@ class Exercise
     public function setMedian(?float $median): self
     {
         $this->median = $median;
+
+        return $this;
+    }
+
+    public function getMusicLink(): ?string
+    {
+        return $this->musicLink;
+    }
+
+    public function setMusicLink(?string $musicLink): self
+    {
+        $this->musicLink = $musicLink;
+
+        return $this;
+    }
+
+    public function removeMusicLink(): self
+    {
+        $this->musicLink = null;
+
+        return $this;
+    }
+
+    public function getMusicLinkIframe(): ?string
+    {
+        return $this->musicLinkIframe;
+    }
+
+    public function setMusicLinkIframe(?string $musicLinkIframe): self
+    {
+        $this->musicLinkIframe = $musicLinkIframe;
+
+        return $this;
+    }
+
+    public function removeMusicLinkIframe(): self
+    {
+        $this->musicLinkIframe = null;
 
         return $this;
     }
