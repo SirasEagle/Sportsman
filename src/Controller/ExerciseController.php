@@ -214,19 +214,62 @@ class ExerciseController extends AbstractController
         $unitRepository = $this->entityManager->getRepository(Unit::class);
         $units = $unitRepository->findBy(['exercise' => $exercise, 'workout' => $workouts]);
         
-        // sorting the workouts
+        // sorting the workouts from oldest to newest
         usort($units, function ($a, $b) {
-            $dateTimeA = $a->getWorkout()->getDate();
-            $dateTimeB = $b->getWorkout()->getDate();
-            if ($dateTimeA == $dateTimeB) {
+            $dateA = $a->getWorkout()->getDate();
+            $dateB = $b->getWorkout()->getDate();
+            // support older versions of PHP for comparison
+            if ($dateA == $dateB) {
                 return 0;
             }
-            return ($dateTimeA > $dateTimeB) ? -1 : 1;
+            return ($dateA < $dateB) ? -1 : 1;
+            
         });
+
+        $graphData = [];
+
+        // Calculate the median for each unit for the graph
+        foreach ($units as $unit) {
+            $median = 0;
+            $set1 = $unit->getSet1();
+            $set2 = $unit->getSet2();
+            $set3 = $unit->getSet3();
+
+            if ($set1 !== null) {
+                $median += $set1;
+            }
+            if ($set2 !== null) {
+                $median += $set2;
+            }
+            if ($set3 !== null) {
+                $median += $set3;
+            }
+
+            // Calculate the median only if there are sets
+            if ($set1 !== null || $set2 !== null || $set3 !== null) {
+                $count = 0;
+                if ($set1 !== null) {
+                    $count++;
+                }
+                if ($set2 !== null) {
+                    $count++;
+                }
+                if ($set3 !== null) {
+                    $count++;
+                }
+                $median /= $count;
+            }
+
+            // save the median and unit-id in a new array
+            $graphData[$unit->getId()]['date'] = $unit->getWorkout()->getDate()->format('Y-m-d');
+            $graphData[$unit->getId()]['median'] = $median;
+
+        }
 
         return $this->render('exercise/show.html.twig', [
             'exercise' => $exercise,
-            'units' => $units
+            'units' => $units,
+            'graphData' => $graphData,
         ]);
     }
 }

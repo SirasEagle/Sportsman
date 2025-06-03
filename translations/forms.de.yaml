@@ -24,6 +24,8 @@ exercise:
     music_link: "Link zu Musik (bzw. Workoutvideo)"
     new: "Neue Übung"
     name: "Name"
+    statisics_rep: "Statistik: Wiederholungen"
+    statistics_weight: "Statistik: Gewicht"
     description: "Beschreibung"
     muscle_group: "Muskelgruppe"
     uses_weight: "Verwendet Gewichte"
