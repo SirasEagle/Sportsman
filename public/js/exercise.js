@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 var idx = tooltipItem.index; // current index of the tooltip item
                                 var avg = tooltipItem.yLabel; // comes from repData that gets used for y-axis-values
                                 var sets = setValues[idx]; // setValues given in Twig
-                                return exerciseName + ': ' + avg + ' (' + sets.join(', ') + ')';
+                                return exerciseName + ': ' + avg.toFixed(2) + ' (' + sets.join(', ') + ')';
                             }
                         }
                     },
@@ -112,6 +112,24 @@ if (combinedGraph) {
             type: 'line',
             data: combinedData,
             options: {
+                // Custom tooltip to show average reps and sets for each data point
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            // Prüfe, ob es die "Wiederholungen"-Datenreihe ist (yAxisID: 'y-reps')
+                            const dataset = data.datasets[tooltipItem.datasetIndex];
+                            if (dataset.yAxisID === 'y-reps') {
+                                var idx = tooltipItem.index;
+                                var avgReps = repData[idx];
+                                var sets = setValues[idx];
+                                return exerciseName + ': ' + avgReps.toFixed(2) + ' Wiederholungen (' + sets.join(', ') + ')';
+                            } else {
+                                // Standard-Tooltip für Gewicht
+                                return dataset.label + ': ' + tooltipItem.yLabel + ' kg';
+                            }
+                        }
+                    }
+                },
                 scales: {
                     yAxes: [
                         {
