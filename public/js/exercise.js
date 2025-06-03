@@ -23,10 +23,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 type: 'line',
                 data: data,
                 options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var idx = tooltipItem.index;
+                                var avg = tooltipItem.yLabel;
+                                var sets = setValues[idx];
+                                return exerciseName + ': ' + avg + ' (' + sets.join(', ') + ')';
+                            }
                         }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: { beginAtZero: true }
+                        }]
                     }
                 }
             };

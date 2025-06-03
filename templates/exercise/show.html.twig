@@ -18,6 +18,7 @@
 		var repData = {{ units|map(unit => ((unit.set1 + unit.set2 + unit.set3) / 3))|json_encode|raw }};
 		var exerciseName = '{{ exercise.name|e('js') }}';
 		var weightData = {{ units|filter(unit => unit.exercise.usesWeight)|map(unit => unit.weight)|json_encode|raw }};
+		var setValues = {{ units|map(unit => [unit.set1, unit.set2, unit.set3])|json_encode|raw }};
 	</script>
 {% endblock %}
 
