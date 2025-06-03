@@ -226,50 +226,9 @@ class ExerciseController extends AbstractController
             
         });
 
-        $graphData = [];
-
-        // Calculate the median for each unit for the graph
-        foreach ($units as $unit) {
-            $median = 0;
-            $set1 = $unit->getSet1();
-            $set2 = $unit->getSet2();
-            $set3 = $unit->getSet3();
-
-            if ($set1 !== null) {
-                $median += $set1;
-            }
-            if ($set2 !== null) {
-                $median += $set2;
-            }
-            if ($set3 !== null) {
-                $median += $set3;
-            }
-
-            // Calculate the median only if there are sets
-            if ($set1 !== null || $set2 !== null || $set3 !== null) {
-                $count = 0;
-                if ($set1 !== null) {
-                    $count++;
-                }
-                if ($set2 !== null) {
-                    $count++;
-                }
-                if ($set3 !== null) {
-                    $count++;
-                }
-                $median /= $count;
-            }
-
-            // save the median and unit-id in a new array
-            $graphData[$unit->getId()]['date'] = $unit->getWorkout()->getDate()->format('Y-m-d');
-            $graphData[$unit->getId()]['median'] = $median;
-
-        }
-
         return $this->render('exercise/show.html.twig', [
             'exercise' => $exercise,
             'units' => $units,
-            'graphData' => $graphData,
         ]);
     }
 }
