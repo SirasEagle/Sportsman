@@ -128,3 +128,55 @@
    background-color: var(--main);
    color: white;
 }
+
+/* show-Table/newUnitForm styling ================================================================================ */
+
+/* add spacing around the form */
+#addUnitForm {
+   margin-top: 20px;
+   margin-bottom: 20px;
+}
+
+/* stack elements in form vertically */
+#addUnitForm form {
+   display: flex;
+   flex-direction: column; 
+}
+
+/* style the form elements (e.g. spacing, font size) */
+#addUnitForm input {
+   margin-top: 10px;
+   padding: 5px;
+   width: 15%;
+   font-size: 16px;
+}
+#addUnitForm textarea {
+   margin-top: 10px;
+   padding: 5px;
+   width: 40%;
+   font-size: 16px;
+}
+
+/* style the save button */
+#addUnitForm button {
+   margin-top: 10px;
+   padding: 10px 20px;
+   font-size: 16px;
+   background-color: var(--main-transparent);
+   color: white;
+   border: none;
+   cursor: pointer;
+   width: 15%;
+}
+#addUnitForm button:hover {
+   background-color: var(--main);
+}
+
+/* style the exercise selection */
+#exerciseSelect {
+   background-color: #f9f9f9;
+   border: none;
+   padding: 5px;
+   font-size: 16px;
+   width: 60%;
+}

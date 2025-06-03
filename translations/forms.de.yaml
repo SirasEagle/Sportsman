@@ -17,6 +17,7 @@ workout:
     save_unit: "Einheit speichern"
     delete: "Löschen"
     delete_confirm: "Bist du sicher, dass du dieses Workout löschen möchtest?"
+    info: "Information zu diesem Workout"
 
 exercise:
     exercise: "Übung"

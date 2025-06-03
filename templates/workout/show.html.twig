@@ -45,7 +45,7 @@
       <form id="unitForm">
          <select id="exerciseSelect" name="exId">   
             {% for exercise in exercises %}
-               <option value="{{ exercise.id }}" data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}">{{ exercise.nameMid }}</option>
+               <option value="{{ exercise.id }}" data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}">{{ exercise.name }}</option>
             {% endfor %}
          </select>
          <input id="set1" name="set1" type="number" value="0" placeholder="{{ 'workout.set1'|trans }}">
