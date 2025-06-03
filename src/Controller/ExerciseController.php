@@ -58,6 +58,10 @@ class ExerciseController extends AbstractController
             }
         }
 
+        // Sort the muscle groups alphabetically
+        ksort($categories);
+
+
         // Sort the exercises alphabetically for each muscle group
         foreach ($categories as &$thisExercises) {
             // sorting the exercises
