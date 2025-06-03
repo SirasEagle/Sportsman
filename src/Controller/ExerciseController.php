@@ -51,7 +51,7 @@ class ExerciseController extends AbstractController
             $categories[$muscleGroupName][] = $exercise;
         }
 
-        // Sort exercise names within each category
+        // sort the exercises alphabetically for each muscle group
         foreach ($categories as &$thisExercises) {
             // sort($exerciseNames);
             // sorting the exercises
@@ -64,6 +64,16 @@ class ExerciseController extends AbstractController
                 return ($nameA < $nameB) ? -1 : 1;
             });
         }
+
+        // sort the exercises alphabetically for overall view
+        usort($exercises, function ($a, $b) {
+            $nameA = $a->getName();
+            $nameB = $b->getName();
+            if ($nameA == $nameB) {
+                return 0;
+            }
+            return ($nameA < $nameB) ? -1 : 1;
+        });
 
 
         return $this->render('exercise/index.html.twig', [
