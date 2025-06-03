@@ -53,6 +53,14 @@
 		</button>
 		<p></p>
 
+		{# chart of the exercise statistics, showing both reps and weight #}
+		{% if units|filter(unit => unit.exercise.usesWeight)|length > 0 %}
+			<div class="graph-wrapper">
+				<h3>{{ 'exercise.statistics_both'|trans }}</h3>
+				<canvas id="combinedGraph" width="600" height="400"></canvas>
+			</div>
+		{% endif %}
+
 		{# chart of the exercise statistics, focus on reps #}
 		<div class="graph-wrapper">
 			<h3>{{ 'exercise.statisics_rep'|trans }}</h3>
@@ -65,7 +73,7 @@
 				<h3>{{ 'exercise.statistics_weight'|trans }}</h3>
 				<canvas id="weightGraph" width="600" height="400"></canvas>
 			</div>
-		{% endif %}		
+		{% endif %}
 	</div>
 
 {% endblock %}
