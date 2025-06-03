@@ -12,6 +12,13 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 	<script type="text/javascript" src="jscript/graph.js"></script>
 	<script src="{{ asset('js/exercise.js') }}"></script>
+	<script>
+		// Prepare data for the graphs
+		var exerciseLabels = {{ units|map(unit => unit.workout.date|date('Y-m-d'))|json_encode|raw }};
+		var repData = {{ units|map(unit => ((unit.set1 + unit.set2 + unit.set3) / 3))|json_encode|raw }};
+		var exerciseName = '{{ exercise.name|e('js') }}';
+		var weightData = {{ units|filter(unit => unit.exercise.usesWeight)|map(unit => unit.weight)|json_encode|raw }};
+	</script>
 {% endblock %}
 
 {% block body %}
@@ -44,64 +51,13 @@
 		{# add view of units in graph-format #}
 		<div class="graph-wrapper">
 			<h3>{{ 'exercise.statisics_rep'|trans }}</h3>
-			<canvas id="exerciseGraph" width="600" height="400"></canvas>
-			<script>
-				const ctx = document.getElementById('exerciseGraph').getContext('2d');
-				const labels = {{ units|map(unit => unit.workout.date|date('Y-m-d'))|json_encode|raw }};
-				const data = {
-					labels: labels,
-					datasets: [{
-						label: '{{ exercise.name }}',
-						data: {{ units|map(unit => ((unit.set1 + unit.set2 + unit.set3) / 3))|json_encode|raw }},
-						borderColor: 'rgba(75, 192, 192, 1)',
-						backgroundColor: 'rgba(75, 192, 192, 0.2)',
-						fill: true
-					}]
-				};
-				const config = {
-					type: 'line',
-					data: data,
-					options: {
-						scales: {
-							y: {
-								beginAtZero: true
-							}
-						}
-					}
-				};
-				new Chart(ctx, config);
-			</script>
+			<canvas id="repGraph" width="600" height="400"></canvas>
 		</div>
 		{# add view of weight in units in graph-format #}
 		{% if units|filter(unit => unit.exercise.usesWeight)|length > 0 %}
 			<div class="graph-wrapper">
 				<h3>{{ 'exercise.statistics_weight'|trans }}</h3>
 				<canvas id="weightGraph" width="600" height="400"></canvas>
-				<script>
-					const weightCtx = document.getElementById('weightGraph').getContext('2d');
-					const weightData = {
-						labels: labels,
-						datasets: [{
-							label: '{{ exercise.name }} - Gewicht',
-							data: {{ units|filter(unit => unit.exercise.usesWeight)|map(unit => unit.weight)|json_encode|raw }},
-							borderColor: 'rgba(255, 99, 132, 1)',
-							backgroundColor: 'rgba(255, 99, 132, 0.2)',
-							fill: true
-						}]
-					};
-					const weightConfig = {
-						type: 'line',
-						data: weightData,
-						options: {
-							scales: {
-								y: {
-									beginAtZero: true
-								}
-							}
-						}
-					};
-					new Chart(weightCtx, weightConfig);
-				</script>
 			</div>
 		{% endif %}		
 	</div>
