@@ -20,19 +20,19 @@ workout:
     info: "Information zu diesem Workout"
 
 exercise:
+    add_today: "Zu heute hinzufügen"
+    description: "Beschreibung"
+    edit: "Bearbeiten"
     exercise: "Übung"
+    muscle_group: "Muskelgruppe"
     music_link: "Link zu Musik (bzw. Workoutvideo)"
     new: "Neue Übung"
     name: "Name"
     statisics_rep: "Statistik: Wiederholungen"
     statistics_weight: "Statistik: Gewicht"
-    description: "Beschreibung"
-    muscle_group: "Muskelgruppe"
+    submit: "Speichern"
     uses_weight: "Verwendet Gewichte"
     weight.kg: "Gewicht (kg)"
-    submit: "Speichern"
-    edit: "Bearbeiten"
-    add_today: "Zu heute hinzufügen"
 
 muscle_group:
     new: "Neue Muskelgruppe"
