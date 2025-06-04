@@ -31,12 +31,6 @@ class WorkoutNewType extends AbstractType
                 'attr' => ['class' => 'abc'],
                 'row_attr' => ['class' => 'mg-add-rows'],
             ])
-            ->add('isReal', CheckboxType::class, [
-                'label' => 'workout_new.is_real',
-                'required' => false,
-                'data' => true,
-                'row_attr' => ['class' => 'mg-add-check'],
-            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'workout_new.submit',
                 'attr' => ['class' => 'abc'],
