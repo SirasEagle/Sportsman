@@ -51,6 +51,15 @@ class Exercise
     #[ORM\OneToOne(mappedBy: 'exercise', cascade: ['persist', 'remove'])]
     private ?Multiplier $multiplier = null;
 
+    #[ORM\OneToOne(mappedBy: 'exercise', cascade: ['persist', 'remove'])]
+    private ?ExerciseStatistics $exerciseStatistics = null;
+
+    public function __construct()
+    {
+        $this->exerciseStatistics = new ExerciseStatistics();
+        $this->exerciseStatistics->setExercise($this);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -241,6 +250,23 @@ class Exercise
         }
 
         $this->multiplier = $multiplier;
+
+        return $this;
+    }
+
+    public function getExerciseStatistics(): ?ExerciseStatistics
+    {
+        return $this->exerciseStatistics;
+    }
+
+    public function setExerciseStatistics(ExerciseStatistics $exerciseStatistics): static
+    {
+        // set the owning side of the relation if necessary
+        if ($exerciseStatistics->getExercise() !== $this) {
+            $exerciseStatistics->setExercise($this);
+        }
+
+        $this->exerciseStatistics = $exerciseStatistics;
 
         return $this;
     }

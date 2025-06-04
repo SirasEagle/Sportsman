@@ -173,6 +173,7 @@ class ExerciseController extends AbstractController
             $unitRepository = $this->entityManager->getRepository(Unit::class);
             $units = $unitRepository->findBy(['exercise' => $exercise]);
 
+            // calculate and set repetition median per exercise
             $median = 0;
             if ($units) {
                 foreach ($units as $unit) {
@@ -183,6 +184,19 @@ class ExerciseController extends AbstractController
                 $median = ($median / (count($units) * 3));
             }
             $exercise->setMedian((float)$median);
+
+            // calculate and set weight median per exercise
+            if ($exercise->getUsesWeight()) {
+                $weightMedian = 0;
+                if ($units) {
+                    foreach ($units as $unit) {
+                        $weightMedian += $unit->getWeight();
+                    }
+                    $weightMedian = ($weightMedian / count($units));
+                }
+                $exercise->getExerciseStatistics()->setWeightMedian((float)$weightMedian);
+            }
+
             $this->entityManager->persist($exercise);
             $this->entityManager->flush();
         }

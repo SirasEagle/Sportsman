@@ -29,7 +29,11 @@
 
 		{# Show median and last workout date #}
 		<p>
-			{{ exercise.muscleGroup.term }} - Durschnittlich <strong>{{ exercise.median|number_format }}</strong> Wiederholungen pro Set.
+			{{ exercise.muscleGroup.term }} - Durschnittlich <strong>{{ exercise.median|number_format }}</strong> Wiederholungen
+			{% if exercise.usesWeight %}
+				und <strong>{{ exercise.exerciseStatistics.weightMedian|number_format(2) }} kg</strong>
+			{% endif %}
+			pro Set.
 			{% if units|length > 0 %}
 				{{ 'exercise.last_workout'|trans({'%date%': units|last.workout.date|date('d.m.Y')})|raw }}
 			{% else %}
