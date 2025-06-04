@@ -73,7 +73,8 @@ i {
 }
 
 .table-wrapper table {
-   width: 100%;
+   margin-left: 32px;
+   width: 96%;
    border-collapse: collapse;
 }
 .table-wrapper th, .table-wrapper td {
@@ -86,6 +87,9 @@ i {
 }
 .table-wrapper tr:hover {
    background-color: var(--main-transparent);
+}
+.table-wrapper tbody tr:hover {
+   cursor: pointer;
 }
 .table-wrapper th, .table-wrapper td {
    text-align: center;

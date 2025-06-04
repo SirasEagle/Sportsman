@@ -77,7 +77,7 @@
 		{# chart of the exercise statistics, focus on reps #}
 		{% if exercise.isSingleUnit == false %}
 			<div class="graph-wrapper">
-				<h3>{{ 'exercise.statisics_rep'|trans }}</h3>
+				<h3>{{ 'exercise.statistics_rep'|trans }}</h3>
 				<canvas id="repGraph" width="600" height="400"></canvas>
 			</div>
 		{% endif %}
@@ -108,7 +108,8 @@
 				</thead>
 				<tbody>
 					{% for unit in units %}
-						<tr>
+						{# edit unit in row on click #}
+						<tr onclick="window.location.href = '{{ path('edit_unit', {'id': unit.id}) }}';" class="clickable">
 							<td>{{ unit.workout.date|date('d.m.Y') }}</td>
 							<td>{{ unit.set1 }}</td>
 							<td>{{ unit.set2 }}</td>
