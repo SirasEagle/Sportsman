@@ -127,15 +127,16 @@ class WorkoutController extends AbstractController
                 throw $this->createNotFoundException('workout not found');
             }
 
-            $points = 0;
+            $workoutPoints = 0;
             $units = $workout->getUnits();
             foreach ($units as $unit) {
                 $temp = 0;
+                $unitPoints = 0;
 
-                $points++; // +1p for making an exercise
+                $unitPoints++; // +1p for making an exercise
                 if ($unit->getExercise()->getMultiplier()) {
                     // + fix additional points for making that exercise
-                    $points += $unit->getExercise()->getMultiplier()->getAddition();
+                    $unitPoints += $unit->getExercise()->getMultiplier()->getAddition();
                 }
 
                 // +1p for each 50% median bases reps
@@ -147,9 +148,24 @@ class WorkoutController extends AbstractController
                     // multiply by set multiplier
                     $temp = $temp * $unit->getExercise()->getMultiplier()->getMultiplyBy();
                 }
-                $points += $temp / $unit->getExercise()->getMedian();
+                $unitPoints += $temp / $unit->getExercise()->getMedian();
+
+                // multiply everything with weight median if weight gets used
+                if ($unit->getExercise()->getUsesWeight()) {
+                    if ($unit->getExercise()->getExerciseStatistics() === null) {
+                        throw $this->createNotFoundException('Exercise statistics not found for exercise: ' . $unit->getExercise()->getName());
+                    }
+                    if ($unit->getExercise()->getExerciseStatistics()->getWeightMedian() === null) {
+                        throw $this->createNotFoundException('Weight median not found for exercise: ' . $unit->getExercise()->getName());
+                    }
+                    $overallMedian = $unit->getExercise()->getExerciseStatistics()->getWeightMedian();
+                    $thisMedian = $unit->getWeight();
+
+                    $unitPoints *= ($thisMedian / $overallMedian);
+                }
+                $workoutPoints += $unitPoints; // add points of this unit
             }
-            $workout->setPoints($points);
+            $workout->setPoints($workoutPoints);
             $this->entityManager->persist($workout);
             $this->entityManager->flush();
         }
