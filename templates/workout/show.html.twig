@@ -45,12 +45,12 @@
       <form id="unitForm">
          <select id="exerciseSelect" name="exId">   
             {% for exercise in exercises %}
-               <option value="{{ exercise.id }}" data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}">{{ exercise.name }}</option>
+               <option value="{{ exercise.id }}" data-uses-weight="{{ exercise.usesWeight ? 1 : 0 }}" data-is-single-unit="{{ exercise.isSingleUnit ? 1 : 0 }}">{{ exercise.name }}</option>
             {% endfor %}
          </select>
-         <input id="set1" name="set1" type="number" value="0" placeholder="{{ 'workout.set1'|trans }}">
-         <input id="set2" name="set2" type="number" value="0" placeholder="{{ 'workout.set2'|trans }}">
-         <input id="set3" name="set3" type="number" value="0" placeholder="{{ 'workout.set3'|trans }}">
+         <input id="set1" name="set1" type="number" value="0" placeholder="{{ 'workout.set1'|trans }}" style="display: none;">
+         <input id="set2" name="set2" type="number" value="0" placeholder="{{ 'workout.set2'|trans }}" style="display: none;">
+         <input id="set3" name="set3" type="number" value="0" placeholder="{{ 'workout.set3'|trans }}" style="display: none;">
          <input id="weight" name="unW" type="text" value="0.0kg" placeholder="{{ 'workout.weight'|trans }}" style="display: none;">
          <textarea id="info" name="unitInfo" placeholder="{{ 'workout.info'|trans }}"></textarea>
          <input id="workoutId" name="wId" type="hidden" value="{{ workout.id }}">

@@ -73,6 +73,13 @@ class UnitController extends AbstractController
                 $unit->setWeight($weight);
             }
 
+            // set set1, set2, set3 to 1 if isSingleUnit is true
+            if ($unit->getExercise()->isSingleUnit()) {
+                $unit->setSet1(1);
+                $unit->setSet2(1);
+                $unit->setSet3(1);
+            }
+
             $this->entityManager->persist($unit);
             $this->entityManager->flush();
 
@@ -120,19 +127,6 @@ class UnitController extends AbstractController
             $unitInfo = $request->request->get('unitInfo');
         }
 
-        // Validate the sets
-        if (!is_numeric($set1) || !is_numeric($set2) || !is_numeric($set3)) {
-            return new Response('Sets must be numeric values', Response::HTTP_BAD_REQUEST);
-        }
-        $set1 = (int) $set1;
-        $set2 = (int) $set2;
-        $set3 = (int) $set3;
-        if ($set1 < 0 || $set2 < 0 || $set3 < 0) {
-            return new Response('Sets must be non-negative integers', Response::HTTP_BAD_REQUEST);
-        }
-        if ($weight < 0) {
-            return new Response('Weight must be a non-negative number', Response::HTTP_BAD_REQUEST);
-        }
         // Validate the exercise and workout IDs
         if (!is_numeric($exerciseId) || !is_numeric($workoutId)) {
             return new Response('Invalid exercise or workout ID', Response::HTTP_BAD_REQUEST);
@@ -151,6 +145,32 @@ class UnitController extends AbstractController
         // Validate the Exercise and Workout entities
         if (!$exercise || !$workout) {
             return new Response('Invalid exercise or workout ID', Response::HTTP_BAD_REQUEST);
+        }
+
+        // set set1, set2, set3 to 1 if isSingleUnit is true
+        if ($exercise->isSingleUnit()) {
+            $set1 = 1;
+            $set2 = 1;
+            $set3 = 1;
+        } else {
+            // Ensure that set1, set2, and set3 are provided
+            if ($set1 === null || $set2 === null || $set3 === null) {
+                return new Response('Sets must be provided', Response::HTTP_BAD_REQUEST);
+            }
+            if (!is_numeric($set1) || !is_numeric($set2) || !is_numeric($set3)) {
+                return new Response('Sets must be numeric values', Response::HTTP_BAD_REQUEST);
+            }
+            $set1 = (int) $set1;
+            $set2 = (int) $set2;
+            $set3 = (int) $set3;
+            if ($set1 < 0 || $set2 < 0 || $set3 < 0) {
+                return new Response('Sets must be non-negative integers', Response::HTTP_BAD_REQUEST);
+            }
+        }
+
+        // Validate the sets
+        if ($weight < 0) {
+            return new Response('Weight must be a non-negative number', Response::HTTP_BAD_REQUEST);
         }
 
         // Create a new Unit entity

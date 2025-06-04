@@ -52,7 +52,6 @@ class UnitNewType extends AbstractType
             ])
         ;
 
-        // Dynamisch das Weight-Feld nur hinzufügen, wenn die zugehörige Exercise usesWeight == true
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /** @var Unit|null $unit */
             $unit = $event->getData();
@@ -62,6 +61,7 @@ class UnitNewType extends AbstractType
                 return;
             }
 
+            // Dynamisch das Weight-Feld nur hinzufügen, wenn die zugehörige Exercise usesWeight == true
             if ($unit->getExercise()->getUsesWeight()) {
                 $form->add('weight', NumberType::class, [
                     'label'    => 'exercise.weight.kg',
@@ -76,6 +76,13 @@ class UnitNewType extends AbstractType
                     ],
                     'row_attr' => ['class' => 'number-input'],
                 ]);
+            }
+
+            // only set set1, set2, set3 if isSingleUnit is false
+            if ($unit->getExercise()->isSingleUnit()) {
+                $form->remove('set1');
+                $form->remove('set2');
+                $form->remove('set3');
             }
 
             $form
