@@ -44,9 +44,12 @@ user:
     plural: "Benutzer"
 
 unit:
+    date: "Datum"
+    plural: "Einheiten"
     set1: "Set 1"
     set2: "Set 2"
     set3: "Set 3"
+    unit: "Einheit"
     info: "Information"
     submit: "Speichern"
 

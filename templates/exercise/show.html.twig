@@ -75,11 +75,13 @@
 		{% endif %}
 
 		{# chart of the exercise statistics, focus on reps #}
-		<div class="graph-wrapper">
-			<h3>{{ 'exercise.statisics_rep'|trans }}</h3>
-			<canvas id="repGraph" width="600" height="400"></canvas>
-		</div>
-
+		{% if exercise.isSingleUnit == false %}
+			<div class="graph-wrapper">
+				<h3>{{ 'exercise.statisics_rep'|trans }}</h3>
+				<canvas id="repGraph" width="600" height="400"></canvas>
+			</div>
+		{% endif %}
+		
 		{# chart of the exercise statistics, focus on weight #}
 		{% if units|filter(unit => unit.exercise.usesWeight)|length > 0 %}
 			<div class="graph-wrapper">
@@ -87,6 +89,42 @@
 				<canvas id="weightGraph" width="600" height="400"></canvas>
 			</div>
 		{% endif %}
+
+		{# table of all units for this exercise #}
+		<div class="table-wrapper">
+			<h3>{{ 'unit.plural'|trans }}</h3>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>{{ 'unit.date'|trans }}</th>
+						<th>{{ 'unit.set1'|trans }}</th>
+						<th>{{ 'unit.set2'|trans }}</th>
+						<th>{{ 'unit.set3'|trans }}</th>
+						{% if exercise.usesWeight %}
+							<th>{{ 'exercise.weight.kg'|trans }}</th>
+						{% endif %}
+						<th>{{ 'unit.info'|trans }}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for unit in units %}
+						<tr>
+							<td>{{ unit.workout.date|date('d.m.Y') }}</td>
+							<td>{{ unit.set1 }}</td>
+							<td>{{ unit.set2 }}</td>
+							<td>{{ unit.set3 }}</td>
+							{% if exercise.usesWeight %}
+								<td>{{ unit.weight }} kg</td>
+							{% endif %}
+							<td>{{ unit.info }}
+						</tr>
+					{% else %}
+					{# If there are no units, show a message #}
+						<tr><td colspan="{{ exercise.usesWeight ? 6 : 5 }}">{{ 'exercise.no_units'|trans }}</td></tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 {% endblock %}

@@ -78,88 +78,88 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // both charts combined in one graph
     const combinedGraph = document.getElementById('combinedGraph');
-// check if canvas elements exist before initializing chart
-if (combinedGraph) {
-    const combinedCtx = combinedGraph.getContext('2d');
-    if (
-        typeof exerciseLabels !== 'undefined' &&
-        typeof repData !== 'undefined' &&
-        typeof weightData !== 'undefined' &&
-        typeof exerciseName !== 'undefined'
-    ) {
-        const combinedData = {
-            labels: exerciseLabels,
-            datasets: [
-                {
-                    label: exerciseName + ' - Wiederholungen',
-                    data: repData,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    fill: true,
-                    yAxisID: 'y-reps'
-                },
-                {
-                    label: exerciseName + ' - Gewicht',
-                    data: weightData,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    fill: true,
-                    yAxisID: 'y-weight'
-                }
-            ]
-        };
-        const combinedConfig = {
-            type: 'line',
-            data: combinedData,
-            options: {
-                // Custom tooltip to show average reps and sets for each data point
-                tooltips: {
-                    callbacks: {
-                        label: function(tooltipItem, data) {
-                            // Prüfe, ob es die "Wiederholungen"-Datenreihe ist (yAxisID: 'y-reps')
-                            const dataset = data.datasets[tooltipItem.datasetIndex];
-                            if (dataset.yAxisID === 'y-reps') {
-                                var idx = tooltipItem.index;
-                                var avgReps = repData[idx];
-                                var sets = setValues[idx];
-                                return exerciseName + ': ' + avgReps.toFixed(2) + ' Wiederholungen (' + sets.join(', ') + ')';
-                            } else {
-                                // Standard-Tooltip für Gewicht
-                                return dataset.label + ': ' + tooltipItem.yLabel + ' kg';
-                            }
-                        }
+    // check if canvas elements exist before initializing chart
+    if (combinedGraph) {
+        const combinedCtx = combinedGraph.getContext('2d');
+        if (
+            typeof exerciseLabels !== 'undefined' &&
+            typeof repData !== 'undefined' &&
+            typeof weightData !== 'undefined' &&
+            typeof exerciseName !== 'undefined'
+        ) {
+            const combinedData = {
+                labels: exerciseLabels,
+                datasets: [
+                    {
+                        label: exerciseName + ' - Wiederholungen',
+                        data: repData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true,
+                        yAxisID: 'y-reps'
+                    },
+                    {
+                        label: exerciseName + ' - Gewicht',
+                        data: weightData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: true,
+                        yAxisID: 'y-weight'
                     }
-                },
-                scales: {
-                    yAxes: [
-                        {
-                            id: 'y-reps',
-                            type: 'linear',
-                            position: 'left',
-                            ticks: { beginAtZero: true },
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Wiederholungen'
-                            }
-                        },
-                        {
-                            id: 'y-weight',
-                            type: 'linear',
-                            position: 'right',
-                            ticks: { beginAtZero: true },
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Gewicht'
-                            },
-                            gridLines: {
-                                drawOnChartArea: false // verhindert Überlagerung der Gitterlinien
+                ]
+            };
+            const combinedConfig = {
+                type: 'line',
+                data: combinedData,
+                options: {
+                    // Custom tooltip to show average reps and sets for each data point
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                // Prüfe, ob es die "Wiederholungen"-Datenreihe ist (yAxisID: 'y-reps')
+                                const dataset = data.datasets[tooltipItem.datasetIndex];
+                                if (dataset.yAxisID === 'y-reps') {
+                                    var idx = tooltipItem.index;
+                                    var avgReps = repData[idx];
+                                    var sets = setValues[idx];
+                                    return exerciseName + ': ' + avgReps.toFixed(2) + ' Wiederholungen (' + sets.join(', ') + ')';
+                                } else {
+                                    // Standard-Tooltip für Gewicht
+                                    return dataset.label + ': ' + tooltipItem.yLabel + ' kg';
+                                }
                             }
                         }
-                    ]
+                    },
+                    scales: {
+                        yAxes: [
+                            {
+                                id: 'y-reps',
+                                type: 'linear',
+                                position: 'left',
+                                ticks: { beginAtZero: true },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Wiederholungen'
+                                }
+                            },
+                            {
+                                id: 'y-weight',
+                                type: 'linear',
+                                position: 'right',
+                                ticks: { beginAtZero: true },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Gewicht'
+                                },
+                                gridLines: {
+                                    drawOnChartArea: false // verhindert Überlagerung der Gitterlinien
+                                }
+                            }
+                        ]
+                    }
                 }
-            }
-        };
-        new Chart(combinedCtx, combinedConfig);
+            };
+            new Chart(combinedCtx, combinedConfig);
+        }
     }
-}
 });

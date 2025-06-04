@@ -54,13 +54,47 @@ strong {
    cursor: pointer;
    -webkit-transition-duration: 0.4s; /* Safari */
    transition-duration: 0.4s;
- }
- 
- .editButton:hover {
+}
+
+.editButton:hover {
    background-color: var(--main-light-transparent);
    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
- }
- 
- i {
+}
+
+i {
    color: var(--main-light);
- }
+}
+
+
+/* show/table styling================================================================================================= */
+
+:root {
+   --main-transparent-very: rgba(110, 200, 75, 0.22);
+}
+
+.table-wrapper table {
+   width: 100%;
+   border-collapse: collapse;
+}
+.table-wrapper th, .table-wrapper td {
+   border: 1px solid var(--main-light-transparent);
+   padding: 8px;
+   text-align: center;
+}
+.table-wrapper tr:nth-child(even) {
+   background-color: var(--main-transparent-very);
+}
+.table-wrapper tr:hover {
+   background-color: var(--main-transparent);
+}
+.table-wrapper th, .table-wrapper td {
+   text-align: center;
+}
+.table-wrapper th {
+   background-color: var(--main-transparent);
+   font-weight: bold;
+}
+.table-wrapper td {
+   vertical-align: middle;
+}
+/* . */
