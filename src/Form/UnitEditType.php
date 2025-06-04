@@ -59,6 +59,7 @@ class UnitEditType extends AbstractType
                 return;
             }
 
+            // add the weight field only if the exercise uses weight
             if ($unit->getExercise()->getUsesWeight()) {
                 $form->add('weight', NumberType::class, [
                     'label'    => 'exercise.weight.kg',
@@ -73,6 +74,13 @@ class UnitEditType extends AbstractType
                     ],
                     'row_attr' => ['class' => 'number-input'],
                 ]);
+            }
+
+            // only set set1, set2, set3 if isSingleUnit is false
+            if ($unit->getExercise()->isSingleUnit()) {
+                $form->remove('set1');
+                $form->remove('set2');
+                $form->remove('set3');
             }
 
             $form
