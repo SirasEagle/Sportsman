@@ -61,6 +61,12 @@ class ExerciseNewType extends AbstractType
                 'row_attr' => ['class' => 'mg-add-check'],
                 'data'     => false,
             ])
+            ->add('isSingleUnit', CheckboxType::class, [
+                'label' => 'exercise.is_single_unit',
+                'required' => false,
+                'row_attr' => ['class' => 'mg-add-check'],
+                'data'     => false,
+            ])
             ->add('multiplier', MultiplierType::class, [
                 'label' => false, // no label for this container
                 'mapped' => true,

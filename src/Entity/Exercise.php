@@ -39,6 +39,10 @@ class Exercise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $musicLinkIframe = null;
 
+    // a flag to determine if the exercise only has one unit with value 1 (to show that the exercise was done, e.g. for stretching)
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private ?bool $isSingleUnit = false;
+
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'exercise')]
     private ?Collection $units;
 
@@ -176,6 +180,18 @@ class Exercise
     public function removeMusicLinkIframe(): self
     {
         $this->musicLinkIframe = null;
+
+        return $this;
+    }
+
+    public function isSingleUnit(): ?bool
+    {
+        return $this->isSingleUnit;
+    }
+
+    public function setIsSingleUnit(?bool $isSingleUnit): self
+    {
+        $this->isSingleUnit = $isSingleUnit;
 
         return $this;
     }

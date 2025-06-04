@@ -23,6 +23,7 @@ exercise:
     description: "Beschreibung"
     edit: "Bearbeiten"
     exercise: "Übung"
+    is_single_unit: "Einzelne Einheit"
     last_workout: "Zuletzt am <strong>%date%</strong> trainiert."
     muscle_group: "Muskelgruppe"
     music_link: "Link zu Musik (bzw. Workoutvideo)"
