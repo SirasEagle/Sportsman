@@ -69,7 +69,7 @@ class UnitEditType extends AbstractType
                     'scale'    => 1,
                     'attr'     => [
                         'min'  => 0,
-                        'step' => 0.1,
+                        'step' => 0.5,
                         'class' => 'abc',
                     ],
                     'row_attr' => ['class' => 'number-input'],
