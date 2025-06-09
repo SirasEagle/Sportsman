@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UnitEditType;
-use App\Form\UnitNewType;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Unit;
 use App\Entity\Exercise;
@@ -30,66 +29,6 @@ class UnitController extends AbstractController
         ]);
     }
 
-    #[Route('/unit/add/{id}', name: 'add_unit')]
-    public function new(Request $request, int $id): Response
-    {
-        // Ensure the user is logged in
-        $activeUser = $this->getUser();
-        if (!$activeUser) {
-            throw $this->createAccessDeniedException('You must be logged in to view this page.');
-        }
-
-        $unit = new Unit();
-
-        $today = new \DateTime();
-        $workoutRepository = $this->entityManager->getRepository(Workout::class);
-        $currentWorkout = $workoutRepository->findOneBy([
-            'date' => $today,
-            'user' => $activeUser, // Assuming the user is the currently logged-in user
-            // TODO: check user as well
-        ]);
-        // case: no workout for today exists
-        if (!$currentWorkout) {
-            return $this->render('unit/confirm_new_workout.html.twig', [
-                'exerciseId' => $id,
-                'todayDate'  => $today->format('Y-m-d'),
-            ]);
-        }
-        $unit->setWorkout($currentWorkout);
-
-        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
-        $exercise = $exerciseRepository->find($id);
-        $unit->setExercise($exercise);
-
-        $form = $this->createForm(UnitNewType::class, $unit);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $unit = $form->getData();
-
-            if ($unit->getExercise()->getUsesWeight()) {
-                $weightString = $form->get('weight')->getData();
-                $weight = $this->weightStringToFloat($weightString);
-                $unit->setWeight($weight);
-            }
-
-            // set set1, set2, set3 to 1 if isSingleUnit is true
-            if ($unit->getExercise()->isSingleUnit()) {
-                $unit->setSet1(1);
-                $unit->setSet2(1);
-                $unit->setSet3(1);
-            }
-
-            $this->entityManager->persist($unit);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('show_workout', ['id' => $unit->getWorkout()->getId()]);
-        }
-
-        return $this->render('unit/edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
 
     /**
      * Handles the addition of a new unit via an XHR request.
