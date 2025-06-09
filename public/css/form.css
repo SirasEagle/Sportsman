@@ -11,6 +11,11 @@
    justify-content: flex-end;
 }
 
+/* set width of submit button and textarea */
+.mg-add-rows button, .mg-add-rows textarea {
+   width: 50%;
+}
+
 /* styling for checkbox fields */
 .mg-add-check {
    padding: 10px;

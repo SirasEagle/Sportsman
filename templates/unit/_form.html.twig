@@ -1,0 +1,44 @@
+{% trans_default_domain 'forms' %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+{% endblock %}
+
+<form id="unitForm">
+   <input type="hidden" name="exId" type="number" value="{{ exercise.id }}">
+   {% if exercise.isSingleUnit %}
+      <input id="set1" type="hidden" name="set1" type="number" value="1">
+      <input id="set2" type="hidden" name="set2" type="number" value="1">
+      <input id="set3" type="hidden" name="set3" type="number" value="1">
+   {% else %}
+      <div class="number-input">
+         <label class="required" for="set1">{{ 'unit.set1'|trans }}</label>
+         <input class="abc" id="set1" name="set1" type="number" required="required" value="0" min="0" step="1">
+      </div>
+      <div class="number-input">
+         <label class="required" for="set2">{{ 'unit.set2'|trans }}</label>
+         <input class="abc" id="set2" name="set2" type="number" required="required" value="0" min="0" step="1">
+      </div>
+      <div class="number-input">
+         <label class="required" for="set3">{{ 'unit.set3'|trans }}</label>
+         <input class="abc" id="set3" name="set3" type="number" required="required" value="0" min="0" step="1">
+      </div>
+   {% endif %}
+   {% if exercise.usesWeight %}
+      <div class="number-input">
+         <label class="required" for="weight">{{ 'exercise.weight.kg'|trans }}</label>
+         <input class="abc" id="weight" name="unW" type="number" required="required" step="0.5" value="0.0">
+      </div>
+   {% else %}
+      <input type="hidden" id="weight" name="unW" value="0.0">
+   {% endif %}
+   <div class="mg-add-rows">
+      <label for="unitInfo">{{ 'unit.info'|trans }}</label>
+      <textarea class="abc" id="info" type="text" name="unitInfo"></textarea>
+   </div>
+   <input type="hidden" name="exId" value="{{ exercise.id }}">
+   <input type="hidden" name="wId" value="{{ latest_workout.id }}">
+   <div class="mg-add-rows">
+      <button type="submit" class="abc">{{ 'workout.save_unit'|trans }}</button>
+   </div>
+</form>

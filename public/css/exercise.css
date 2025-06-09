@@ -101,4 +101,10 @@ i {
 .table-wrapper td {
    vertical-align: middle;
 }
-/* . */
+
+
+/* show/add unit form styling================================================================================================= */
+
+.hidden {
+    display: none;
+}

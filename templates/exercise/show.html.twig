@@ -59,12 +59,26 @@
 		<button onclick="window.location.href = '{{ path('edit_exercise', {'id': exercise.id}) }}';" class="btn editButton">
 			<i class="fa fa-edit"></i> {{ 'exercise.edit'|trans }}
 		</button>
+
+		{% if latest_workout is null %}
+			<button id="createWorkoutButton" class="btn editButton">
+				<i class="fa fa-plus"></i> {{ 'exercise.add_today'|trans }}
+			</button>
+			<div id="createWorkoutForm" class="hidden">
+				{# If there is no latest workout, ask the user to create a new workout for today #}
+				{% set todayDate = "now"|date('Y-m-d') %}
+				{{ include('unit/confirm_new_workout.html.twig', {'exerciseId': exercise.id, 'todayDate': todayDate}) }}
+			</div>
+		{% else %}
 		
-		{# button to add a new unit for this exercise #}
-		<button onclick="window.location.href = '{{ path('add_unit', {'id': exercise.id}) }}';" class="btn editButton">
-			<i class="fa fa-plus"></i> {{ 'exercise.add_today'|trans }}
-		</button>
-		<p></p>
+			{# button to add a new unit for this exercise #}
+			<button id="addUnitButton" class="btn editButton">
+				<i class="fa fa-plus"></i> {{ 'exercise.add_today'|trans }}
+			</button>
+			<div id="addUnitForm" class="hidden">
+				{{ include('unit/_form.html.twig', {'exercise': exercise, 'latest_workout': latest_workout}) }}
+			</div>
+		{% endif %}
 
 		{# chart of the exercise statistics, showing both reps and weight #}
 		{% if units|filter(unit => unit.exercise.usesWeight)|length > 0 %}

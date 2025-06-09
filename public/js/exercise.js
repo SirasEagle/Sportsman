@@ -162,4 +162,13 @@ document.addEventListener('DOMContentLoaded', function () {
             new Chart(combinedCtx, combinedConfig);
         }
     }
+
+    // Toggle visibility of the add unit form
+    const addUnitButton = document.getElementById('addUnitButton');
+    const addUnitForm = document.getElementById('addUnitForm');
+    if (addUnitButton && addUnitForm) {
+        addUnitButton.addEventListener('click', function () {
+            addUnitForm.classList.toggle('hidden');
+        });
+    }
 });
