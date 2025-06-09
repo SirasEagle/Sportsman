@@ -217,6 +217,18 @@ class ExerciseController extends AbstractController
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercise = $exerciseRepository->find($id);
 
+        // get today's workout for the user if it exists
+        $today = new \DateTime();
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        $latest_workout = null;
+        $latest_workout = $workoutRepository->findOneBy([
+            'user' => $activeUser,
+            'date' => $today, // today's date
+        ]);
+        if (!$latest_workout) {
+            $latest_workout = null;
+        }
+
         if (!$exercise) {
             throw $this->createNotFoundException('Exercise not found');
         }
@@ -243,6 +255,7 @@ class ExerciseController extends AbstractController
         return $this->render('exercise/show.html.twig', [
             'exercise' => $exercise,
             'units' => $units,
+            'latest_workout' => $latest_workout,
         ]);
     }
 }
