@@ -194,6 +194,14 @@ class WorkoutController extends AbstractController
             throw $this->createNotFoundException('Workout not found');
         }
 
+        // Remove associated units
+        $unitRepository = $this->entityManager->getRepository(Unit::class);
+        $units = $unitRepository->findBy(['workout' => $workout]);
+        foreach ($units as $unit) {
+            $this->entityManager->remove($unit);
+        }
+        $this->entityManager->flush();
+
         // Remove the workout from the database
         $this->entityManager->remove($workout);
         $this->entityManager->flush();
