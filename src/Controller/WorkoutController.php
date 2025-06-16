@@ -182,16 +182,17 @@ class WorkoutController extends AbstractController
             throw $this->createAccessDeniedException('You must be logged in to delete a workout.');
         }
 
-        // Ensure the user is authorized to delete the workout
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $workout = $workoutRepository->find($id);
-        if ($activeUser->getId() !== $workout->getUser()?->getId()) {
-            throw $this->createAccessDeniedException('You can only delete your own workouts.');
-        }
-
+        
         // Check if the workout exists
         if (!$workout) {
             throw $this->createNotFoundException('Workout not found');
+        }
+
+        // Ensure the user is authorized to delete the workout
+        if ($activeUser->getId() !== $workout->getUser()?->getId()) {
+            throw $this->createAccessDeniedException('You can only delete your own workouts.');
         }
 
         // Remove associated units
@@ -223,15 +224,17 @@ class WorkoutController extends AbstractController
         
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $workout = $workoutRepository->find($id);
+
+        // Check if the workout exists
+        if (!$workout) {
+            throw $this->createNotFoundException('Workout not found');
+        }
+
         if ($activeUser->getId() !== $workout->getUser()?->getId()) {
             throw $this->createAccessDeniedException('You can only view your own workouts.');
         }
         $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
         $exercises = $exerciseRepository->findAll();
-
-        if (!$workout) {
-            throw $this->createNotFoundException('Workout not found');
-        }
 
         // sorting the exercises
         usort($exercises, function ($a, $b) {
