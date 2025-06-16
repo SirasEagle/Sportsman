@@ -167,8 +167,8 @@ class WorkoutController extends AbstractController
             }
             $workout->setPoints($workoutPoints);
             $this->entityManager->persist($workout);
-            $this->entityManager->flush();
         }
+        $this->entityManager->flush();
         return $this->redirectToRoute('show_workout', array('id' => $id));
     }
 
