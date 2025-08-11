@@ -59,9 +59,9 @@
    </div>
    <div id="unitMessage" style="display: none;"></div>
    <div>
-      <p><a href="{{ path('median_exercise', {'id': workout.id}) }}" class="button"> Berechne durchschnittliche Wiederholungen aller Übungen</a></p>
-      <p><a href="{{ path('points_workout', {'id': workout.id}) }}" class="button"> Berechne Punktezahlen aller Workouts</a></p>
-      <p><a href="{{ path('pipeline', {'id': workout.id}) }}" class="button"> Führe alles oben genannte nacheinander aus</a></p>
+      <p><a href="{{ path('median_exercise', {'id': workout.id}) }}" class="button">{{ 'workout.calculate_median'|trans }}</a></p>
+      <p><a href="{{ path('points_workout', {'id': workout.id}) }}" class="button">{{ 'workout.calculate_points'|trans }}</a></p>
+      <p><a href="{{ path('pipeline', {'id': workout.id}) }}" class="button">{{ 'workout.pipeline'|trans }}</a></p>
    </div>
    <div>
       {# delete button #}
