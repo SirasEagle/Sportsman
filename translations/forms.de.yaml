@@ -6,17 +6,17 @@ workout_new:
     submit:       "Speichern"
 
 workout:
-    workout: "Workout"
-    plural: "Workouts"
-    new: "Neues Workout"
-    new_question: "Neues Workout anlegen?"
-    weight: "Gewicht"
-    back: "zurück"
     add_unit: "Einheit hinzufügen"
-    save_unit: "Einheit speichern"
+    back: "zurück"
     delete: "Löschen"
     delete_confirm: "Bist du sicher, dass du dieses Workout löschen möchtest?"
     info: "Information zu diesem Workout"
+    new: "Neues Workout"
+    new_question: "Neues Workout anlegen?"
+    plural: "Workouts"
+    save_unit: "Einheit speichern"
+    weight: "Gewicht"
+    workout: "Workout"
 
 exercise:
     add_today: "Zu heute hinzufügen"
