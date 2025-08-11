@@ -11,16 +11,19 @@ use App\Entity\Exercise;
 use App\Entity\User;
 use App\Entity\Unit;
 use App\Form\WorkoutNewType;
+use App\Service\StatisticsService;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 
 class WorkoutController extends AbstractController
 {
     private $entityManager;
+    private $statisticsService;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, StatisticsService $statisticsService)
     {
         $this->entityManager = $entityManager;
+        $this->statisticsService = $statisticsService;
     }
 
     #[Route('/workout', name: 'index_workout')]
@@ -115,60 +118,23 @@ class WorkoutController extends AbstractController
     }
 
     /**
+     * @Route("/workout/pipeline/{id}", name="pipeline")
+     */
+    public function pipeline(Request $request, int $id)
+    {
+        $this->statisticsService->calculateMedian();
+        $this->statisticsService->calculatePoints();
+
+        return $this->redirectToRoute('show_workout', array('id' => $id));
+    }
+
+    /**
      * @Route("/workout/points/{id}", name="points_workout")
      */
     public function points(Request $request, int $id)
     {
-        $workoutRepository = $this->entityManager->getRepository(Workout::class);
-        $workouts = $workoutRepository->findAll();
+        $this->statisticsService->calculatePoints();
 
-        foreach ($workouts as $workout) {
-            if (!$workout) {
-                throw $this->createNotFoundException('workout not found');
-            }
-
-            $workoutPoints = 0;
-            $units = $workout->getUnits();
-            foreach ($units as $unit) {
-                $temp = 0;
-                $unitPoints = 0;
-
-                $unitPoints++; // +1p for making an exercise
-                if ($unit->getExercise()->getMultiplier()) {
-                    // + fix additional points for making that exercise
-                    $unitPoints += $unit->getExercise()->getMultiplier()->getAddition();
-                }
-
-                // +1p for each 50% median bases reps
-                $temp += $unit->getSet1();
-                $temp += $unit->getSet2();
-                $temp += $unit->getSet3();
-                $temp = (($temp / 3) * 2);
-                if ($unit->getExercise()->getMultiplier() && ($unit->getExercise()->getMultiplier()->getMultiplyBy() != 0)) {
-                    // multiply by set multiplier
-                    $temp = $temp * $unit->getExercise()->getMultiplier()->getMultiplyBy();
-                }
-                $unitPoints += $temp / $unit->getExercise()->getMedian();
-
-                // multiply everything with weight median if weight gets used
-                if ($unit->getExercise()->getUsesWeight()) {
-                    if ($unit->getExercise()->getExerciseStatistics() === null) {
-                        throw $this->createNotFoundException('Exercise statistics not found for exercise: ' . $unit->getExercise()->getName());
-                    }
-                    if ($unit->getExercise()->getExerciseStatistics()->getWeightMedian() === null) {
-                        throw $this->createNotFoundException('Weight median not found for exercise: ' . $unit->getExercise()->getName());
-                    }
-                    $overallMedian = $unit->getExercise()->getExerciseStatistics()->getWeightMedian();
-                    $thisMedian = $unit->getWeight();
-
-                    $unitPoints *= ($thisMedian / $overallMedian);
-                }
-                $workoutPoints += $unitPoints; // add points of this unit
-            }
-            $workout->setPoints($workoutPoints);
-            $this->entityManager->persist($workout);
-        }
-        $this->entityManager->flush();
         return $this->redirectToRoute('show_workout', array('id' => $id));
     }
 

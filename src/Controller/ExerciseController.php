@@ -9,6 +9,7 @@ use App\Entity\Unit;
 use App\Entity\Workout;
 use App\Form\ExerciseNewType;
 use App\Form\ExerciseEditType1;
+use App\Service\StatisticsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExerciseController extends AbstractController
 {
     private $entityManager;
+    private $statisticsService;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, StatisticsService $statisticsService)
     {
         $this->entityManager = $entityManager;
+        $this->statisticsService = $statisticsService;
     }
 
     /**
@@ -157,50 +160,12 @@ class ExerciseController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/exercise/median/{id}", name="median_exercise")
-     */
+    #[Route("/exercise/median/{id}", name: "median_exercise")]
     public function median(Request $request, int $id)
     {
-        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
-        $exercises = $exerciseRepository->findAll();
+        $this->statisticsService->calculateMedian();
 
-        foreach ($exercises as $exercise) {
-            if (!$exercise) {
-                throw $this->createNotFoundException('Exercise not found');
-            }
-            
-            $unitRepository = $this->entityManager->getRepository(Unit::class);
-            $units = $unitRepository->findBy(['exercise' => $exercise]);
-
-            // calculate and set repetition median per exercise
-            $median = 0;
-            if ($units) {
-                foreach ($units as $unit) {
-                    $median += $unit->getSet1();
-                    $median += $unit->getSet2();
-                    $median += $unit->getSet3();
-                }
-                $median = ($median / (count($units) * 3));
-            }
-            $exercise->setMedian((float)$median);
-
-            // calculate and set weight median per exercise
-            if ($exercise->getUsesWeight()) {
-                $weightMedian = 0;
-                if ($units) {
-                    foreach ($units as $unit) {
-                        $weightMedian += $unit->getWeight();
-                    }
-                    $weightMedian = ($weightMedian / count($units));
-                }
-                $exercise->getExerciseStatistics()->setWeightMedian((float)$weightMedian);
-            }
-
-            $this->entityManager->persist($exercise);
-            $this->entityManager->flush();
-        }
-        return $this->redirectToRoute('points_workout', array('id' => $id));
+        return $this->redirectToRoute('show_workout', array('id' => $id));
     }
 
     /**
